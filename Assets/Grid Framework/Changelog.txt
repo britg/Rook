@@ -1,11 +1,20 @@
 /**
 @page changelog Changelog
 
+
 Version 1.4.x
 -------------
 
+###Version 1.4.2###
+This release is a major overhaul of the rendering and drawing routines and fixes some issues with coordinate conversion.
+- Fixed: Wrong rotation when using a rotated grid and an origin offset.
+- Fixed: Wrong result when convertig coordinates in a hex grid rotated along the X- or Y axis.
+- Fixed: Setting the `relativeSize` flag for polar grids now interprets the range properly in grid coordinates.
+- Fixed: Wrong accessibility for `NearestVertexHO` and `NearestBoxHO` for hex grids.
+- New: Polar grids can now render continuously at any range instead of discretely at smoothness steps. 
+
 ###Version 1.4.1###
-- Fixed compilation error in one of the Playmaker actions (setter and getter for depth of layered grids).
+- Fixed: compilation error in one of the Playmaker actions (setter and getter for depth of layered grids).
 
 ###Version 1.4.0###
 - Introducing Playmaker support: Almost the entire Grid Framework API can no be used as Playmaker actions (some parts of the API are ouside the capabilies of Playmaker for now)
