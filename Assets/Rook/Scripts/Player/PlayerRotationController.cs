@@ -15,21 +15,27 @@ public class PlayerRotationController : GameController {
 
     }
 
-    public void OnTurnRight () {
-        TurnRight();
+    public void OnRotateRight () {
+        RotateRight();
     }
 
-    public void OnTurnLeft () {
-        TurnLeft();
+    public void OnRotateLeft () {
+        RotateLeft();
     }
 
-    void TurnRight () {
+    void RotateRight () {
+        if (!PlayerTurn) {
+            return;
+        }
         iTween.RotateBy(gameObject, iTween.Hash("y", rotateAngle / 360f,
             "time", rotateTime));
         EndTurn();
     }
 
-    void TurnLeft () {
+    void RotateLeft () {
+        if (!PlayerTurn) {
+            return;
+        }
         iTween.RotateBy(gameObject, iTween.Hash("y", -rotateAngle / 360f,
             "time", rotateTime));
         EndTurn();

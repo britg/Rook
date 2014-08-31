@@ -23,6 +23,28 @@ public class GameController : MonoBehaviour {
         }
     }
 
+    public bool PlayerTurn {
+        get {
+            return turnController.PlayerTurn;
+        }
+    }
+
+    public bool InCombat {
+        get {
+            return turnController.InCombat;
+        }
+    }
+
+    GameObject _playerObj;
+    public GameObject playerObj {
+        get {
+            if (_playerObj == null) {
+                _playerObj = GameObject.Find("Player");
+            }
+            return _playerObj;
+        }
+    }
+
     protected void EndTurn () {
         turnController.EndTurn();
     }

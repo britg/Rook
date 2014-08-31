@@ -3279,7 +3279,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Turn Left
+  m_Text: Rotate Left
 --- !u!222 &526595878
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5268,7 +5268,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Turn Right
+  m_Text: Rotate Right
 --- !u!222 &630277233
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8256,7 +8256,7 @@ GameObject:
   - 114: {fileID: 1074661199}
   - 114: {fileID: 1074661198}
   m_Layer: 5
-  m_Name: Turn Left Button
+  m_Name: Rotate Left Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8302,7 +8302,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 734265060}
-        m_MethodName: OnTurnLeft
+        m_MethodName: OnRotateLeft
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8783,6 +8783,85 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!1 &1138565689
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 224: {fileID: 1138565690}
+  - 222: {fileID: 1138565692}
+  - 114: {fileID: 1138565691}
+  - 114: {fileID: 1138565693}
+  m_Layer: 5
+  m_Name: Turn Label
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1138565690
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1138565689}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1336316107}
+  m_RootOrder: 2
+  m_AnchorMin: {x: .5, y: .5}
+  m_AnchorMax: {x: .5, y: .5}
+  m_AnchoredPosition: {x: -.5, y: 306.5}
+  m_SizeDelta: {x: 130, y: 30}
+  m_Pivot: {x: .5, y: .5}
+--- !u!114 &1138565691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1138565689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Mat: {fileID: 0}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 14
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 1
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 'Turn:'
+--- !u!222 &1138565692
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1138565689}
+--- !u!114 &1138565693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1138565689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74836a83234704f4aa856e421261f74a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  turnController: {fileID: 1474764484}
 --- !u!21 &1163990326
 Material:
   serializedVersion: 3
@@ -8929,7 +9008,7 @@ GameObject:
   - 114: {fileID: 1246650200}
   - 114: {fileID: 1246650199}
   m_Layer: 5
-  m_Name: Turn Right Button
+  m_Name: Rotate Right Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8993,7 +9072,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 734265060}
-        m_MethodName: OnTurnRight
+        m_MethodName: OnRotateRight
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9256,6 +9335,7 @@ RectTransform:
   m_Children:
   - {fileID: 1074661201}
   - {fileID: 1246650198}
+  - {fileID: 1138565690}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_AnchorMin: {x: 0, y: 0}
@@ -10188,6 +10268,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turnDelay: .5
+  currentTurn: 0
+  inCombat: 1
 --- !u!4 &1474764485
 Transform:
   m_ObjectHideFlags: 0
@@ -11059,6 +11141,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1599915124}
   - 114: {fileID: 1599915125}
+  - 114: {fileID: 1599915126}
   m_Layer: 0
   m_Name: Hex Grid
   m_TagString: Untagged
@@ -11119,6 +11202,17 @@ MonoBehaviour:
   _radius: 1
   _hexSideMode: 0
   _gridStyle: 0
+--- !u!114 &1599915126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1599915123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9eeb9d8d7170b214c8e0336079f72dc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &1642929900
 Mesh:
   m_ObjectHideFlags: 0

@@ -28,23 +28,21 @@ public class PlayerMoveController : GameController {
         Vector3 end = Vector3.zero;
         line = VectorLine.SetLine3D(lineColor, new Vector3[2]{ start, end });
         line.SetWidth(lineWidth, 0);
+        line.Draw3DAuto();
     }
 
     void Redraw () {
-
         if (line == null) {
             CreateLine();
         }
 
-        line.Resize(waypoints.Count);
-        //line.points3 = new Vector3[waypoints.Count];
+        line.Resize(waypoints.Count+1);
+        line.points3[0] = transform.position;
 
         for (int i = 0; i < waypoints.Count; i++) {
             Vector3 p = waypoints[i];
-            line.points3[i] = p;
+            line.points3[i+1] = p;
         }
-
-        line.Draw3DAuto();
     }
 
     void Reset () {
@@ -55,17 +53,30 @@ public class PlayerMoveController : GameController {
 
     // Called from Player Mouse Move Controller FSM
     public void UpdateMoveDestination (Vector3 pos) {
-        pos.y = 0f;
         moveDestination = grid.NearestFaceW(pos);
+        moveDestination.y = transform.position.y;
 
+        // First waypoint
         if (waypoints.Count == 0) {
+            if (moveDestination.Equals(transform.position)) {
+                return;
+            }
+
             waypoints.Add(moveDestination);
+            Redraw();
+            return;
+        }
+
+        // In Combat, only one waypoint allowed
+        if (InCombat && waypoints.Count == 1) {
+            Redraw();
             return;
         }
 
         // check if moveDestination is the same as the last waypoint
         Vector3 lastWaypoint = waypoints[waypoints.Count - 1];
         if (moveDestination.Equals(lastWaypoint)) {
+            Redraw();
             return;
         }
 
@@ -78,6 +89,7 @@ public class PlayerMoveController : GameController {
                 return;
             }
         }
+
         waypoints.Add(moveDestination);
         Redraw();
     }
