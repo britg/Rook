@@ -22,4 +22,8 @@ public class GameController : MonoBehaviour {
             return _turnController;
         }
     }
+
+    protected void EndTurn () {
+        turnController.EndTurn();
+    }
 }

@@ -58,8 +58,6 @@ public class PlayerMoveController : GameController {
         pos.y = 0f;
         moveDestination = grid.NearestFaceW(pos);
 
-        Debug.Log(moveDestination);
-
         if (waypoints.Count == 0) {
             waypoints.Add(moveDestination);
             return;
@@ -104,10 +102,6 @@ public class PlayerMoveController : GameController {
     void FinishMove () {
         Reset();
         EndTurn();
-    }
-
-    void EndTurn () {
-        turnController.EndTurn();
     }
 
 
