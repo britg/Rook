@@ -8,13 +8,14 @@ public class PlayerMoveController : GameController {
     public GFHexGrid grid;
     public float lineWidth;
     public Color lineColor;
+    public float moveTime;
 
     VectorLine line;
     List<Vector3> waypoints;
     Vector3 moveDestination;
+    int currentMoveIndex = 0;
 
 	void Start () {
-        CreateLine();
         waypoints = new List<Vector3>();
 	}
 	
@@ -25,38 +26,48 @@ public class PlayerMoveController : GameController {
     void CreateLine () {
         Vector3 start = Vector3.zero;
         Vector3 end = Vector3.zero;
-        line = VectorLine.SetLine3D(lineColor, new Vector3[]{ start, end });
+        line = VectorLine.SetLine3D(lineColor, new Vector3[2]{ start, end });
         line.SetWidth(lineWidth, 0);
     }
 
     void Redraw () {
-        line.points3 = new Vector3[waypoints.Count + 1];
-        line.points3[0] = transform.position;
+
+        if (line == null) {
+            CreateLine();
+        }
+
+        line.Resize(waypoints.Count);
+        //line.points3 = new Vector3[waypoints.Count];
 
         for (int i = 0; i < waypoints.Count; i++) {
             Vector3 p = waypoints[i];
-            Debug.Log("Redrawing " + i + " " + p);
-            line.points3[i+1] = p;
-            if (i > 0) {
-                //line.SetWidth(lineWidth, i-1);
-            }
+            line.points3[i] = p;
         }
 
-
-        line.Draw3D();
+        line.Draw3DAuto();
     }
 
     void Reset () {
-        line.points3 = new Vector3[] { Vector3.zero, Vector3.zero };
+        currentMoveIndex = 0;
+        VectorLine.Destroy(ref line);
         waypoints = new List<Vector3>();
     }
 
     // Called from Player Mouse Move Controller FSM
     public void UpdateMoveDestination (Vector3 pos) {
+        pos.y = 0f;
         moveDestination = grid.NearestFaceW(pos);
 
+        Debug.Log(moveDestination);
+
+        if (waypoints.Count == 0) {
+            waypoints.Add(moveDestination);
+            return;
+        }
+
         // check if moveDestination is the same as the last waypoint
-        if (waypoints.Count > 0 && moveDestination.Equals(waypoints[waypoints.Count - 1])) {
+        Vector3 lastWaypoint = waypoints[waypoints.Count - 1];
+        if (moveDestination.Equals(lastWaypoint)) {
             return;
         }
 
@@ -75,9 +86,23 @@ public class PlayerMoveController : GameController {
 
     // Called from Player Mouse Move Controller FSM
     public void MoveFinished () {
+        NextMove();
+    }
+
+    void NextMove () {
+        if (currentMoveIndex >= waypoints.Count) {
+            FinishMove();
+            return;
+        }
+        Vector3 waypoint = waypoints[currentMoveIndex];
+        iTween.MoveTo(gameObject, iTween.Hash("position", waypoint, 
+            "time", moveTime,
+            "oncomplete", "NextMove"));
+        currentMoveIndex++;
+    }
+
+    void FinishMove () {
         Reset();
-        iTween.MoveTo(gameObject, iTween.Hash("position", moveDestination, 
-            "time", 0.5f));
         EndTurn();
     }
 

@@ -3,6 +3,8 @@ using System.Collections;
 
 public class TurnController : MonoBehaviour {
 
+    public float turnDelay = 0.5f;
+
     bool playerTurn = false;
     public bool PlayerTurn {
         get { return playerTurn; }
@@ -15,7 +17,7 @@ public class TurnController : MonoBehaviour {
     public void EndTurn () {
         playerTurn = false;
         // stub out enemies taking their turn
-        Invoke("StartTurn", 2f);
+        Invoke("StartTurn", turnDelay);
     }
 
     public void StartTurn () {
