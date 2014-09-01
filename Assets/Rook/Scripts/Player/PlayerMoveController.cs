@@ -9,24 +9,25 @@ public class PlayerMoveController : GameController {
     public float lineWidth;
     public Color lineColor;
     public float moveTime;
+    public int maxWaypoints;
 
     VectorLine line;
     List<Vector3> waypoints;
     Vector3 moveDestination;
     int currentMoveIndex = 0;
 
-	void Start () {
+    void Start () {
         waypoints = new List<Vector3>();
-	}
-	
-	void Update () {
-	    
-	}
+    }
+
+    void Update () {
+
+    }
 
     void CreateLine () {
         Vector3 start = Vector3.zero;
         Vector3 end = Vector3.zero;
-        line = VectorLine.SetLine3D(lineColor, new Vector3[2]{ start, end });
+        line = VectorLine.SetLine3D(lineColor, new Vector3[2] { start, end });
         line.SetWidth(lineWidth, 0);
         line.Draw3DAuto();
     }
@@ -36,12 +37,12 @@ public class PlayerMoveController : GameController {
             CreateLine();
         }
 
-        line.Resize(waypoints.Count+1);
+        line.Resize(waypoints.Count + 1);
         line.points3[0] = transform.position;
 
         for (int i = 0; i < waypoints.Count; i++) {
             Vector3 p = waypoints[i];
-            line.points3[i+1] = p;
+            line.points3[i + 1] = p;
         }
     }
 
@@ -54,21 +55,30 @@ public class PlayerMoveController : GameController {
     // Called from Player Mouse Move Controller FSM
     public void UpdateMoveDestination (Vector3 pos) {
         moveDestination = grid.NearestFaceW(pos);
+
+        // raycast to the move destination and see if anything
+        // is in that hex
+        if (DestinationOccupied()) {
+            return;
+        }
+
+
         moveDestination.y = transform.position.y;
+
+        if (moveDestination.Equals(transform.position)) {
+            Reset();
+            return;
+        }
 
         // First waypoint
         if (waypoints.Count == 0) {
-            if (moveDestination.Equals(transform.position)) {
-                return;
-            }
-
             waypoints.Add(moveDestination);
             Redraw();
             return;
         }
 
         // In Combat, only one waypoint allowed
-        if (InCombat && waypoints.Count == 1) {
+        if (waypoints.Count >= maxWaypoints) {
             Redraw();
             return;
         }
@@ -94,6 +104,33 @@ public class PlayerMoveController : GameController {
         Redraw();
     }
 
+    bool DestinationOccupied () {
+        float sphereRadius = 0.5f;
+        // get direction to move destination
+        Vector3 start = transform.position;
+        start.y = sphereRadius;
+        Vector3 direction = moveDestination - transform.position; 
+
+        // get distance to move destination
+        float dist = Vector3.Distance(transform.position, moveDestination);
+        RaycastHit[] hits = Physics.SphereCastAll(start, sphereRadius, direction, dist);
+        Debug.DrawRay(start, direction);
+        foreach (RaycastHit hit in hits) {
+            if (BlocksDestination(hit.collider.gameObject)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    bool BlocksDestination (GameObject go) {
+        if (go.tag == "Player" || go.tag == "Floor") {
+            return false;
+        }
+        return true;
+    }
+
     // Called from Player Mouse Move Controller FSM
     public void MoveFinished () {
         NextMove();
@@ -105,7 +142,7 @@ public class PlayerMoveController : GameController {
             return;
         }
         Vector3 waypoint = waypoints[currentMoveIndex];
-        iTween.MoveTo(gameObject, iTween.Hash("position", waypoint, 
+        iTween.MoveTo(gameObject, iTween.Hash("position", waypoint,
             "time", moveTime,
             "oncomplete", "NextMove"));
         currentMoveIndex++;

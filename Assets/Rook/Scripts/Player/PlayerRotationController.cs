@@ -12,7 +12,7 @@ public class PlayerRotationController : GameController {
 
     // Update is called once per frame
     void Update () {
-
+        WatchRotateMode();
     }
 
     public void OnRotateRight () {
@@ -40,4 +40,28 @@ public class PlayerRotationController : GameController {
             "time", rotateTime));
         EndTurn();
     }
+
+    public void StartRotateMode () {
+        playerController.SetPlayerMode(PlayerMode.Rotate);
+    }
+
+    void WatchRotateMode () {
+        if (player.mode == PlayerMode.Rotate) {
+            RotateToInput();
+        }
+    }
+
+    void RotateToInput () {
+        RotateToMouse();
+        RotateToTouch();
+    }
+
+    void RotateToMouse () {
+        
+    }
+
+    void RotateToTouch () {
+
+    }
+
 }

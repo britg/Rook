@@ -18,7 +18,6 @@ public class GridFollowController : GameController {
     }
 
     void AlignToPlayer () {
-        Debug.Log("Aligning to player");
         transform.position = playerObj.transform.position;
     }
 }
