@@ -5,5 +5,7 @@ using System.Collections;
 public class Player {
 
     public PlayerMode mode;
+    public int life = 100;
+    public int actionPoints = 10;
 
 }
