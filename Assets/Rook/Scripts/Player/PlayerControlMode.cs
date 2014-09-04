@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum PlayerMode {
+public enum PlayerControlMode {
     Move,
     Rotate
 }

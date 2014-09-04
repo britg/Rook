@@ -42,11 +42,11 @@ public class PlayerRotationController : GameController {
     }
 
     public void StartRotateMode () {
-        playerController.SetPlayerMode(PlayerMode.Rotate);
+        playerController.SetPlayerMode(PlayerControlMode.Rotate);
     }
 
     void WatchRotateMode () {
-        if (player.mode == PlayerMode.Rotate) {
+        if (player.controlMode == PlayerControlMode.Rotate) {
             RotateToInput();
         }
     }

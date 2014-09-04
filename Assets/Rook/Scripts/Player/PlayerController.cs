@@ -6,10 +6,10 @@ public class PlayerController : MonoBehaviour {
     public Player player;
 
     void Start () {
-        player.mode = PlayerMode.Move;
+        player.controlMode = PlayerControlMode.Move;
     }
 
-    public void SetPlayerMode (PlayerMode mode) {
-        player.mode = mode;
+    public void SetPlayerMode (PlayerControlMode mode) {
+        player.controlMode = mode;
     }
 }

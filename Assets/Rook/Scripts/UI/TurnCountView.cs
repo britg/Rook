@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class TurnCountUI : MonoBehaviour {
+public class TurnCountView : View {
 
     public TurnController turnController;
 
@@ -16,7 +16,14 @@ public class TurnCountUI : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if (turnController != null) {
-            text.text = "Turn: " + turnController.currentTurn;
+            string turnLabel = "";
+            if (turnController.PlayerTurn) {
+                turnLabel += "Your Turn ";
+            } else {
+                turnLabel += "Enemy Turn ";
+            }
+            
+            text.text = turnLabel + turnController.currentTurn;
         }
 	}
 }
