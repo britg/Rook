@@ -5,7 +5,6 @@ using Vectrosity;
 
 public class PlayerMoveController : GameController {
 
-    public GFHexGrid grid;
     public float lineWidth;
     public Color lineColor;
     public float moveTime;

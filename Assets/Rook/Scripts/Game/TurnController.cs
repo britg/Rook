@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class TurnController : MonoBehaviour {
 
-    public float turnDelay = 0.5f;
     public int currentTurn = 1;
+    List<GameObject> enemies = new List<GameObject>();
+    List<GameObject> enemiesTakingTurn = new List<GameObject>();
 
     bool playerTurn = false;
     public bool PlayerTurn {
@@ -16,14 +18,37 @@ public class TurnController : MonoBehaviour {
         get { return inCombat; }
     }
 
-	void Start () {
+    void Start () {
         StartTurn();
-	}
+    }
+
+    public void RegisterEnemy (GameObject enemy) {
+        enemies.Add(enemy);
+    }
 
     public void EndTurn () {
         playerTurn = false;
-        // stub out enemies taking their turn
-        Invoke("StartTurn", turnDelay);
+        StartEnemyTurn();
+    }
+
+    void StartEnemyTurn () {
+        enemiesTakingTurn = new List<GameObject>();
+        foreach (GameObject enemy in enemies) {
+            enemiesTakingTurn.Add(enemy);
+            enemy.SendMessage("TakeTurn", SendMessageOptions.DontRequireReceiver);
+        }
+    }
+
+    public void EnemyTurnFinished (GameObject enemy) {
+        enemiesTakingTurn.Remove(enemy);
+
+        if (enemiesTakingTurn.Count < 1) {
+            EndEnemyTurn();
+        }
+    }
+
+    public void EndEnemyTurn () {
+        StartTurn();
     }
 
     public void StartTurn () {
@@ -31,5 +56,14 @@ public class TurnController : MonoBehaviour {
         playerTurn = true;
         NotificationCenter.PostNotification(this, Notifications.PlayerTurn);
     }
-	
+
+    public void EnterCombat () {
+        if (inCombat) {
+            return;
+        }
+
+        Debug.Log("Entering combat!");
+        inCombat = true;
+    }
+
 }

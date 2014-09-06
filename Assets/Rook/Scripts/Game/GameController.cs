@@ -53,6 +53,17 @@ public class GameController : MonoBehaviour {
         }
     }
 
+    GFHexGrid _grid;
+    public GFHexGrid grid {
+        get {
+            if (_grid == null) {
+                _grid = GameObject.Find("Hex Grid").GetComponent<GFHexGrid>();
+            }
+            return _grid;
+        }
+    }
+
+
     public bool PlayerTurn {
         get {
             return turnController.PlayerTurn;
@@ -65,7 +76,10 @@ public class GameController : MonoBehaviour {
         }
     }
 
-
+    protected void SnapToGrid () {
+        Vector3 nearestGridPos = grid.NearestFaceW(transform.position);
+        transform.position = nearestGridPos;
+    }
 
     protected void EndTurn () {
         turnController.EndTurn();

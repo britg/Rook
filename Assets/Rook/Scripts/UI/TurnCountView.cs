@@ -4,8 +4,6 @@ using System.Collections;
 
 public class TurnCountView : View {
 
-    public TurnController turnController;
-
     Text text;
 
 	// Use this for initialization
