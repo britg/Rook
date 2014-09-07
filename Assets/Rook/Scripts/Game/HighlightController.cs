@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using ProBuilder2.Common;
 
 public class HighlightController : GameController {
 
@@ -13,15 +14,18 @@ public class HighlightController : GameController {
     }
 
     void Start () {
-        highlightObj = (GameObject)Instantiate(highlightPrefab);
     }
 
     void Update () {
-        DrawHighlight();
     }
 
+	void CreateHighlight () {
+        highlightObj = ProBuilder.Instantiate(highlightPrefab, Vector3.zero, Quaternion.identity);
+	}
+
     void DrawHighlight () {
-        highlightObj.transform.position = GridPosition();
+		Vector3 newPos = GridPosition();
+		highlightObj.transform.position = newPos;
     }
 
     Vector3 GridPosition () {
