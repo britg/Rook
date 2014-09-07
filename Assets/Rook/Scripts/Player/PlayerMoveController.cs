@@ -149,7 +149,7 @@ public class PlayerMoveController : GameController {
 
     void FinishMove () {
         Reset();
-        EndTurn();
+        EndPlayerTurn();
     }
 
 

@@ -8,6 +8,11 @@ using UnityEngine;
 // So we use a wrapper script to create the window and hook the editor up
 // TODO: move this to dll when Unity supports it...
 
+namespace HutongGames.PlayMakerEditor {
+    internal class AboutWindow : AboutPlaymaker {
+    }
+}
+
 [System.Serializable]
 class FsmEditorWindow : HutongGames.PlayMakerEditor.BaseEditorWindow
 {

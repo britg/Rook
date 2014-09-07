@@ -81,7 +81,7 @@ public class GameController : MonoBehaviour {
         transform.position = nearestGridPos;
     }
 
-    protected void EndTurn () {
+    protected void EndPlayerTurn () {
         turnController.EndTurn();
     }
 }

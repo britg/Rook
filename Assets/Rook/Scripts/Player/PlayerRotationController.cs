@@ -29,7 +29,7 @@ public class PlayerRotationController : GameController {
         }
         iTween.RotateBy(gameObject, iTween.Hash("y", rotateAngle / 360f,
             "time", rotateTime));
-        EndTurn();
+        EndPlayerTurn();
     }
 
     void RotateLeft () {
@@ -38,7 +38,7 @@ public class PlayerRotationController : GameController {
         }
         iTween.RotateBy(gameObject, iTween.Hash("y", -rotateAngle / 360f,
             "time", rotateTime));
-        EndTurn();
+        EndPlayerTurn();
     }
 
     public void StartRotateMode () {

@@ -4,6 +4,9 @@ using System.Collections;
 public class EnemyController : GameController {
 
     public Enemy enemy;
+    Vector3 playerPos;
+    Vector3 playerDir;
+    float playerDistance;
 
 	// Use this for initialization
 	void Start () {
@@ -27,11 +30,10 @@ public class EnemyController : GameController {
         if (inRange) {
             EnterCombat();
         } else {
+            TurnFinished();
             return;
         }
 
-        Vector3 playerPos = playerObj.transform.position;
-        Vector3 playerDir = playerPos - transform.position;
         Vector3 oneHexTowardsPlayer = transform.position + playerDir.normalized * (3f/2f*grid.radius);
         Vector3 nearestHex = grid.NearestFaceW(oneHexTowardsPlayer);
 
@@ -43,11 +45,16 @@ public class EnemyController : GameController {
     }
 
     bool DetectPlayerInRange () {
-        return true;
+        playerPos = playerObj.transform.position;
+        playerDir = playerPos - transform.position;
+        playerDistance = Vector3.Distance(playerPos, transform.position);
+        float hexDist = playerDistance / (3f / 2f * grid.radius);
+        return hexDist <= (float)enemy.DetectRange;
     }
 
     void Attack () {
         Debug.Log("Attacking player!");
+        TurnFinished();
     }
 
     void MoveToPosition (Vector3 pos) {
