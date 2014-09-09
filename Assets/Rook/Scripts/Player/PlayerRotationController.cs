@@ -6,13 +6,20 @@ public class PlayerRotationController : GameController {
     public float rotateAngle = 60f;
     public float rotateTime = 0.2f;
 
+    Vector3 aimPoint;
+
+    public bool isRotating {
+        get {
+            return player.controlMode == PlayerControlMode.Rotate;
+        }
+    }
+
     // Use this for initialization
     void Start () {
     }
 
     // Update is called once per frame
     void Update () {
-        WatchRotateMode();
     }
 
     public void OnRotateRight () {
@@ -41,23 +48,23 @@ public class PlayerRotationController : GameController {
         EndPlayerTurn();
     }
 
-    public void StartRotateMode () {
-        playerController.SetPlayerMode(PlayerControlMode.Rotate);
-    }
-
-    void WatchRotateMode () {
-        if (player.controlMode == PlayerControlMode.Rotate) {
-            RotateToInput();
+    public void ToggleRotateMode () {
+        if (isRotating) {
+            playerController.SetPlayerMode(PlayerControlMode.Move);
+        } else {
+            playerController.SetPlayerMode(PlayerControlMode.Rotate);
         }
     }
 
-    void RotateToInput () {
-        RotateToMouse();
-        RotateToTouch();
+    public void SetAimPoint (Vector3 _aimPoint) {
+        aimPoint = _aimPoint;
+        RotateToAimPoint();
     }
 
-    void RotateToMouse () {
-        
+    void RotateToAimPoint () {
+        float angle = Vector3.Angle(Vector3.forward, aimPoint);
+        Debug.Log("Angle to mouse " + angle);
+        transform.LookAt(aimPoint);
     }
 
     void RotateToTouch () {
