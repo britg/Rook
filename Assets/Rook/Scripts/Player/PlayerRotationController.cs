@@ -7,6 +7,7 @@ public class PlayerRotationController : GameController {
     public float rotateTime = 0.2f;
 
     Vector3 aimPoint;
+    public Transform aimProxy;
 
     public bool isRotating {
         get {
@@ -62,9 +63,19 @@ public class PlayerRotationController : GameController {
     }
 
     void RotateToAimPoint () {
-        float angle = Vector3.Angle(Vector3.forward, aimPoint);
-        Debug.Log("Angle to mouse " + angle);
-        transform.LookAt(aimPoint);
+        aimProxy.LookAt(aimPoint);
+        Vector3 angles = aimProxy.eulerAngles;
+        float angle = angles.y;
+        float remain = angle % rotateAngle;
+        float nearest = 0f;
+        if (remain > rotateAngle / 2f) {
+            nearest = Mathf.Ceil(angle / rotateAngle) * rotateAngle;
+        } else {
+            nearest = Mathf.Floor(angle / rotateAngle) * rotateAngle;
+        }
+
+        angles.y = nearest;
+        transform.eulerAngles = angles;
     }
 
     void RotateToTouch () {
