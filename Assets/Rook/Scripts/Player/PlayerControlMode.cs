@@ -3,5 +3,9 @@ using System.Collections;
 
 public enum PlayerControlMode {
     Move,
-    Rotate
+    Rotate,
+    WarriorAction,
+    ThiefAction,
+    MageAction,
+    Wait
 }

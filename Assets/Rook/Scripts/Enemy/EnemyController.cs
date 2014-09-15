@@ -48,8 +48,7 @@ public class EnemyController : GameController {
         playerPos = playerObj.transform.position;
         playerDir = playerPos - transform.position;
         playerDistance = Vector3.Distance(playerPos, transform.position);
-        float hexDist = playerDistance / (3f / 2f * grid.radius);
-        return hexDist <= (float)enemy.DetectRange;
+        return playerDistance <= (float)enemy.DetectRange;
     }
 
     void Attack () {

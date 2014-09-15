@@ -11,7 +11,7 @@ public class PlayerRotationController : GameController {
 
     public bool isRotating {
         get {
-            return player.controlMode == PlayerControlMode.Rotate;
+            return player.isRotating;
         }
     }
 
@@ -21,40 +21,6 @@ public class PlayerRotationController : GameController {
 
     // Update is called once per frame
     void Update () {
-    }
-
-    public void OnRotateRight () {
-        RotateRight();
-    }
-
-    public void OnRotateLeft () {
-        RotateLeft();
-    }
-
-    void RotateRight () {
-        if (!PlayerTurn) {
-            return;
-        }
-        iTween.RotateBy(gameObject, iTween.Hash("y", rotateAngle / 360f,
-            "time", rotateTime));
-        EndPlayerTurn();
-    }
-
-    void RotateLeft () {
-        if (!PlayerTurn) {
-            return;
-        }
-        iTween.RotateBy(gameObject, iTween.Hash("y", -rotateAngle / 360f,
-            "time", rotateTime));
-        EndPlayerTurn();
-    }
-
-    public void ToggleRotateMode () {
-        if (isRotating) {
-            playerController.SetPlayerMode(PlayerControlMode.Move);
-        } else {
-            playerController.SetPlayerMode(PlayerControlMode.Rotate);
-        }
     }
 
     public void SetAimPoint (Vector3 _aimPoint) {

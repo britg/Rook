@@ -12,4 +12,21 @@ public class Player {
     public int maxActionPoints = 10;
     public int actionPoints = 10;
 
+    public bool isRotating {
+        get {
+            return controlMode == PlayerControlMode.Rotate;
+        }
+    }
+
+    public bool isMoving {
+        get {
+            return controlMode == PlayerControlMode.Move;
+        }
+    }
+
+    public void EnterMode (PlayerControlMode mode) {
+        Debug.Log("Entering mode " + mode);
+        controlMode = mode;
+    }
+
 }
