@@ -6,11 +6,8 @@ public class Player {
 
     public PlayerControlMode controlMode;
 
-    public int maxLife = 100;
-    public int life = 100;
-
-    public int maxActionPoints = 10;
-    public int actionPoints = 10;
+	public Attribute hitPoints = new Attribute(seedValue: 100);
+	public Attribute actionPoints = new Attribute(seedValue: 5);
 
     public bool isRotating {
         get {

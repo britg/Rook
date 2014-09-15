@@ -12,11 +12,17 @@ public class LifeView : View {
     VectorLine lifeBar;
     Vector2 lifeBarEnd;
 
-    int playerLife {
+    int currentHitPoints {
         get {
-            return player.life;
+            return player.hitPoints.currentValue;
         }
     }
+
+	int maxHitPoints {
+		get {
+			return player.hitPoints.maxValue;
+		}
+	}
 
     void Start () {
         CreateLine();
@@ -27,16 +33,15 @@ public class LifeView : View {
     }
 
     void CreateLine () {
-        Debug.Log("Creating line");
         lifeBarStart.y = Screen.height - lifeBarStart.y;
-        lifeBarEnd = new Vector3(lifeBarStart.x + (player.life * lifeBarMultiplier), lifeBarStart.y);
+        lifeBarEnd = new Vector3(lifeBarStart.x + (maxHitPoints * lifeBarMultiplier), lifeBarStart.y);
         Vector2[] barPoints = new Vector2[2] { lifeBarStart, lifeBarEnd };
         lifeBar = VectorLine.SetLine(lifeColor, barPoints);
         lifeBar.SetWidth(lifeBarThickness, 0);
     }
 
     void DisplayLife () {
-        lifeBarEnd = new Vector3(lifeBarStart.x + (player.life * lifeBarMultiplier), lifeBarStart.y);
+        lifeBarEnd = new Vector3(lifeBarStart.x + (currentHitPoints * lifeBarMultiplier), lifeBarStart.y);
         lifeBar.points2 = new Vector2[2] { lifeBarStart, lifeBarEnd };
         lifeBar.Draw();
     }

@@ -6,13 +6,18 @@ public class ActionPointsView : View {
 
     Text text;
 
+	int currentActionPoints {
+		get {
+			return player.actionPoints.currentValue;
+		}
+	}
+
     void Start () {
         text = GetComponent<Text>();
     }
 
     void Update () {
-        text.text = "Action Points: " + player.actionPoints;
+        text.text = "Action Points: " + currentActionPoints;
     }
-
   
 }
