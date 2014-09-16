@@ -16,7 +16,7 @@ public class TurnCountView : View {
         if (turnController != null) {
             string turnLabel = "";
             if (turnController.PlayerTurn) {
-                turnLabel += "Your Turn ";
+                turnLabel += "Your Turn (" + player.controlMode + ")";
             } else {
                 turnLabel += "Enemy Turn ";
             }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour {
 
@@ -12,23 +13,16 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Start () {
-        player.EnterMode(PlayerControlMode.Move);
+		NotificationCenter.AddObserver(this, Notifications.PlayerTurn);
     }
 
-    public void RotateButtonPressed () {
-        ToggleRotateMode();
-    }
+	public void EnterMode (PlayerControlMode mode) {
+		player.EnterMode(mode);
+		NotificationCenter.PostNotification(this, Notifications.EnterControlMode);
+	}
 
-    public void ToggleRotateMode () {
-        if (player.isRotating) {
-            player.EnterMode(PlayerControlMode.Move);
-        } else {
-            player.EnterMode(PlayerControlMode.Rotate);
-        }
-    }
-
-    public void WarriorActionButtonPressed () {
-        player.EnterMode(PlayerControlMode.WarriorAction);
-    }
+	void OnPlayerTurn () {
+		EnterMode(PlayerControlMode.Move);
+	}
 
 }

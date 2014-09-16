@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class TurnController : MonoBehaviour {
 
-    public int currentTurn = 1;
+	public int currentTurn = 1;
     List<GameObject> enemies = new List<GameObject>();
     List<GameObject> enemiesTakingTurn = new List<GameObject>();
 
@@ -19,7 +19,7 @@ public class TurnController : MonoBehaviour {
     }
 
     void Start () {
-        StartTurn();
+		Invoke("StartTurn", 1f);
     }
 
     public void RegisterEnemy (GameObject enemy) {

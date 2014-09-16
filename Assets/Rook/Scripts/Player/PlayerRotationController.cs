@@ -23,6 +23,18 @@ public class PlayerRotationController : GameController {
     void Update () {
     }
 
+    public void RotateButtonPressed () {
+        ToggleRotateMode();
+    }
+
+    public void ToggleRotateMode () {
+        if (isRotating) {
+			playerController.EnterMode(PlayerControlMode.Move);
+        } else {
+			playerController.EnterMode(PlayerControlMode.Rotate);
+        }
+    }
+
     public void SetAimPoint (Vector3 _aimPoint) {
         aimPoint = _aimPoint;
         RotateToAimPoint();
