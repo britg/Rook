@@ -3,14 +3,29 @@ using System.Collections;
 
 public class TileSelectionController : GameController {
 
+	public delegate void SelectionHandler(Vector2 selection);
+
 	public GFHexGrid grid;
+
+	SelectionHandler handler;
+	Vector2 selectedGridPoint;
 
 	void Update () {
 	}
 
-	public void PromptSelection (TileSelection tileSelection) {
-		Debug.Log ("Prompting selection of tiles " + tileSelection);
+	public void PromptSelectionForAction (Action action, SelectionHandler _handler) {
+		Debug.Log ("Prompting selection of tiles for action" + action);
+		handler = _handler;
+		Invoke ("MakeSelection", 1f);
+	}
 
+	void MakeSelection (Vector2 gridPoint) {
+
+	}
+
+	void MakeSelection () {
+		selectedGridPoint = Vector2.zero;
+		handler(selectedGridPoint);
 	}
 
 }

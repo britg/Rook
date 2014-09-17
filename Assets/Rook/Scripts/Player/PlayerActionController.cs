@@ -43,11 +43,14 @@ public class PlayerActionController : GameController {
 
 	void BeginWarriorAction () {
 		currentAction = player.warriorAction;
-		tileSelectionController.PromptSelection(currentAction.tileSelection);
+		tileSelectionController.PromptSelectionForAction(currentAction, OnTileSelectionMade);
 	}
 
-	void OnTileSelectionMade (Notification n) {
-		Debug.Log ("Tile selection made " + n);
+	void OnTileSelectionMade (Vector2 selectedGridPoint) {
+		Debug.Log ("Tile selection made " + selectedGridPoint);
+		// get affected tiles from the action
+		// raycast to affected game objects
+		// apply the action's effects to the affected game objects
 	}
 
 }
