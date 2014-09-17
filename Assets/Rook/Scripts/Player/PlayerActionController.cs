@@ -3,6 +3,14 @@ using System.Collections;
 
 public class PlayerActionController : GameController {
 
+	bool warriorActionActive {
+		get {
+			return player.warriorActionActive;
+		}
+	}
+
+	Action currentAction;
+
 	// Use this for initialization
 	void Start () {
 		NotificationCenter.AddObserver(this, Notifications.EnterControlMode);
@@ -14,7 +22,11 @@ public class PlayerActionController : GameController {
 	}
 
     public void WarriorActionButtonPressed () {
-        playerController.EnterMode(PlayerControlMode.WarriorAction);
+		if (warriorActionActive) {
+			playerController.DefaultMode();
+		} else {
+        	playerController.EnterMode(PlayerControlMode.WarriorAction);
+		}
     }
 
 	public void OnEnterControlMode () {
@@ -30,6 +42,12 @@ public class PlayerActionController : GameController {
 	}
 
 	void BeginWarriorAction () {
-
+		currentAction = player.warriorAction;
+		tileSelectionController.PromptSelection(currentAction.tileSelection);
 	}
+
+	void OnTileSelectionMade (Notification n) {
+		Debug.Log ("Tile selection made " + n);
+	}
+
 }

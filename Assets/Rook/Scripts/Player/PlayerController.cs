@@ -21,8 +21,12 @@ public class PlayerController : MonoBehaviour {
 		NotificationCenter.PostNotification(this, Notifications.EnterControlMode);
 	}
 
-	void OnPlayerTurn () {
+	public void DefaultMode () {
 		EnterMode(PlayerControlMode.Move);
+	}
+
+	void OnPlayerTurn () {
+		DefaultMode();
 	}
 
 }

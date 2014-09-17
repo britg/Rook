@@ -9,6 +9,7 @@ public class TileSelectionController : GameController {
 	}
 
 	public void PromptSelection (TileSelection tileSelection) {
+		Debug.Log ("Prompting selection of tiles " + tileSelection);
 
 	}
 

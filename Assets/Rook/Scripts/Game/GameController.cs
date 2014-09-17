@@ -63,6 +63,16 @@ public class GameController : MonoBehaviour {
         }
     }
 
+	TileSelectionController _tileSelectionController;
+	public TileSelectionController tileSelectionController {
+		get {
+			if (_tileSelectionController == null) {
+				_tileSelectionController = grid.GetComponent<TileSelectionController>();
+			}
+			return _tileSelectionController;
+		}
+	}
+
 
     public bool PlayerTurn {
         get {

@@ -25,6 +25,12 @@ public class Player {
         }
     }
 
+	public bool warriorActionActive {
+		get {
+			return controlMode == PlayerControlMode.WarriorAction;
+		}
+	}
+
     public void EnterMode (PlayerControlMode mode) {
         Debug.Log("Entering mode " + mode);
         controlMode = mode;
