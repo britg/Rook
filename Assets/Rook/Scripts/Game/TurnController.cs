@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class TurnController : MonoBehaviour {
+public class TurnController : GameController {
 
 	public int currentTurn = 1;
     List<GameObject> enemies = new List<GameObject>();
@@ -20,6 +20,7 @@ public class TurnController : MonoBehaviour {
 
     void Start () {
 		Invoke("StartTurn", 1f);
+		NotificationCenter.AddObserver(this, Notifications.ActionFinished);
     }
 
     public void RegisterEnemy (GameObject enemy) {
@@ -65,5 +66,16 @@ public class TurnController : MonoBehaviour {
         Debug.Log("Entering combat!");
         inCombat = true;
     }
+
+	void OnActionFinished () {
+		Debug.Log ("Action finished");
+		DetermineAutoEndOfTurn();
+	}
+
+	void DetermineAutoEndOfTurn () {
+		if (player.actionPoints.currentValue < 1) {
+			EndPlayerTurn();
+		}
+	}
 
 }
