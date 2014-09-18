@@ -1,5 +1,6 @@
 using UnityEngine;
-using System.Collections;
+using GridFramework;
+using GridFramework.Vectors;
 
 /// <summary>A polar grid based on cylindrical coordinates.</summary>
 /// 
@@ -26,7 +27,7 @@ public class GFPolarGrid : GFLayeredGrid {
 		get{ return _size;}
 		set {
 			base.size = value;
-			_size[idx[1]] = Mathf.Min(value[idx[1]], relativeSize ? sectors : 2.0f * Mathf.PI);
+			_size[idx[1]] = Mathf.Max(0.0f, Mathf.Min(value[idx[1]], relativeSize ? sectors : 2.0f * Mathf.PI));
 		}
 	}
 
@@ -78,9 +79,7 @@ public class GFPolarGrid : GFLayeredGrid {
 			_radius = Mathf.Max(0.01f, value);
 			_matricesMustUpdate = true;
 			_drawPointsMustUpdate = true;
-			if (!relativeSize) {
-				_drawPointsCountMustUpdate = true;
-			}
+			_drawPointsCountMustUpdate |= !relativeSize; // if size is relative, the amount of points does not change
 			GridChanged();
 		}
 	}
@@ -216,7 +215,7 @@ public class GFPolarGrid : GFLayeredGrid {
 	/// <param name="worldPoint">Point in world space.</param>
 	/// 
 	/// Converts a point from world space to grid space. The first coordinate represents the distance from the radial axis as multiples of <see cref="radius"/>, the
-	/// second one the sector and the thrid one the distance from the main plane as multiples of <see cref="height"/>. This order applies to XY-grids only, for the other
+	/// second one the sector and the thrid one the distance from the main plane as multiples of <see cref="depth"/>. This order applies to XY-grids only, for the other
 	/// two orientations please consult the manual.
 	public override Vector3 WorldToGrid(Vector3 worldPoint) {
 		return PolarToGrid(WorldToPolar(worldPoint));
@@ -286,7 +285,7 @@ public class GFPolarGrid : GFLayeredGrid {
 	#endregion
 
 	#region Conversions
-	#region Public
+	#region Publicz
 	/// <summary>Converts an angle (radians or degree) to the corresponding sector coordinate.</summary>
 	/// <returns>Sector value of the angle.</returns>
 	/// <param name="angle">Angle in either radians or degress.</param>
@@ -297,9 +296,9 @@ public class GFPolarGrid : GFLayeredGrid {
 	/// 
 	/// <example>Let's take a grid with six sectors for example, then one sector has an agle of 360° / 6 = 60°, so a 135° angle corresponds to a sector value of 130° /
 	/// 60° = 2.25.</example>
-	public float Angle2Sector(float angle, GFAngleMode mode = GFAngleMode.radians) {
-		angle = Float2Rad(angle * (mode == GFAngleMode.degrees ? Mathf.Deg2Rad : 1.0f));
-		return angle / this.angle * (mode == GFAngleMode.degrees ? Mathf.Rad2Deg : 1.0f);
+	public float Angle2Sector(float angle, AngleMode mode = AngleMode.radians) {
+		angle = Float2Rad(angle * (mode == AngleMode.degrees ? Mathf.Deg2Rad : 1.0f));
+		return angle / this.angle * (mode == AngleMode.degrees ? Mathf.Rad2Deg : 1.0f);
 	}
 	
 	/// <summary>Converts a sector to the corresponding angle coordinate (radians or degree).</summary>
@@ -312,9 +311,9 @@ public class GFPolarGrid : GFLayeredGrid {
 	/// 
 	/// <example>Let's take a grid with six sectors for example, then one sector has an agle of 360° / 6 = 60°, so a 2.25 sector corresponds to an angle of 2.25 * 60° =
 	/// 135°.</example>
-	public float Sector2Angle(float sector, GFAngleMode mode = GFAngleMode.radians) {
+	public float Sector2Angle(float sector, AngleMode mode = AngleMode.radians) {
 		sector = Float2Sector(sector);
-		return sector * angle * (mode == GFAngleMode.degrees ? Mathf.Rad2Deg : 1.0f);
+		return sector * angle * (mode == AngleMode.degrees ? Mathf.Rad2Deg : 1.0f);
 	}
 	/// <summary>Converts an angle around the origin to a rotation.</summary>
 	/// <returns>Rotation quaterion which rotates arround the origin by <paramref name="angle"/>.</returns>
@@ -324,8 +323,8 @@ public class GFPolarGrid : GFLayeredGrid {
 	/// This method returns a quaternion which represents a rotation within the grid. The result is a combination of the grid's own rotation and the rotation from the
 	/// angle. Since we use an angle, this method is more suitable for polar coordinates than grid coordinates. See <see cref="Sector2Rotation"/> for a similar method
 	/// that uses sectors.
-	public Quaternion Angle2Rotation(float angle, GFAngleMode mode = GFAngleMode.radians) {
-		return Quaternion.AngleAxis(angle * (mode == GFAngleMode.radians ? Mathf.Rad2Deg : 1.0f), locUnits[idx[2]] * (gridPlane == GridPlane.XY ? 1.0f : -1.0f)) * _Transform.rotation;
+	public Quaternion Angle2Rotation(float angle, AngleMode mode = AngleMode.radians) {
+		return Quaternion.AngleAxis(angle * (mode == AngleMode.radians ? Mathf.Rad2Deg : 1.0f), locUnits[idx[2]] * (gridPlane == GridPlane.XY ? 1.0f : -1.0f)) * _Transform.rotation;
 	}
 
 	/// <summary>Converts a sector around the origin to a rotation.</summary>
@@ -334,7 +333,7 @@ public class GFPolarGrid : GFLayeredGrid {
 	/// 
 	/// This is basically the same as <see cref="Angle2Rotation"/>, excpet with sectors, which makes this method more suitable for grid coordinates than polar coordinates.
 	public Quaternion Sector2Rotation(float sector) {
-		return Angle2Rotation(Sector2Angle(sector, GFAngleMode.radians), GFAngleMode.radians);
+		return Angle2Rotation(Sector2Angle(sector));
 	}
 
 	/// <summary>Converts a world position to a rotation around the origin.</summary>
@@ -353,8 +352,8 @@ public class GFPolarGrid : GFLayeredGrid {
 	/// <param name="mode">The mode of the angle, defaults to radians.</param>
 	/// 
 	/// This method returns which angle around the grid a given point in world space has.
-	public float World2Angle(Vector3 worldPoint, GFAngleMode mode = GFAngleMode.radians) {
-		return WorldToPolar(worldPoint)[idx[1]] * (mode == GFAngleMode.radians ? 1.0f : Mathf.Rad2Deg);
+	public float World2Angle(Vector3 worldPoint, AngleMode mode = AngleMode.radians) {
+		return WorldToPolar(worldPoint)[idx[1]] * (mode == AngleMode.radians ? 1.0f : Mathf.Rad2Deg);
 	}
 
 	/// <summary>Converts a world position to the sector of the grid it is in.</summary>
@@ -410,13 +409,13 @@ public class GFPolarGrid : GFLayeredGrid {
 
 	/// <summary>Returns the world position of the nearest face.</summary>
 	/// <returns>World position of the nearest face.</returns>
-	/// <param name="worldPoint">Point in world space.</param>
+	/// <param name="world">Point in world space.</param>
 	/// <param name="doDebug">If set to <c>true</c> draw a sphere at the destination.</param>
 	/// 
 	/// Similar to <see cref="NearestVertexW"/>, it returns the world coordinates of a face on the grid. Since the face is enclosed by several vertices, the returned
 	/// value is the point in between all of the vertices. If <paramref name="doDebug"/> is set a small gizmo face will drawn there.
-	public override Vector3 NearestFaceW(Vector3 worldPoint, bool doDebug) {
-		Vector3 dest = PolarToWorld(NearestFaceP(worldPoint));
+	public override Vector3 NearestFaceW(Vector3 world, bool doDebug) {
+		Vector3 dest = PolarToWorld(NearestFaceP(world));
 		if (doDebug) {
 			DrawSphere(dest);
 		}
@@ -452,12 +451,12 @@ public class GFPolarGrid : GFLayeredGrid {
 
 	/// <summary>Returns the grid position of the nearest Face.</summary>
 	/// <returns>Grid position of the nearest face.</returns>
-	/// <param name="worldPoint">Point in world space.</param>
+	/// <param name="world">Point in world space.</param>
 	/// 
 	/// Similar to <see cref="NearestVertexG"/>, it returns the grid coordinates of a face on the grid. Since the face is enclosed by several vertices, the returned value
 	/// is the point in between all of the vertices.
-	public override Vector3 NearestFaceG(Vector3 worldPoint) {
-		return PolarToGrid(NearestFaceP(worldPoint));
+	public override Vector3 NearestFaceG(Vector3 world) {
+		return PolarToGrid(NearestFaceP(world));
 	}
 
 	/// <summary>Returns the grid position of the nearest box.</summary>
@@ -540,7 +539,7 @@ public class GFPolarGrid : GFLayeredGrid {
 	/// <param name="lockAxis">Axis to ignore.</param>
 	/// 
 	/// Aligns a Transform and the rotates it depending on its position inside the grid. This method cobines two steps in one call for convenience.
-	public void AlignRotateTransform(Transform transform, GFBoolVector3 lockAxis) {
+	public void AlignRotateTransform(Transform transform, BoolVector3 lockAxis) {
 		AlignTransform(transform, true, lockAxis);
 		transform.rotation = World2Rotation(transform.position);
 	}
@@ -549,19 +548,19 @@ public class GFPolarGrid : GFLayeredGrid {
 	/// @overload
 	/// Use this overload when you want to appy the alignment on all axis, then you don't have to specity them.
 	public void AlignRotateTransform(Transform theTransform) {
-		AlignRotateTransform(theTransform, new GFBoolVector3(false));
+		AlignRotateTransform(theTransform, new BoolVector3(false));
 	}
 	#endregion
 
 	/// <summary>Fits a position vector into the grid.</summary>
 	/// <param name="pos">The position to align.</param>
 	/// <param name="scale">A simulated scale to decide how exactly to fit the poistion into the grid.</param>
-	/// <param name="lockAxis">Which axes should be ignored.</param>
+	/// <param name="ignoreAxis">Which axes should be ignored.</param>
 	/// <returns>Aligned position vector.</returns>
 	/// 
 	/// Fits a position inside the grid by using the object’s transform. Currently the object will snap either on edges or between, depending on which is closer, ignoring
 	/// the <paramref name="scale"/> passed, but I might add an optionfor this in the future.
-	public override Vector3 AlignVector3(Vector3 pos, Vector3 scale, GFBoolVector3 lockAxis) {
+	public override Vector3 AlignVector3(Vector3 pos, Vector3 scale, BoolVector3 ignoreAxis) {
 		float fracAngle = World2Angle(pos) / angle - Mathf.Floor(World2Angle(pos) / angle);
 		float fracRad = World2Radius(pos) / radius - Mathf.Floor(World2Radius(pos) / radius);
 
@@ -575,7 +574,7 @@ public class GFPolarGrid : GFLayeredGrid {
 		final += (scale[idx[2]] % 2.0f >= 0.5f || scale[idx[0]] < 1.0f ? box[idx[2]] : vertex[idx[2]]) * units[idx[2]];
 
 		for (int i = 0; i <= 2; i++) {
-			final[i] = lockAxis[i] ? pos[i] : final[i];
+			final[i] = ignoreAxis[i] ? pos[i] : final[i];
 		}
 		return PolarToWorld(final);
 	}
@@ -584,25 +583,19 @@ public class GFPolarGrid : GFLayeredGrid {
 	#region Scale Methods
 	/// <summary>Scales a size vector to fit inside a grid.</summary>
 	/// <param name="scl">The vector to scale.</param>
-	/// <param name="lockAxis">The axes to ignore.</param>
+	/// <param name="ignoreAxis">The axes to ignore.</param>
 	/// <returns>The re-scaled vector.</returns>
 	/// 
-	/// Scales a given scale vector to the nearest multiple of the grid’s radius and depth, but does not change its position. The parameter <paramref name="lockAxis"/>
+	/// Scales a given scale vector to the nearest multiple of the grid’s radius and depth, but does not change its position. The parameter <paramref name="ignoreAxis"/>
 	/// makes the function not touch the corresponding coordinate.
-	public override Vector3 ScaleVector3(Vector3 scl, GFBoolVector3 lockAxis) {
+	public override Vector3 ScaleVector3(Vector3 scl, BoolVector3 ignoreAxis) {
 		Vector3 result = Vector3.Max(RoundMultiple(scl[idx[0]], radius) * locUnits[idx[0]] + scl[idx[1]] * locUnits[idx[1]] + RoundMultiple(scl[idx[2]], depth) * locUnits[idx[2]],
 			radius * locUnits[idx[0]] + scl[idx[1]] * locUnits[idx[1]] + depth * locUnits[idx[2]]);
 		for (int i = 0; i <= 2; i++) {
-			result[i] = lockAxis[i] ? scl[i] : result[i];
+			result[i] = ignoreAxis[i] ? scl[i] : result[i];
 		}
 		return result;
 	}
-	#endregion
-
-	#region Draw Methods
-	/*public override void DrawGrid() {
-		DrawGrid(Vector3.zero - size[idx[2]] * units[idx[2]], size);
-	}*/
 	#endregion
 	
 	#region Render Methods
@@ -613,7 +606,7 @@ public class GFPolarGrid : GFLayeredGrid {
 	
 	#region Calculate Draw Points
 	#region Helper
-	/// <summary>Computes helper values <c>arc_count<c/>, <c>segment_count<c/>, <c>sector_count<c/> and <c>layer_count<c/>.</summary>
+	/// <summary>Computes helper values <c>arc_count</c>, <c>segment_count</c>, <c>sector_count</c> and <c>layer_count</c>.</summary>
 	/// <param name="from">From vector.</param>
 	/// <param name="to">To vector.</param>
 	/// Values must be in grid space.
@@ -626,11 +619,13 @@ public class GFPolarGrid : GFLayeredGrid {
 	}
 	
 	private Vector3 ContributePoint(float r, float phi, float z, Vector3 origin) {
-		return ContributePoint(r, Quaternion.AngleAxis(phi, locUnits[idx[2]]), r, origin);
+		//return GridToWorld(new Vector3(r, phi, z)); // <-- sometimes the most bizarre things can happen.
+		return ContributePoint(r, Quaternion.AngleAxis(phi, locUnits[idx[2]]), z, origin);
 	}
 
 	private Vector3 ContributePoint(float r, Quaternion phi, float z, Vector3 origin) {
-		return origin + z * locUnits[idx[2]] + phi * (r * locUnits[idx[0]]);
+		Vector3 pivot = origin + z * locUnits[idx[2]];
+		return pivot + phi * (r * locUnits[idx[0]]);
 	}
 	#endregion
 
@@ -708,8 +703,8 @@ public class GFPolarGrid : GFLayeredGrid {
 		for (int i = 0; i < layer_count; ++i) {
 			phi = Mathf.Ceil(from[idx[1]]) * angleDeg;
 			for (int j = 0; j < sector_count; ++j) {
-				points[idx[1]][i * sector_count + j][0] = ContributePoint(from[idx[0]], phi, z, origin);
-				points[idx[1]][i * sector_count + j][1] = ContributePoint(  to[idx[0]], phi, z, origin);
+				points[idx[1]][i * sector_count + j][0] = ContributePoint(from[idx[0]] * radius, phi, z, origin);
+				points[idx[1]][i * sector_count + j][1] = ContributePoint(  to[idx[0]] * radius, phi, z, origin);
 				phi += angleDeg;
 			}
 			z += depth;

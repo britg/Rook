@@ -4,28 +4,25 @@ using ProBuilder2.Common;
 
 public class HighlightController : GameController {
 
-    public GameObject highlightPrefab;
-
-    GameObject highlightObj;
     Vector3 currentPosition;
+	TileHighlightView highlightView;
 
     public void CurrentPosition (Vector3 pos) {
         currentPosition = pos;
     }
 
     void Start () {
+		highlightView = gameObject.GetComponent<TileHighlightView>();
     }
 
     void Update () {
+		DrawHighlight();
     }
 
-	void CreateHighlight () {
-        highlightObj = ProBuilder.Instantiate(highlightPrefab, Vector3.zero, Quaternion.identity);
-	}
-
     void DrawHighlight () {
-		Vector3 newPos = GridPosition();
-		highlightObj.transform.position = newPos;
+		Vector3 pos = grid.NearestFaceHO(currentPosition);
+		Debug.Log(pos);
+//		highlightView.HighlightTiles();
     }
 
     Vector3 GridPosition () {

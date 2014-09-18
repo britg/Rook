@@ -1,6 +1,6 @@
 using UnityEngine;
-using System.Collections;
-using System.Linq;
+using GridFramework;
+using GridFramework.Vectors;
 //using System.Collections.Specialized;
 
 /// <summary>Abstract base class for all Grid Framework grids.</summary>
@@ -11,24 +11,6 @@ using System.Linq;
 [System.Serializable]
 public abstract class GFGrid : MonoBehaviour {
 	#region nested classes and enums
-	/// <summary>Enum for one of the three grid planes.</summary>
-	/// 
-	/// This enum encapsulates the three grid planes: XY, XZ and YZ. You can also get the integer of enum items, where the integer
-	/// corresponds to the missing axis (X = 0, Y = 1, Z = 2):
-	/// <code>
-	/// // UnityScript:
-	/// var myPlane: GFGrid.GridPlane = GFGrid.GFGridPlane.XZ;
-	/// var planeIndex: int = (int)myPlane; // sets the variable to 1
-	/// 
-	/// // C#
-	/// GFGrid.GridPlane myPlane = GFGrid.GFGridPlane.XZ;
-	/// int planeIndex = (int)myPlane;
-	/// </code>
-	public enum GridPlane {
-		YZ,
-		XZ,
-		XY}
-	;
 
 	// instead of always aligning the centre we can use this to align other regions (WIP)
 	private enum AlignReference {
@@ -327,7 +309,7 @@ public abstract class GFGrid : MonoBehaviour {
 			_drawPointsMustUpdate = true;
 			_drawPointsCountMustUpdate = true;
 			if( GridChangedEvent != null ) // fire the event
-				GridChangedEvent( this );
+				GridChangedEvent(this);
 		}
 	}
 	#endregion
@@ -345,7 +327,7 @@ public abstract class GFGrid : MonoBehaviour {
 	/// 
 	/// The colours are stored as three separte entries, corresponding to the three separate axes. They will be used for both drawing
 	/// an rendering, unless <see cref="useSeparateRenderColor"/> is set to <c>true</c>.
-	public GFColorVector3 axisColors = new GFColorVector3();
+	public ColorVector3 axisColors = new ColorVector3();
 
 	/// <summary>Whether to use the same colours for rendering as for drawing.</summary>
 	/// 
@@ -358,7 +340,7 @@ public abstract class GFGrid : MonoBehaviour {
 	/// 
 	/// By default the colours of <see cref="axisColors"/> are used for rendering, however if you set <see cref="useSeparateRenderColor"/> to <c>true</c> these colours
 	/// will be used instead. Otherwise this does nothing.
-	public GFColorVector3 renderAxisColors = new GFColorVector3(Color.gray);
+	public ColorVector3 renderAxisColors = new ColorVector3(Color.gray);
 	#endregion
 	
 	#region Draw & Render Flags
@@ -375,7 +357,7 @@ public abstract class GFGrid : MonoBehaviour {
 	/// <summary>Whether to hide just individual axes.</summary>
 	/// 
 	/// This hides the individual axes rather than the whole grid.
-	public GFBoolVector3 hideAxis = new GFBoolVector3();
+	public BoolVector3 hideAxis = new BoolVector3();
 
 	/// <summary>Whether to draw a little sphere at the origin of the grid.</summary>
 	/// 
@@ -571,29 +553,29 @@ public abstract class GFGrid : MonoBehaviour {
 	/// <param name="ignoreAxis">Which axes should be ignored.</param>
 	/// 
 	/// Fits a position inside the grid by using the object’s transform. The exact position depends on whether the components of <paramref name="scale"/> are even or odd
-	/// and the exact implementation can be found in the subclasses. The parameter <paramref name="lockAxis"/> makes the function not touch the corresponding coordinate.
-	public abstract Vector3 AlignVector3(Vector3 pos, Vector3 scale, GFBoolVector3 ignoreAxis);
+	/// and the exact implementation can be found in the subclasses. The parameter <paramref name="ignoreAxis"/> makes the function not touch the corresponding coordinate.
+	public abstract Vector3 AlignVector3(Vector3 pos, Vector3 scale, BoolVector3 ignoreAxis);
 
 	#region Overload
 	/// @overload
 	/// It aligns the position while respecting all axes and uses a default size of 1 x 1 x 1, it is equal to
-	/// <code>AlignVector3(pos, Vector3.one, new GFBoolVector3(false));</code>
+	/// <code>AlignVector3(pos, Vector3.one, new BoolVector3(false));</code>
 	public Vector3 AlignVector3(Vector3 pos) {
-		return AlignVector3(pos, Vector3.one, new GFBoolVector3(false));
+		return AlignVector3(pos, Vector3.one, new BoolVector3(false));
 	}
 
 	/// @overload
 	/// It aligns the position and uses a default size of 1 x 1 x 1 while leaving the axes to the user, it is equal to
 	/// <code>AlignVector3(pos, Vector3.one, lockAxis);</code>
-	public Vector3 AlignVector3(Vector3 pos, GFBoolVector3 lockAxis) {
+	public Vector3 AlignVector3(Vector3 pos, BoolVector3 lockAxis) {
 		return AlignVector3(pos, Vector3.one, lockAxis);
 	}
 		
 	/// @overload
 	/// It aligns the position and respects the axes while using a default size of 1 x 1 x 1, it is equal to
-	/// <code>AlignVector3(pos, scale, new GFBoolVector3(false));</code>
+	/// <code>AlignVector3(pos, scale, new BoolVector3(false));</code>
 	public Vector3 AlignVector3(Vector3 pos, Vector3 scale) {
-		return AlignVector3(pos, scale, new GFBoolVector3(false));
+		return AlignVector3(pos, scale, new BoolVector3(false));
 	}
 	#endregion
 
@@ -606,7 +588,7 @@ public abstract class GFGrid : MonoBehaviour {
 	/// makes the function not touch the corresponding coordinate.
 	/// 
 	/// The resulting position depends on <paramref name="AlignVector3"/>, so please look up how that method works.
-	public void AlignTransform(Transform theTransform, bool rotate, GFBoolVector3 ignoreAxis) {
+	public void AlignTransform(Transform theTransform, bool rotate, BoolVector3 ignoreAxis) {
 		Quaternion oldRotation = theTransform.rotation;
 		theTransform.rotation = transform.rotation;
 
@@ -619,23 +601,23 @@ public abstract class GFGrid : MonoBehaviour {
 	#region overload
 	/// @overload
 	/// It aligns and rotates the Transform while respecting all axes, it is equal to
-	/// <code>AlignTransform(theTransform, true, new GFBoolVector3(false));</code>
+	/// <code>AlignTransform(theTransform, true, new BoolVector3(false));</code>
 	public void AlignTransform(Transform theTransform) {
-		AlignTransform(theTransform, true, new GFBoolVector3(false));
+		AlignTransform(theTransform, true, new BoolVector3(false));
 	}
 
 	/// @overload
 	/// It aligns and rotates the Transform but leaves the axes to the user, it is equal to
 	/// <code>AlignTransform(theTransform, true, lockAxis);</code>
-	public void AlignTransform(Transform theTransform, GFBoolVector3 lockAxis) {
+	public void AlignTransform(Transform theTransform, BoolVector3 lockAxis) {
 		AlignTransform(theTransform, true, lockAxis);
 	}
 
 	/// @overload
 	/// It aligns and respects all axes to the user, but leaves the decision of rotation to the user, it is equal to
-	/// <code>AlignTransform(theTransform, rotate, new GFBoolVector3(false));</code>
+	/// <code>AlignTransform(theTransform, rotate, new BoolVector3(false));</code>
 	public void AlignTransform(Transform theTransform, bool rotate) {
-		AlignTransform(theTransform, rotate, new GFBoolVector3(false));
+		AlignTransform(theTransform, rotate, new BoolVector3(false));
 	}
 	#endregion
 	#endregion
@@ -647,14 +629,14 @@ public abstract class GFGrid : MonoBehaviour {
 	/// <param name="ignoreAxis">The axes to ignore.</param>
 	/// 
 	/// This method takes in a vector representing a size and fits it inside the grid. The *ignoreAxis* parameter lets you ignore individual axes.
-	public abstract Vector3 ScaleVector3(Vector3 scl, GFBoolVector3 ignoreAxis);
+	public abstract Vector3 ScaleVector3(Vector3 scl, BoolVector3 ignoreAxis);
 
 	#region overload
 	/// @overload
 	/// It scales the size while respecting all axes, it is equal to
-	/// <code>ScaleVector3(scl, new GFBoolVector3(false));</code>
+	/// <code>ScaleVector3(scl, new BoolVector3(false));</code>
 	public Vector3 ScaleVector3(Vector3 scl) {
-		return ScaleVector3(scl, new GFBoolVector3(false));
+		return ScaleVector3(scl, new BoolVector3(false));
 	}
 	#endregion
 	/// <summary>Scales a Transform to fit the grid (without moving it).</summary>
@@ -664,16 +646,16 @@ public abstract class GFGrid : MonoBehaviour {
 	/// Scales a Transform to fit inside a grid. The parameter *ignoreAxis* makes the function not touch the corresponding coordinate.
 	/// 
 	/// The resulting position depends on <see cref="ScaleVector3"/>, so please look up how that method works.
-	public void ScaleTransform(Transform theTransform, GFBoolVector3 ignoreAxis) {
+	public void ScaleTransform(Transform theTransform, BoolVector3 ignoreAxis) {
 		theTransform.localScale = ScaleVector3(theTransform.localScale, ignoreAxis);
 	}
 
 	#region Overload
 	/// @overload
 	/// It scales the Transform while respecting all axes, it is equal to
-	/// <code>ScaleTransform(theTransform, new GFBoolVector3(false));</code>
+	/// <code>ScaleTransform(theTransform, new BoolVector3(false));</code>
 	public void ScaleTransform(Transform theTransform) {
-		ScaleTransform(theTransform, new GFBoolVector3(false));
+		ScaleTransform(theTransform, new BoolVector3(false));
 	}
 	#endregion
 	#endregion
@@ -694,7 +676,7 @@ public abstract class GFGrid : MonoBehaviour {
 	/// It is not necessary to call this method manually, rather you should just set the @c #renderGrid flag to @c true and let Grid Framework take care of it.
 	/// However, if you want total control use this method, usually from within an
 	/// <c><a href="http://docs.unity3d.com/Documentation/ScriptReference/MonoBehaviour.OnPostRender.html">OnPostRender</a></c> method.
-	public virtual void RenderGrid(Vector3 from, Vector3 to, GFColorVector3 colors, int width = 0, Camera cam = null, Transform camTransform = null) {
+	public void RenderGrid(Vector3 from, Vector3 to, ColorVector3 colors, int width = 0, Camera cam = null, Transform camTransform = null) {
 		if (!renderGrid) {
 			return;
 		}
@@ -703,7 +685,6 @@ public abstract class GFGrid : MonoBehaviour {
 			renderMaterial = defaultRenderMaterial;
 		}
 		
-		//CalculateDrawPoints(from, to);
 		drawPointsUpdate(from, to);
 				
 		RenderGridLines(colors, width, cam, camTransform);
@@ -725,7 +706,7 @@ public abstract class GFGrid : MonoBehaviour {
 	}
 	#endregion
 
-	protected void RenderGridLines(GFColorVector3 colors, int width = 0, Camera cam = null, Transform camTransform = null) {
+	protected void RenderGridLines(ColorVector3 colors, int width = 0, Camera cam = null, Transform camTransform = null) {
 		renderMaterial.SetPass(0);
 		
 		if (width <= 1 || !cam || !camTransform) {// use simple lines for width 1 or if no camera was passed
@@ -771,7 +752,7 @@ public abstract class GFGrid : MonoBehaviour {
 						continue;
 					}
 					// if the grid is not rectangular we need to change dir every time
-					if (this.GetType() != typeof(GFRectGrid)) {
+					if (GetType() != typeof(GFRectGrid)) {
 						dir = Vector3.Cross(line[0] - line[1], camTransform.forward).normalized;
 						if (cam.isOrthoGraphic) {
 							dir *= (cam.orthographicSize * 2) / cam.pixelHeight;
@@ -857,10 +838,10 @@ public abstract class GFGrid : MonoBehaviour {
 	}
 		
 	/// @overload
-	/// Uses the grid's @c #size as limits, equal to
-	/// <code>GetVectrosityPoints(-size, size);</code>
+	/// Uses the grid's @c #size or @c #renderFrom and @c #renderTo as limits, equal to
+	/// <code>useCustomRenderRange ? GetVectrosityPoints(renderFrom, renderTo) : GetVectrosityPoints(-size, size);</code>
 	public Vector3[] GetVectrosityPoints() {
-		return GetVectrosityPoints(-size, size);
+		return useCustomRenderRange ? GetVectrosityPoints(renderFrom, renderTo) : GetVectrosityPoints(-size, size);
 	}
 
 	/// <summary>Returns an array of arrays of Vector3 points ready for use with Vectrosity.</summary>
@@ -871,47 +852,46 @@ public abstract class GFGrid : MonoBehaviour {
 	/// This method is very similar to @c #GetVectrosityPoints, except that the points are in separate arrays for each axis. This is useful if you want to treat the lines
 	/// of each axis differently, like having different colours.
 	public Vector3[][] GetVectrosityPointsSeparate(Vector3 from, Vector3 to) {
-		//CalculateDrawPoints(from, to);
-		int[] lengths = new int[3];
-		for (int i = 0; i < 3; i++) {
-			lengths[i] = _drawPoints[i].Count(line => line != null) * 2; // <- ! watch out, using LINQ !
+		// Count the amount of points
+		int lengthX = 0, lengthY = 0, lengthZ = 0;
+		drawPointsCount(ref lengthX, ref lengthY, ref lengthZ, ref from, ref to);
+		int[] lengths = new int[3] {lengthX, lengthY, lengthZ};
+
+		// Compute the lines
+		Vector3[][][] lines = new Vector3[3][][]; // allocate the arrays first
+		for (int i = 0; i < 3; ++i) {
+			lines[i] = new Vector3[lengths[i]][];
+			for (int j = 0; j < lengths[i]; ++j) {
+				lines[i][j] = new Vector3[2] {Vector3.zero, Vector3.zero};
+			}
 		}
-		
-		Vector3[][] returnedPoints = new Vector3[3][];
-		for (int i = 0; i < 3; i++) {
-			returnedPoints[i] = new Vector3[lengths[i]];
-			// Debug.Log(lengths[i]);
-		}
-		int iterator = 0;
-		for (int i = 0; i < 3; i++) {
-			iterator = 0;
-			foreach (Vector3[] line in _drawPoints[i]) {
-				if (line == null) {
-					continue;
-				}
-				returnedPoints[i][iterator] = line[0];
-				iterator++;
-				returnedPoints[i][iterator] = line[1];
-				iterator++;
+		drawPointsCalculate(ref lines, ref lengths, from, to);
+
+		// Make lines into points
+		Vector3[][] points = new Vector3[3][];
+		for (int i = 0; i < 3; ++i) {
+			points[i] = new Vector3[2 * lengths[i]];
+			for (int j = 0; j < lengths[i]; ++j) {
+				points[i][2 * j + 0] = lines[i][j][0];
+				points[i][2 * j + 1] = lines[i][j][1];
 			}
 		}
 		
-		return returnedPoints;
+		//return returnedPoints;
+		return points;
 	}
 		
 	/// @overload
-	/// Uses the grid's @c #size as limits, equal to
-	/// <code>GetVectrosityPointsSeparate(-size, size);</code>
+	/// Uses the grid's @c #size or @c #renderFrom and @c #renderTo as limits, equal to
+	/// <code>useCustomRenderRange ? GetVectrosityPointsSeparate(renderFrom, renderTo) : GetVectrosityPointsSeparate(-size, size);</code>
 	public Vector3[][] GetVectrosityPointsSeparate() {
-		return GetVectrosityPointsSeparate(-size, size);
+		return useCustomRenderRange ? GetVectrosityPointsSeparate(renderFrom, renderTo) : GetVectrosityPointsSeparate(-size, size);
 	}
 	#endregion
 	
 	#region Runtime Methods
 	void Awake() {
-		if (hideOnPlay) {
-			hideGrid = true;
-		}
+		hideGrid |= hideOnPlay;
 		
 		if (renderMaterial == null) {
 			renderMaterial = defaultRenderMaterial;
@@ -925,10 +905,10 @@ public abstract class GFGrid : MonoBehaviour {
 	}
 
 	void OnDrawGizmos() {
-		if (!useCustomRenderRange) {
-			DrawGrid(-size, size);
-		} else {
+		if (useCustomRenderRange) {
 			DrawGrid(renderFrom, renderTo);
+		} else {
+			DrawGrid(-size, size);
 		}
 	}
 	#endregion
@@ -988,12 +968,3 @@ public abstract class GFGrid : MonoBehaviour {
 	///@endcond
 	#endregion
 }
-
-/// <summary>Radians or degrees.</summary>
-/// 
-/// This is a simple enum for specifying whether an angle is given in radians for degrees.
-/// This enum is so far only used in methods of GFPolarGrid, but I decided to make it global in case other grids in the future will use it was well.
-public enum GFAngleMode {
-	radians = 0,
-	degrees}
-;

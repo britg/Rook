@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections;
+using GridFramework;
+using GridFramework.Vectors;
 
 /*
 HEXAGON DIMENSIONS:
@@ -20,13 +22,12 @@ HEXAGON DIMENSIONS:
 r: radius    s: side    w: width    h: height
 */
 
-/// <summary>
-/// 	A grid consting of flat hexagonal grids stacked on top of each other
-/// </summary>
+/// <summary>A grid consting of flat hexagonal grids stacked on top of each other</summary>
 /// <remarks>
-/// 	A regular hexagonal grid that forms a honeycomb pattern.
-/// 	It is characterized by the <c>radius</c> (distance from the centre of a hexagon to one of its vertices) and the <c>depth</c> (distance between two honeycomb layers).
-/// 	Hex grids use a herringbone pattern for their coordinate system, please refer to the user manual for information about how that coordinate system works.
+/// A regular hexagonal grid that forms a honeycomb pattern. It is characterized by the <c>radius</c> (distance from the
+/// centre of a hexagon to one of its vertices) and the <c>depth</c> (distance between two honeycomb layers). Hex grids
+/// use a herringbone pattern for their coordinate system, please refer to the user manual for information about how that
+/// coordinate system works.
 /// </remarks>
 public class GFHexGrid : GFLayeredGrid {
 
@@ -51,21 +52,20 @@ public class GFHexGrid : GFLayeredGrid {
 	/// This is an enumeration of all the currently supported coordinate systems for hexagonal grids.
 	/// Cubic and barycentric coordinates are four-dimensional, the rest are three-dimensional.
 	private enum HexCoordinateSystem {
-		HerringOdd, ///< Herringbone pattern where every odd column is shifted upwards.
-		//HerringEven, ///< Don't use, not yeat ready!
+		HerringUp, ///< Herringbone pattern where every odd column is shifted upwards.
 		Rhombic,    ///< Rhombic pattern where both axes go along the flat sides at a 60° angle towards each other.
 		Cubic,      ///< Cubis pattern with three axes in a plane, each one going along the flat sides, at 60° to each other. The sum of all three coordinates is alays 0.
-		//Barycentric ///< Don't use, not yeat ready!
+		//HerringEven, ///< Don't use, not yeat ready!
+		//Barycentric  ///< Don't use, not yeat ready!
 	};
 	//protected enum HexCoordinateSystem {HerringOdd, HerringEven, Rhombic, Cubic, Barycentric};
 
 	///<summary>Shape of the drawing and rendering.</summary>
-	/// 
 	/// Different shapes of hexagonal grids: <c>Rectangle</c> looks like a rectangle with every odd-numbered column offset,
 	/// <c>CompactRectangle</c> is similar with the odd-numbered colums one hex shorter.
 	public enum HexGridShape {
-		Rectangle,        ///< Rectangular odd herringbone pattern.
-		CompactRectangle, ///< Rectangular odd herringbone pattern with the top of every odd column clipped.
+		Rectangle,        ///< Rectangular upwards herringbone pattern.
+		CompactRectangle, ///< Rectangular upwards herringbone pattern with the top of every odd column clipped.
 		//RectangleEven
 		//CompactRectangleEven
 		//Rhombus
@@ -77,19 +77,18 @@ public class GFHexGrid : GFLayeredGrid {
 	//public enum HexGridShape {Rectangle, CompactRectangle, Rhombus, BigHex, Triangle}
 
 	/// <summary>Cardinal direction of a vertex.</summary>
-	/// 
 	/// The cardinal position of a vertex relative to the centre of a given hex.
 	/// Note that using N and S for pointy sides, as well as E and W for flat sides does not make sense, but it is still possible.
 	public enum HexDirection {
-		N,
-		NE,
-		E,
-		SE,
-		S,
-		SW,
-		W,
-		NW }
-	;
+		N,  ///< North
+		NE, ///< South
+		E,  ///< East
+		SE, ///< South-East
+		S,  ///< South
+		SW, ///< South-West
+		W,  ///< West
+		NW  ///< North-West
+	};
 	#endregion
 
 	#region class members
@@ -98,10 +97,10 @@ public class GFHexGrid : GFLayeredGrid {
 	private float _radius = 1.0f;
 	/// <summary>Distance from the centre of a hex to a vertex.</summary>
 	/// <value>
-	/// 	This refers to the distance between the centre of a hexagon and one of its vertices.
-	/// 	Since the hexagon is regular all vertices have the same distance from the centre.
-	/// 	In other words, imagine a circumscribed circle around the hexagon, its radius is the radius of the hexagon.
-	/// 	The value may not be less than 0.1 (please contact me if you really need lower values).
+	///	This refers to the distance between the centre of a hexagon and one of its vertices. Since the hexagon is regular
+	///	all vertices have the same distance from the centre. In other words, imagine a circumscribed circle around the
+	///	hexagon, its radius is the radius of the hexagon. The value may not be less than 0.1 (please contact me if you
+	///	really need lower values).
 	/// </value>
 	public float radius {
 		get { return _radius; }
@@ -123,9 +122,7 @@ public class GFHexGrid : GFLayeredGrid {
 	[SerializeField]
 	protected HexOrientation _hexSideMode;
 	/// <summary>Pointy sides or flat sides.</summary>
-	/// <value>
-	/// 	Whether the grid has pointy sides or flat sides. This affects both the drawing and the calculations.
-	/// </value>
+	/// <value>Whether the grid has pointy sides or flat sides. This affects both the drawing and the calculations.</value>
 	public HexOrientation hexSideMode {
 		get {return _hexSideMode;}
 		set {
@@ -220,6 +217,7 @@ public class GFHexGrid : GFLayeredGrid {
 	/// <summary>Matrix that transforms from local to world.</summary>
 	private Matrix4x4 _lwMatrix = Matrix4x4.identity;
 
+	/// <summary>Matrix that transforms from world to local.</summary>
 	private Matrix4x4 wlMatrix {
 		get {
 			MatricesUpdate();
@@ -227,6 +225,7 @@ public class GFHexGrid : GFLayeredGrid {
 		}
 	}
 
+	/// <summary>Matrix that transforms from local to world.</summary>
 	private Matrix4x4 lwMatrix {
 		get {
 			MatricesUpdate();
@@ -282,33 +281,33 @@ public class GFHexGrid : GFLayeredGrid {
 
 	/// <summary>Converts world coordinates to grid coordinates.</summary>
 	/// <param name="worldPoint">Point in world space.</param>
-	/// <returns>Grid coordinates of the world point (odd herringbone coordinate system).</returns>
+	/// <returns>Grid coordinates of the world point (upwards herringbone coordinate system).</returns>
 	/// 
-	/// This is the same as calling <c>#WorldToHerringOdd</c>, because HerringOdd is the default grid coordinate system.
+	/// This is the same as calling <c>#WorldToHerringU</c>, because upwards herringbone is the default grid coordinate system.
 	public override Vector3 WorldToGrid(Vector3 worldPoint) {
-		return WorldToHerringOdd(worldPoint);
+		return WorldToHerringU(worldPoint);
 	}
 
 	/// <summary>Converts grid coordinates to world coordinates</summary>
-	/// <param name="gridPoint">Point in grid space (odd herringbone coordinate system).</param>
+	/// <param name="gridPoint">Point in grid space (upwards herringbone coordinate system).</param>
 	/// <returns>World coordinates of the grid point.</returns>
 	/// 
-	/// This is the same as calling <c>#HerringOddToWorld</c>, because HerringOdd is the default grid coordinate system.
+	/// This is the same as calling <c>#HerringUToWorld</c>, because upwards herringbone is the default grid coordinate system.
 	public override Vector3 GridToWorld(Vector3 gridPoint) {
-		return HerringOddToWorld(gridPoint);
+		return HerringUToWorld(gridPoint);
 	}
 	#endregion
 
 	#region World
-	/// <summary>Returns the odd herringbone coordinates of a point in world space.</summary>
+	/// <summary>Returns the upwards herringbone coordinates of a point in world space.</summary>
 	/// <param name="world">Point in world coordinates.</param>
-	/// <returns>Point in odd herringbone coordinates.</returns>
+	/// <returns>Point in upwards herringbone coordinates.</returns>
 	/// 
-	/// This method takes a point in world space and returns the corresponding odd herringbone coordinates. Every odd numbered column is offset upwards, giving this
+	/// This method takes a point in world space and returns the corresponding upwards herringbone coordinates. Every odd numbered column is offset upwards, giving this
 	/// coordinate system the herringbone pattern. This means that the Y coordinate directly depends on the X coordinate. The Z coordinaate is simply which layer of the
 	/// grid is on, relative to the grid's central layer.
-	public Vector3 WorldToHerringOdd(Vector3 world) {
-		return CubicToHerringOdd(WorldToCubic(world));
+	public Vector3 WorldToHerringU(Vector3 world) {
+		return CubicToHerringU(WorldToCubic(world));
 	}
 
 	/// <summary>Returns the rhombic coordinates of a point in world space.</summary>
@@ -357,31 +356,31 @@ public class GFHexGrid : GFLayeredGrid {
 
 	#endregion
 
-	#region HerringOdd
-	/// <summary>Returns the world coordinates of a point in odd herringbone coordinates.</summary>
-	/// <param name="herring">Point in odd herringbone coordinates.</param>
+	#region HerringU
+	/// <summary>Returns the world coordinates of a point in upwards herringbone coordinates.</summary>
+	/// <param name="herring">Point in upwards herringbone coordinates.</param>
 	/// <returns>Point in world coordinates.</returns>
 	/// 
-	/// Takes a point in odd herringbone coordinates and returns its world position.
-	public Vector3 HerringOddToWorld(Vector3 herring) {
-		return CubicToWorld(HerringOddToCubic(herring));
+	/// Takes a point in upwards herringbone coordinates and returns its world position.
+	public Vector3 HerringUToWorld(Vector3 herring) {
+		return CubicToWorld(HerringUToCubic(herring));
 	}
 
-	/// <summary>Returns the rhombic coordinates of a point in odd herringbone coordinates.</summary>
-	/// <param name="herring">Point in odd herringbone coordinates.</param>
+	/// <summary>Returns the rhombic coordinates of a point in upwards herringbone coordinates.</summary>
+	/// <param name="herring">Point in upwards herringbone coordinates.</param>
 	/// <returns>Point in rhombic coordinates.</returns>
 	/// 
-	/// Takes a point in odd herringbone coordinates and returns its rhombic position.
-	public Vector3 HerringOddToRhombic(Vector3 herring) {
-		return CubicToRhombic(HerringOddToCubic(herring));
+	/// Takes a point in upwards herringbone coordinates and returns its rhombic position.
+	public Vector3 HerringUToRhombic(Vector3 herring) {
+		return CubicToRhombic(HerringUToCubic(herring));
 	}
 
-	/// <summary>Returns the cubic coordinates of a point in odd herringbone coordinates.</summary>
-	/// <param name="herring">Point in odd herringbone coordinates.</param>
+	/// <summary>Returns the cubic coordinates of a point in upwards herringbone coordinates.</summary>
+	/// <param name="herring">Point in upwards herringbone coordinates.</param>
 	/// <returns>Point in cubic coordinates.</returns>
 	/// 
-	/// Takes a point in odd herringbone coordinates and returns its cubic position.
-	public Vector4 HerringOddToCubic(Vector3 herring) {
+	/// Takes a point in upwards herringbone coordinates and returns its cubic position.
+	public Vector4 HerringUToCubic(Vector3 herring) {
 		int index = Mathf.FloorToInt(herring[idxS[0]]); // odd or even (idxS[0] means X-axis for pointy sides and Y-axis for flat sides)
 		float x, y, z;
 		if (hexSideMode == HexOrientation.PointySides) {
@@ -406,13 +405,13 @@ public class GFHexGrid : GFLayeredGrid {
 		return new Vector4(x, y, z, herring[idx[2]]);
 	}
 
-	/// <summary>Returns the barycentric coordinates of a point in odd herringbone coordinates.</summary>
-	/// <param name="herring">Point in odd herringbone coordinates.</param>
+	/// <summary>Returns the barycentric coordinates of a point in upwards herringbone coordinates.</summary>
+	/// <param name="herring">Point in upwards herringbone coordinates.</param>
 	/// <returns>Point in bearycentric coordinates.</returns>
 	/// 
-	/// Takes a point in odd herringbone coordinates and returns its barycentric position.
-	private Vector4 HerringOddToBarycentric(Vector3 herring) {
-		return CubicToBarycentric(HerringOddToCubic(herring));
+	/// Takes a point in upwards herringbone coordinates and returns its barycentric position.
+	private Vector4 HerringUToBarycentric(Vector3 herring) {
+		return CubicToBarycentric(HerringUToCubic(herring));
 	}
 	#endregion
 
@@ -426,13 +425,13 @@ public class GFHexGrid : GFLayeredGrid {
 		return CubicToWorld(RhombicToCubic(rhombic));
 	}
 
-	/// <summary>Returns the odd herring coordinates of a point in rhombic coordinates.</summary>
+	/// <summary>Returns the upwards herring coordinates of a point in rhombic coordinates.</summary>
 	/// <param name="rhombic">Point in rhombic coordinates.</param>
-	/// <returns>Point in odd herring coordinates.</returns>
+	/// <returns>Point in upwards herring coordinates.</returns>
 	/// 
-	/// Takes a point in rhombic coordinates and returns its odd herring position.
-	public Vector3 RhombicToHerringOdd(Vector3 rhombic) {
-		return CubicToHerringOdd(RhombicToCubic(rhombic));
+	/// Takes a point in rhombic coordinates and returns its upwards herring position.
+	public Vector3 RhombicToHerringU(Vector3 rhombic) {
+		return CubicToHerringU(RhombicToCubic(rhombic));
 	}
 
 	/// <summary>Returns the cubic coordinates of a point in rhombic coordinates.</summary>
@@ -473,11 +472,11 @@ public class GFHexGrid : GFLayeredGrid {
 		return lwMatrix.MultiplyPoint3x4(local);
 	}
 
-	/// <summary>Returns the odd herring coordinates of a point in cubic coordinates.</summary>
+	/// <summary>Returns the upwards herring coordinates of a point in cubic coordinates.</summary>
 	/// <param name="cubic">Point in cubic coordinates.</param>
-	/// <returns>Point in odd herring coordinates.</returns>
-	/// Takes a point in cubic coordinates and returns its odd herring position.
-	public Vector3 CubicToHerringOdd(Vector4 cubic) {
+	/// <returns>Point in upwards herring coordinates.</returns>
+	/// Takes a point in cubic coordinates and returns its upwards herring position.
+	public Vector3 CubicToHerringU(Vector4 cubic) {
 		float c, r; // column and row
 		int index = hexSideMode == HexOrientation.PointySides ? Mathf.FloorToInt(cubic.x) : -Mathf.CeilToInt(cubic.z); // the left (or lower) border
 		if (hexSideMode == HexOrientation.PointySides) {
@@ -523,13 +522,13 @@ public class GFHexGrid : GFLayeredGrid {
 		return CubicToWorld(BarycentricToCubic(barycentric));
 	}
 
-	/// <summary>Returns the odd herring coordinates of a point in barycentric coordinates.</summary>
+	/// <summary>Returns the upwards herring coordinates of a point in barycentric coordinates.</summary>
 	/// <param name="barycentric">Point in barycentric coordinates.</param>
-	/// <returns>Point in odd herring coordinates.</returns>
+	/// <returns>Point in upwards herring coordinates.</returns>
 	/// 
-	/// Takes a point in barycentric coordinates and returns its odd herring position.
-	private Vector3 BarycentricToHerringOdd(Vector4 barycentric) {
-		return CubicToHerringOdd(BarycentricToCubic(barycentric));
+	/// Takes a point in barycentric coordinates and returns its upwards herring position.
+	private Vector3 BarycentricToHerringU(Vector4 barycentric) {
+		return CubicToHerringU(BarycentricToCubic(barycentric));
 	}
 
 	/// <summary>Returns the rhombic coordinates of a point in barycentric coordinates.</summary>
@@ -630,31 +629,31 @@ public class GFHexGrid : GFLayeredGrid {
 	#endregion
 
 	#region Herring Odd
-	/// <summary>Returns the odd herring position of the nearest vertex.</summary>
+	/// <summary>Returns the upwards herring position of the nearest vertex.</summary>
 	/// <param name="world">Point in world space.</param>
 	/// <returns>Grid position of the nearest vertex.</returns>
 	/// 
-	/// This method takes in a point in world space and returns the odd herring coordinates of the nearest vertex.
+	/// This method takes in a point in world space and returns the upwards herring coordinates of the nearest vertex.
 	public Vector3 NearestVertexHO(Vector3 world) {
-		return CubicToHerringOdd(NearestVertexC(world));
+		return CubicToHerringU(NearestVertexC(world));
 	}
 	
-	/// <summary>Returns the odd herring position of the nearest face.</summary>
+	/// <summary>Returns the upwards herring position of the nearest face.</summary>
 	/// <param name="world">Point in world space.</param>
 	/// <returns>Grid position of the nearest face.</returns>
 	/// 
-	/// This method takes in a point in world space and returns the odd herring coordinates of the nearest face.
+	/// This method takes in a point in world space and returns the upwards herring coordinates of the nearest face.
 	public Vector3 NearestFaceHO(Vector3 world) {
-		return CubicToHerringOdd(NearestFaceC(world));
+		return CubicToHerringU(NearestFaceC(world));
 	}
 
 	/// <summary>Returns the grid position of the nearest box.</summary>
 	/// <param name="world">Point in world space.</param>
 	/// <returns>Grid position of the nearest box.</returns>
 	/// 
-	/// Returns the world position of the nearest box from a given point in odd herring coordinates.
+	/// Returns the world position of the nearest box from a given point in upwards herring coordinates.
 	public Vector3 NearestBoxHO(Vector3 world) {
-		return CubicToHerringOdd(NearestBoxC(world));
+		return CubicToHerringU(NearestBoxC(world));
 	}
 	#endregion
 
@@ -681,7 +680,7 @@ public class GFHexGrid : GFLayeredGrid {
 	/// <param name="world">Point in world space.</param>
 	/// <returns>Rhombic position of the nearest box.</returns>
 	/// 
-	/// Returns the rhombic position of the nearest box from a given point in odd herring coordinates.
+	/// Returns the rhombic position of the nearest box from a given point in upwards herring coordinates.
 	public Vector3 NearestBoxR(Vector3 world) {
 		return CubicToRhombic(NearestBoxC(world));
 	}
@@ -734,7 +733,7 @@ public class GFHexGrid : GFLayeredGrid {
 	/// <param name="world">Point in world space.</param>
 	/// <returns>Cubic position of the nearest box.</returns>
 	/// 
-	/// Teturns the cubic position of the nearest box from a given point in odd herring coordinates.
+	/// Returns the cubic position of the nearest box from a given point in upwards herring coordinates.
 	public Vector4 NearestBoxC(Vector3 world) {
 		Vector4 cubic = WorldToCubic(world); // first to cubic space
 		Vector4 rounded = RoundCubic(cubic); // then the face
@@ -766,7 +765,7 @@ public class GFHexGrid : GFLayeredGrid {
 	/// <param name="world">Point in world space.</param>
 	/// <returns>Barycentric position of the nearest box.</returns>
 	/// 
-	/// Teturns the barycentric position of the nearest box from a given point in odd herring coordinates.
+	/// Returns the barycentric position of the nearest box from a given point in upwards herring coordinates.
 	private Vector4 NearestBoxB(Vector3 world) {
 		return CubicToBarycentric(NearestBoxC(world));
 	}
@@ -776,14 +775,13 @@ public class GFHexGrid : GFLayeredGrid {
 	#region Align Scale Methods
 	/// <summary>Fits a position vector into the grid.</summary>
 	/// <param name="pos">The position to align.</param>
-	/// <param name="scale">A simulated scale to decide how exactly to fit the poistion into the grid.</param>
+	/// <param name="scale">A simulated scale to decide how exactly to fit the position into the grid.</param>
 	/// <param name="lockAxis">Which axes should be ignored.</param>
 	/// <returns>The vector3.</returns>
 	/// 
-	/// Aligns a poistion vector to the grid by positioning it on the centre of the nearest face.
-	/// Please refer to the user manual for more information.
+	/// Aligns a poistion vector to the grid by positioning it on the centre of the nearest face. Please refer to the user manual for more information.
 	/// The parameter lockAxis makes the function not touch the corresponding coordinate.
-	public override Vector3 AlignVector3(Vector3 pos, Vector3 scale, GFBoolVector3 lockAxis) {
+	public override Vector3 AlignVector3(Vector3 pos, Vector3 scale, BoolVector3 lockAxis) {
 		Vector3 newPos = NearestFaceW(pos);
 		for (int i = 0; i < 3; i++) {
 			if (lockAxis[i]) {
@@ -800,7 +798,7 @@ public class GFHexGrid : GFLayeredGrid {
 	/// 
 	/// This method takes in a vector representing a size and scales it to the nearest multiple of the grid’s radius and depth.
 	/// The @c lockAxis parameter lets you ignore individual axes.
-	public override Vector3 ScaleVector3(Vector3 scl, GFBoolVector3 lockAxis) {
+	public override Vector3 ScaleVector3(Vector3 scl, BoolVector3 lockAxis) {
 		Vector3 spacing = new Vector3();
 		for (int i = 0; i < 2; i++) {
 			spacing[idxS[i]] = height;
@@ -835,31 +833,6 @@ public class GFHexGrid : GFLayeredGrid {
 	
 	#endregion
 
-	#region Render Methods
-	#region overload
-	public override void RenderGrid(Vector3 from, Vector3 to, GFColorVector3 colors, int width = 0, Camera cam = null, Transform camTransform = null) {
-		RenderGridRect(from, to, useSeparateRenderColor ? renderAxisColors : axisColors, width, cam, camTransform);
-	}
-
-	/// <summary>Currently the same as <see cref="RenderGrid"/>.</summary>
-	protected void RenderGridRect(int width = 0, Camera cam = null, Transform camTransform = null) {
-		RenderGridRect(-size, size, useSeparateRenderColor ? renderAxisColors : axisColors, width, cam, camTransform);
-	}
-	#endregion
-	
-	protected void RenderGridRect(Vector3 from, Vector3 to, GFColorVector3 colors, int width = 0, Camera cam = null, Transform camTransform = null) {
-		if (!renderGrid) {
-			return;
-		}
-		
-		if (!renderMaterial) {
-			renderMaterial = defaultRenderMaterial;
-		}
-		
-		RenderGridLines(colors, width, cam, camTransform);
-	}
-	#endregion
-	
 	#region Calculate draw points
 	#region helpers
 	/// <summary>Converts a cardinal direction to a corresponding world direction.</summary>
@@ -882,7 +855,7 @@ public class GFHexGrid : GFLayeredGrid {
 		case HexDirection.SE:
 			result[idxS[0]] =  1.0f / 3.0f;	result[idxS[1]] = -2.0f / 3.0f;	break;
 		}
-		return HerringOddToWorld(result) - origin;
+		return HerringUToWorld(result) - origin;
 	}
 
 
@@ -926,7 +899,7 @@ public class GFHexGrid : GFLayeredGrid {
 			drawPointsCountCompactRect(ref countX, ref countY, ref countZ, ref from, ref to);
 			break;
 		}
-		_drawPointsCountMustUpdate = false;
+		//_drawPointsCountMustUpdate = false;
 	}
 
 	/// @internal<summary>Counts the amount of draw points for rectangular style drawings.</summary>
@@ -1061,23 +1034,23 @@ public class GFHexGrid : GFLayeredGrid {
 
 		Vector3 hexColumn = Vector3.zero, hexRow, hexLayer;
 		hexColumn[idxS[0]] = minWidth; hexColumn[idxS[1]] = minHeight; hexColumn[idxS[2]] = minDepth;
-		hexColumn = HerringOddToWorld(hexColumn);
+		hexColumn = HerringUToWorld(hexColumn);
 
 		Vector3 origin  = lwMatrix.MultiplyPoint(Vector3.zero); // the local origin transformed to world space
 
-		Vector3 up      = Vector3.zero; up[idxS[1]]     = 1; up      = HerringOddToWorld(up     ) - origin;
-		Vector3 forward = Vector3.zero; forward[idx[2]] = 1; forward = HerringOddToWorld(forward) - origin;
+		Vector3 up      = Vector3.zero; up[idxS[1]]     = 1; up      = HerringUToWorld(up     ) - origin;
+		Vector3 forward = Vector3.zero; forward[idx[2]] = 1; forward = HerringUToWorld(forward) - origin;
 
 		Vector3[] right = new Vector3[2] {Vector3.zero, Vector3.zero};
-		right[0][idxS[0]] = 1; right[0][idxS[1]] = -1; right[0] = HerringOddToWorld(right[0]) - origin;
-		right[1][idxS[0]] = 1;                         right[1] = HerringOddToWorld(right[1]) - origin;
+		right[0][idxS[0]] = 1; right[0][idxS[1]] = -1; right[0] = HerringUToWorld(right[0]) - origin;
+		right[1][idxS[0]] = 1;                         right[1] = HerringUToWorld(right[1]) - origin;
 
 		Vector3 EE = cardinalToDirection(HexDirection.E , origin), NE = cardinalToDirection(HexDirection.NE, origin);
 		Vector3 NW = cardinalToDirection(HexDirection.NW, origin), WW = cardinalToDirection(HexDirection.W , origin);
 		Vector3 SW = cardinalToDirection(HexDirection.SW, origin), SE = cardinalToDirection(HexDirection.SE, origin);
 
-		Vector3 back  = Vector3.zero; back[ idxS[2]] = from[idxS[2]] - minDepth; back  = HerringOddToWorld(back ) - origin;
-		Vector3 front = Vector3.zero; front[idxS[2]] = to[  idxS[2]] - minDepth; front = HerringOddToWorld(front) - origin;
+		Vector3 back  = Vector3.zero; back[ idxS[2]] = from[idxS[2]] - minDepth; back  = HerringUToWorld(back ) - origin;
+		Vector3 front = Vector3.zero; front[idxS[2]] = to[  idxS[2]] - minDepth; front = HerringUToWorld(front) - origin;
 
 		while (i <= maxWidth) {
 			j = minHeight;
@@ -1213,6 +1186,33 @@ public class GFHexGrid : GFLayeredGrid {
 		}
 
 		return rounded;
+	}
+	#endregion
+
+	#region Legacy
+	[System.Obsolete("Deprecated, use `WorldToHerringU` instead")]
+	public Vector3 WorldToHerringOdd(Vector3 world) {
+		return WorldToHerringU(world);
+	}
+	[System.Obsolete("Deprecated, use `HerringUToWorld` instead")]
+	public Vector3 HerringOddToWorld(Vector3 herring) {
+		return HerringUToWorld(herring);
+	}
+	[System.Obsolete("Deprecated, use `HerringUToRhombic` instead")]
+	public Vector3 HerringOddToRhombic(Vector3 herring) {
+		return HerringUToRhombic(herring);
+	}
+	[System.Obsolete("Deprecated, use `HerringUToCubic` instead")]
+	public Vector4 HerringOddToCubic(Vector3 herring) {
+		return HerringUToCubic(herring);
+	}
+	[System.Obsolete("Deprecated, use `CubicToHerringU` instead")]
+	public Vector3 CubicToHerringOdd(Vector4 cubic) {
+		return CubicToHerringU(cubic);
+	}
+	[System.Obsolete("Deprecated, use `RhombicToHerringU` instead")]
+	public Vector3 RhombicToHerringOdd(Vector3 rhombic) {
+		return WorldToHerringU(rhombic);
 	}
 	#endregion
 }
