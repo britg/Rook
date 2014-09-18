@@ -8,7 +8,11 @@ public class PlayerMoveController : GameController {
     public float lineWidth;
     public Color lineColor;
     public float moveTime;
-    public int maxWaypoints;
+    public int maxWaypoints {
+		get {
+			return player.actionPoints.currentValue;
+		}
+	}
 
     VectorLine line;
     List<Vector3> waypoints;
@@ -35,6 +39,10 @@ public class PlayerMoveController : GameController {
         if (line == null) {
             CreateLine();
         }
+
+		if (waypoints.Count < 1) {
+			return;
+		}
 
         line.Resize(waypoints.Count + 1);
         line.points3[0] = transform.position;
@@ -69,15 +77,14 @@ public class PlayerMoveController : GameController {
             return;
         }
 
-        // First waypoint
-        if (waypoints.Count == 0) {
-            waypoints.Add(moveDestination);
+        if (waypoints.Count >= maxWaypoints) {
             Redraw();
             return;
         }
 
-        // In Combat, only one waypoint allowed
-        if (waypoints.Count >= maxWaypoints) {
+        // First waypoint
+        if (waypoints.Count == 0) {
+            waypoints.Add(moveDestination);
             Redraw();
             return;
         }
@@ -145,11 +152,11 @@ public class PlayerMoveController : GameController {
             "time", moveTime,
             "oncomplete", "NextMove"));
         currentMoveIndex++;
+		player.actionPoints.Decrement();
     }
 
     void FinishMove () {
         Reset();
-        EndPlayerTurn();
     }
 
 

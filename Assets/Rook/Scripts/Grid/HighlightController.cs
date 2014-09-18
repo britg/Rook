@@ -4,8 +4,14 @@ using ProBuilder2.Common;
 
 public class HighlightController : GameController {
 
-    Vector3 currentPosition;
 	TileHighlightView highlightView;
+
+    Vector3 currentPosition;
+	Vector3 gridPosition {
+		get {
+			return grid.NearestFaceW(currentPosition);
+		}
+	}
 
     public void CurrentPosition (Vector3 pos) {
         currentPosition = pos;
@@ -20,8 +26,6 @@ public class HighlightController : GameController {
     }
 
     void DrawHighlight () {
-		Vector3 pos = grid.NearestFaceHO(currentPosition);
-		Debug.Log(pos);
 //		highlightView.HighlightTiles();
     }
 

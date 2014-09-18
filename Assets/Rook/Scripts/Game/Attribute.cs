@@ -23,4 +23,12 @@ public class Attribute {
 		return Random.Range(minValue, maxValue);
 	}
 
+	public int Decrement (int amount) {
+		return SetValue (currentValue - amount);
+	}
+
+	public int Decrement () {
+		return Decrement(1);
+	}
+
 }
