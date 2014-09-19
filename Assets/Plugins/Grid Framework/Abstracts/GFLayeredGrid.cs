@@ -1,5 +1,5 @@
 using UnityEngine;
-using System.Collections;
+using GridFramework;
 
 /// <summary>The parent class for all layered grids.</summary>
 /// 

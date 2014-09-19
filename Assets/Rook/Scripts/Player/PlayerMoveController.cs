@@ -8,7 +8,11 @@ public class PlayerMoveController : GameController {
     public float lineWidth;
     public Color lineColor;
     public float moveTime;
-    public int maxWaypoints;
+    public int maxWaypoints {
+		get {
+			return player.actionPoints.currentValue;
+		}
+	}
 
     VectorLine line;
     List<Vector3> waypoints;
@@ -36,6 +40,10 @@ public class PlayerMoveController : GameController {
             CreateLine();
         }
 
+		if (waypoints.Count < 1) {
+			return;
+		}
+
         line.Resize(waypoints.Count + 1);
         line.points3[0] = transform.position;
 
@@ -54,6 +62,10 @@ public class PlayerMoveController : GameController {
     // Called from Player Mouse Move Controller FSM
     public void UpdateMoveDestination (Vector3 pos) {
         moveDestination = grid.NearestFaceW(pos);
+		UpdateWaypoints();
+	}
+
+	public void UpdateWaypoints () {
 
         // raycast to the move destination and see if anything
         // is in that hex
@@ -70,24 +82,24 @@ public class PlayerMoveController : GameController {
         }
 
         // First waypoint
-        if (waypoints.Count == 0) {
+        if (waypoints.Count == 0 && maxWaypoints > 0) {
             waypoints.Add(moveDestination);
             Redraw();
             return;
-        }
+        } 
 
-        // In Combat, only one waypoint allowed
-        if (waypoints.Count >= maxWaypoints) {
-            Redraw();
-            return;
-        }
-
-        // check if moveDestination is the same as the last waypoint
+		// check if moveDestination is the same as the last waypoint
         Vector3 lastWaypoint = waypoints[waypoints.Count - 1];
         if (moveDestination.Equals(lastWaypoint)) {
             Redraw();
             return;
         }
+
+        if (waypoints.Count >= maxWaypoints) {
+            Redraw();
+            return;
+        }
+
 
         Vector3 p;
         for (int i = 0; i < waypoints.Count; i++) {
@@ -145,11 +157,12 @@ public class PlayerMoveController : GameController {
             "time", moveTime,
             "oncomplete", "NextMove"));
         currentMoveIndex++;
+		player.actionPoints.Decrement();
     }
 
     void FinishMove () {
         Reset();
-        EndPlayerTurn();
+		NotificationCenter.PostNotification(this, Notifications.ActionFinished);
     }
 
 

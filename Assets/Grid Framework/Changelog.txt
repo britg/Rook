@@ -1,6 +1,21 @@
 /**
 @page changelog Changelog
 
+Version 1.5.x
+-------------
+
+###Version 1.5.0###
+Introducing shearing for rectangular grids.
+- New: Rectangular grids can now store a `shearing` field to distort them.
+- New: Custom `Vector6` class for storing the shearing.
+- API change: The odd herringbone coordinate system has been renamed to upwards herringbone. The corresponding methods use the `HerringU` pre- or suffix instead of `HerringOdd`; the old methods still work but are marked as depracated.
+- API change: The enumeration `GFAngleMode` has been renamed `AngleMode` and moved into the `GridFramework` namespace.
+- API change: The enumeration `GridPlane` has been renamed `Plane` and moved into the `GridFramework` namespace. It is no longer part of the `GFGrid` class.
+- API change: The class `GFColorVector3` has been renamed `ColorVector3` and moved into the `GridFramework.Vectors` namespace.
+- API change: The class `GFBoolVector3` has been renamed `BoolVector3` and moved into the `GridFramework.Vectors` namespace.
+- Enhanced: Vectrosity methods without parameters can now pick betweem size and custom range automatically.
+- Fixed: Vectrosity methods were broken in previous version.
+- Updated the documentation.
 
 Version 1.4.x
 -------------

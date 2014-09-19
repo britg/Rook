@@ -27,6 +27,10 @@ public class PlayerController : MonoBehaviour {
 
 	void OnPlayerTurn () {
 		DefaultMode();
+		RefillActionPoints();
 	}
 
+	void RefillActionPoints () {
+		player.actionPoints.currentValue = player.actionPoints.maxValue;
+	}
 }

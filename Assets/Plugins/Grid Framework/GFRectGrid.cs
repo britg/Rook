@@ -1,5 +1,6 @@
 using UnityEngine;
-using System.Collections;
+using GridFramework;
+using GridFramework.Vectors;
 
 /// <summary>A standard three-dimensional rectangular grid.</summary>
 /// 
@@ -12,7 +13,8 @@ public class GFRectGrid: GFGrid {
 
 	/// <summary>How large the grid boxes are.</summary>
 	/// <value>The spacing of the grid.</value>
-	/// How far apart the lines of the grid are. You can set each axis separately, but none may be less than 0.1, in order to prevent values that don't make any sense.
+	/// How far apart the lines of the grid are. You can set each axis separately, but none may be less than 0.1, in order
+	/// to prevent values that don't make any sense.
 	public Vector3 spacing {
 		get {return _spacing;}
 		set {
@@ -29,24 +31,46 @@ public class GFRectGrid: GFGrid {
 		}
 	}
 
+	[SerializeField]
+	public Vector6 _shearing = Vector6.zero;
+	/// <summary>How the axes are sheared.</summary>
+	/// <value>Shearing vector of the grid.</value>
+	/// How much the individual axes of the grid are skewed towards each other. For instance, this means the if _XY_ is set
+	/// to _2_, then for each point with grid coordinates _(x, y)_ will be mapped to _(x, y + 2x)_, while the uninvolved _Z_
+	/// coordinate remains the same. For more information refer to the manual.
+	public Vector6 shearing {
+		get {return _shearing;}
+		set {
+			if (value == _shearing) {
+				return;
+			}
+			//Debug.Log("ping");
+			_shearing = value;
+			_matricesMustUpdate = true;
+			_drawPointsMustUpdate = true;
+			//_drawPointsCountMustUpdate = true;
+			GridChanged();
+		}
+	}
+
 	#region Helper Values (read-only)
 	/// <summary>Direction along the X-axis of the grid in world space.</summary>
 	/// <value>Unit vector in grid scale along the grid's X-axis.</value>
 	/// 
 	/// The X-axis of the grid in world space. This is a shorthand writing for <c>spacing.x * transform.right</c>. The value is read-only.
-	public Vector3 right { get { return spacing.x * _Transform.right; } }
+	public Vector3 right {get{MatricesUpdate(); return _right;}}
 
 	/// <summary>Direction along the Y-axis of the grid in world space.</summary>
 	/// <value>Unit vector in grid scale along the grid's Y-axis.</value>
 	/// 
 	/// The Y-axis of the grid in world space. This is a shorthand writing for <c>spacing.y * transform.up</c>. The value is read-only.
-	public Vector3 up { get { return spacing.y * _Transform.up; } }
+	public Vector3 up {get{MatricesUpdate(); return _up;}}
 
 	/// <summary>Direction along the Z-axis of the grid in world space.</summary>
 	/// <value>Unit vector in grid scale along the grid's Z-axis.</value>
 	/// 
 	/// The Z-axis of the grid in world space. This is a shorthand writing for <c>spacing.z * transform.forward</c>. The value is read-only.
-	public Vector3 forward { get { return spacing.z * _Transform.forward; } }
+	public Vector3 forward {get{MatricesUpdate(); return _forward;}}
 	#endregion
 	#endregion
 
@@ -55,14 +79,33 @@ public class GFRectGrid: GFGrid {
 	private Matrix4x4 _gwMatrix = Matrix4x4.identity;
 	/// <summary>Matrix that converts from world- to grid space.</summary>
 	private Matrix4x4 _wgMatrix = Matrix4x4.identity;
+
+	private Vector3 _right, _up, _forward;
 	
 	/// <summary>Updates the coordinate conversion matrices of the grid.</summary>
 	/// <para>After updating the matrices the <c>_matricesMustUpdate</c> is set back to <c>false</c>.</para>
 	protected override void MatricesUpdate() {
 		if (_TransformNeedsUpdate() || _matricesMustUpdate) {
-			_gwMatrix.SetTRS(_Transform.position, _Transform.rotation, spacing);
-			_gwMatrix *= Matrix4x4.TRS(originOffset, Quaternion.identity, Vector3.one);
+			Matrix4x4 shearMatrix = new Matrix4x4();
+			shearMatrix.SetRow(0, new Vector4(1          , shearing.yx, shearing.zx, 0));
+			shearMatrix.SetRow(1, new Vector4(shearing.xy, 1          , shearing.zy, 0));
+			shearMatrix.SetRow(2, new Vector4(shearing.xz, shearing.yz, 1          , 0));
+			shearMatrix.SetRow(3, new Vector4(0          , 0          , 0          , 1));
+
+			//Matrix4x4 scleM = Matrix4x4.TRS(Vector3.zero, Quaternion.identity, spacing);
+			//Matrix4x4 tranM = Matrix4x4.TRS(_Transform.position, Quaternion.identity, Vector3.one);
+			//Matrix4x4 offsM = Matrix4x4.TRS(originOffset, Quaternion.identity, Vector3.one);
+			//Matrix4x4 rotaM = Matrix4x4.TRS(Vector3.zero, _Transform.rotation, Vector3.one);
+
+			//_gwMatrix = tranM * rotaM * shearMatrix * offsM * scleM; // <-- This is the right order, from right to left
+			_gwMatrix = Matrix4x4.TRS(_Transform.position, _Transform.rotation, Vector3.one) * shearMatrix * Matrix4x4.TRS(originOffset, Quaternion.identity, spacing);
 			_wgMatrix = _gwMatrix.inverse;
+
+			Vector3 origin = _gwMatrix.MultiplyPoint3x4(Vector3.zero);
+			_right   = _gwMatrix.MultiplyPoint3x4(Vector3.right  ) - origin;
+			_up      = _gwMatrix.MultiplyPoint3x4(Vector3.up     ) - origin;
+			_forward = _gwMatrix.MultiplyPoint3x4(Vector3.forward) - origin;
+
 			_matricesMustUpdate = false;
 		}
 	}
@@ -115,20 +158,8 @@ public class GFRectGrid: GFGrid {
 	/// Returns the world position of the nearest vertex from a given point in world space. If <c>doDebug</c> is set a small gizmo sphere will be drawn at the vertex
 	/// position.
 	public override Vector3 NearestVertexW(Vector3 worldPoint, bool doDebug) {
-		//convert fromPoint to grid coordinates first
-		Vector3 toPoint = WorldToGrid(worldPoint);
-		
-		// each coordinate has to be set to a multiple of spacing
-		for (int i = 0; i<=2; i++) {
-			toPoint[i] = Mathf.Round(toPoint[i]);
-		}
-		
-		//back to World coordinates
-		toPoint = GridToWorld(toPoint);
-		
 		if (doDebug) {
 			Gizmos.DrawSphere(GridToWorld(NearestVertexG(worldPoint)), 0.3f);
-			//Gizmos.DrawSphere(toPoint, 0.3f);
 		}
 		//return toPoint;
 		return GridToWorld(NearestVertexG(worldPoint));
@@ -247,7 +278,7 @@ public class GFRectGrid: GFGrid {
 	/// This method aligns a point to the grid. The *scale* parameter is needed to simulate the “size” of point, which influences the resulting position like
 	/// the scale of a Transform would do above. By default it’s set to one on all axes, placing the point at the centre of a box. If a component of @c scale is odd that
 	/// component of the vector will be placed between edges, otherwise it will be placed on the nearest edge. The <c>lockAxis</c> parameter lets you ignore individual axes.
-	public override Vector3 AlignVector3(Vector3 pos, Vector3 scale, GFBoolVector3 ignoreAxis) {
+	public override Vector3 AlignVector3(Vector3 pos, Vector3 scale, BoolVector3 ignoreAxis) {
 		Vector3 currentPosition = WorldToGrid(pos);
 		Vector3 newPositionB = WorldToGrid(NearestBoxW(pos));
 		Vector3 newPositionV = WorldToGrid(NearestVertexW(pos));
@@ -274,7 +305,7 @@ public class GFRectGrid: GFGrid {
 	/// <param name="ignoreAxis">The axes to ignore.</param>
 	/// 
 	/// Scales a size to the nearest multiple of the grid’s spacing. The parameter *ignoreAxis* makes the function not touch the corresponding coordinate.
-	public override Vector3 ScaleVector3(Vector3 scl, GFBoolVector3 ignoreAxis) {
+	public override Vector3 ScaleVector3(Vector3 scl, BoolVector3 ignoreAxis) {
 		Vector3 relScale = scl.GFModulo3(spacing);
 		Vector3 newScale = Vector3.zero;
 		
@@ -282,10 +313,8 @@ public class GFRectGrid: GFGrid {
 			newScale[i] = scl[i];
 			
 			if (relScale[i] >= 0.5f * spacing[i]) {
-//				Debug.Log ("Grow by " + (spacing.x - relScale.x));
 				newScale[i] = newScale[i] - relScale[i] + spacing[i];
 			} else {
-//				Debug.Log ("Shrink by " + relativeScale.x);
 				newScale[i] = newScale[i] - relScale[i];
 				//if we went too far default to the spacing
 				if (newScale[i] < spacing[i]) {
@@ -323,6 +352,7 @@ public class GFRectGrid: GFGrid {
 	protected override void drawPointsCalculate(ref Vector3[][][] points, ref int[] amount, Vector3 from, Vector3 to) {
 		int maxWidth = Mathf.CeilToInt(from.x), maxHeight = Mathf.CeilToInt(from.y), maxDepth = Mathf.CeilToInt(from.z);
 
+		// Amount of lines perpendicular to each axis
 		int[] lines = new int[3] {
 			Mathf.FloorToInt(to.x) - maxWidth  + 1,
 			Mathf.FloorToInt(to.y) - maxHeight + 1,
@@ -338,13 +368,13 @@ public class GFRectGrid: GFGrid {
 		
 		//this will be added to each first point in a pair
 		Vector3[] endDirection = new Vector3[3]{
-			_Transform.right   * (to.x - from.x) * spacing.x, 
-			_Transform.up      * (to.y - from.y) * spacing.y,
-			_Transform.forward * (to.z - from.z) * spacing.z
+			GridToWorld(new Vector3(to.x, maxHeight, maxDepth)) - startPoint[0],
+			GridToWorld(new Vector3(maxWidth, to.y, maxDepth)) - startPoint[1],
+			GridToWorld(new Vector3(maxWidth, maxHeight, to.z)) - startPoint[2]
 		};
-		
+
 		//a multiple of this will be added to the starting point for iteration
-		Vector3[] iterationVector = new Vector3[3] {_Transform.right * spacing.x, _Transform.up * spacing.y, _Transform.forward * spacing.z};
+		Vector3[] iterationVector = new Vector3[3] {right, up, forward};
 		
 		// assemble the array
 		for (int i = 0; i < 3; ++i) {			

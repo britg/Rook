@@ -24,6 +24,7 @@ public class PlayerRotationController : GameController {
     }
 
     public void RotateButtonPressed () {
+		Debug.Log ("Rotate called");
         ToggleRotateMode();
     }
 
@@ -31,9 +32,20 @@ public class PlayerRotationController : GameController {
         if (isRotating) {
 			playerController.EnterMode(PlayerControlMode.Move);
         } else {
-			playerController.EnterMode(PlayerControlMode.Rotate);
+			if (player.actionPoints.currentValue > 0) {
+				playerController.EnterMode(PlayerControlMode.Rotate);
+			}
         }
     }
+
+	public void CommitRotate () {
+		Debug.Log ("Commit called");
+		if (isRotating) {
+			playerController.EnterMode(PlayerControlMode.Move);
+			player.actionPoints.Decrement();
+			NotificationCenter.PostNotification(this, Notifications.ActionFinished);
+		}
+	}
 
     public void SetAimPoint (Vector3 _aimPoint) {
         aimPoint = _aimPoint;
