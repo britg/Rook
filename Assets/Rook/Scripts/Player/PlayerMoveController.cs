@@ -62,6 +62,10 @@ public class PlayerMoveController : GameController {
     // Called from Player Mouse Move Controller FSM
     public void UpdateMoveDestination (Vector3 pos) {
         moveDestination = grid.NearestFaceW(pos);
+		UpdateWaypoints();
+	}
+
+	public void UpdateWaypoints () {
 
         // raycast to the move destination and see if anything
         // is in that hex
