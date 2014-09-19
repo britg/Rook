@@ -77,24 +77,25 @@ public class PlayerMoveController : GameController {
             return;
         }
 
-        if (waypoints.Count >= maxWaypoints) {
-            Redraw();
-            return;
-        }
-
         // First waypoint
-        if (waypoints.Count == 0) {
+        if (waypoints.Count == 0 && maxWaypoints > 0) {
             waypoints.Add(moveDestination);
             Redraw();
             return;
-        }
+        } 
 
-        // check if moveDestination is the same as the last waypoint
+		// check if moveDestination is the same as the last waypoint
         Vector3 lastWaypoint = waypoints[waypoints.Count - 1];
         if (moveDestination.Equals(lastWaypoint)) {
             Redraw();
             return;
         }
+
+        if (waypoints.Count >= maxWaypoints) {
+            Redraw();
+            return;
+        }
+
 
         Vector3 p;
         for (int i = 0; i < waypoints.Count; i++) {
