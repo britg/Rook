@@ -9,7 +9,7 @@ public class PlayerActionController : GameController {
 		}
 	}
 
-	Action currentAction;
+	PlayerAction currentAction;
 
 	// Use this for initialization
 	void Start () {

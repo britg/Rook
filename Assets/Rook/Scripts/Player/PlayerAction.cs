@@ -2,7 +2,7 @@
 using System.Collections;
 
 [System.Serializable]
-public class Action  {
+public class PlayerAction  {
 
 	public string name;
 	public TileSelection tileSelection;

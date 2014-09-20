@@ -5,6 +5,9 @@ using Vectrosity;
 
 public class PlayerMoveController : GameController {
 
+    PlayerMove playerMove;
+    PlayerMoveView playerMoveView;
+
     public float lineWidth;
     public Color lineColor;
     public float moveTime;
@@ -20,6 +23,8 @@ public class PlayerMoveController : GameController {
     int currentMoveIndex = 0;
 
     void Start () {
+        playerMove = new PlayerMove(player);
+        playerMoveView = GetComponent<PlayerMoveView>();
         waypoints = new List<Vector3>();
     }
 

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Attribute {
+public class CharacterAttribute {
 
 	public string name;
 
@@ -9,7 +9,7 @@ public class Attribute {
 	public int minValue {get; set; }
 	public int currentValue { get; set; }
 
-	public Attribute (int seedValue) {
+	public CharacterAttribute (int seedValue) {
 		maxValue = seedValue;
 		SetValue(seedValue);
 	}

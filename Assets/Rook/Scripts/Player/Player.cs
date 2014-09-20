@@ -6,12 +6,12 @@ public class Player {
 
     public PlayerControlMode controlMode;
 
-	public Attribute hitPoints = new Attribute(seedValue: 100);
-	public Attribute actionPoints = new Attribute(seedValue: 5);
+	public CharacterAttribute hitPoints = new CharacterAttribute(seedValue: 100);
+	public CharacterAttribute actionPoints = new CharacterAttribute(seedValue: 5);
 
-	public Action warriorAction;
-	public Action thiefAction;
-	public Action mageAction;
+	public PlayerAction warriorAction;
+	public PlayerAction thiefAction;
+	public PlayerAction mageAction;
 
     public bool isRotating {
         get {
