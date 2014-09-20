@@ -4,7 +4,6 @@ using UnityEditor;
 using System.Collections;
 using ProBuilder2.Common;
 using ProBuilder2.Math;
-using ProBuilder2.EditorEnum;
 
 public class AutoNodraw : EditorWindow
 {
@@ -12,17 +11,19 @@ public class AutoNodraw : EditorWindow
 	const float COLLISION_DISTANCE = .02f;
 	float userSetCollisionDistance = .02f;
 	public static Material nodrawMat;
-	pb_Editor editorRef;
+
+	static pb_Editor editor { get { return pb_Editor.instance; } }
+
+	[MenuItem("Tools/" + pb_Constant.PRODUCT_NAME + "/Tools/Auto Nodraw Tool", true, pb_Constant.MENU_TOOLS)]
+	public static bool VerifyOpenAuotNdorwa()
+	{
+		return pb_Editor.instance != null;
+	}
 
 	[MenuItem("Tools/" + pb_Constant.PRODUCT_NAME + "/Tools/Auto Nodraw Tool", false, pb_Constant.MENU_TOOLS)]
 	public static void AutoNodrawWindow()
 	{
 		EditorWindow.GetWindow(typeof(AutoNodraw), true, "NoDraw Tool");
-	}
-
-	public void OnEnable()
-	{
-		editorRef = pb_Editor.instance;
 	}
 
 	bool autoUpate = true;
@@ -35,19 +36,19 @@ public class AutoNodraw : EditorWindow
 		autoUpate = EditorGUILayout.Toggle("Auto Update Selection", autoUpate);
 
 		if(autoUpate && GUI.changed)
-			SelectHiddenFaces(editorRef, userSetCollisionDistance);
+			SelectHiddenFaces(editor, userSetCollisionDistance);
 
 		if(GUILayout.Button("Apply NoDraw"))
 		{
-			pb_Texture_Editor.ApplyNoDraw(editorRef.selection, pb_Editor.show_NoDraw);
-			editorRef.ClearFaceSelection();
+			pb_Material_Editor.ApplyMaterial(editor.selection, pb_Constant.NoDrawMaterial);
+			editor.ClearFaceSelection();
 		}
 	}
 
 	[MenuItem("Tools/" + pb_Constant.PRODUCT_NAME + "/Actions/Select Hidden Faces")]
 	public static void FindHiddenFaces()
 	{
-		SelectHiddenFaces(pb_Editor.instance, COLLISION_DISTANCE);
+		SelectHiddenFaces( editor, COLLISION_DISTANCE);
 	}
 
 	public static void SelectHiddenFaces(pb_Editor editor, float collision_distance)
@@ -71,13 +72,14 @@ public class AutoNodraw : EditorWindow
 		foreach(pb_Object pb in pbs)
 		{
 			// Ignore if it isn't a detail or occluder
-			if(pb.entity.entityType != EntityType.Detail && pb.entity.entityType != EntityType.Occluder)
+			if(pb.GetComponent<pb_Entity>().entityType != EntityType.Detail && pb.GetComponent<pb_Entity>().entityType != EntityType.Occluder)
 				continue;	
 
 			bool addToSelection = false;
 
-			foreach(pb_Face q in pb.faces)
+			for(int i = 0; i < pb.faces.Length; i++)
 			{
+				pb_Face q = pb.faces[i];
 				if(HiddenFace(pb, q, collision_distance))
 				{
 					// If a hidden face is found, set material to NoDraw
@@ -87,7 +89,7 @@ public class AutoNodraw : EditorWindow
 					addToSelection = true;
 
 					// Add hit face to SelectedFaces
-					pb.AddToFaceSelection(q);
+					pb.AddToFaceSelection(i);
 				}
 
 			}

@@ -155,12 +155,11 @@ public class RuntimeEdit : MonoBehaviour
 					}
 
 					Vector3 localNormal = pb_Math.Normal(currentSelection.pb.GetVertices(currentSelection.face.distinctIndices));
-					Vector3 nrml = currentSelection.pb.transform.TransformDirection(localNormal);
 					
 					if(Input.GetKey(KeyCode.LeftShift))
-						currentSelection.pb.TranslateVertices( currentSelection.face.distinctIndices, nrml.normalized * -.5f );
+						currentSelection.pb.TranslateVertices( currentSelection.face.distinctIndices, localNormal.normalized * -.5f );
 					else
-						currentSelection.pb.TranslateVertices( currentSelection.face.distinctIndices, nrml.normalized * .5f );
+						currentSelection.pb.TranslateVertices( currentSelection.face.distinctIndices, localNormal.normalized * .5f );
 
 					currentSelection.pb.Refresh();	// Refresh will update the Collision mesh volume, face UVs as applicatble, and normal information.
 

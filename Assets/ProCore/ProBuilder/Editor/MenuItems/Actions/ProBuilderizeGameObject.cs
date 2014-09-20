@@ -9,6 +9,13 @@ namespace ProBuilder2.Actions
 {
 public class ProBuilderizeMesh : Editor
 {
+	[MenuItem("Tools/" + pb_Constant.PRODUCT_NAME + "/Actions/ProBuilderize Selection", true, pb_Constant.MENU_ACTIONS + 1)]
+	[MenuItem("Tools/" + pb_Constant.PRODUCT_NAME + "/Actions/ProBuilderize Selection (Preserve Faces)", true, pb_Constant.MENU_ACTIONS + 2)]
+	public static bool VerifyProBuilderize()
+	{
+		return Selection.transforms.Length - pbUtil.GetComponents<pb_Object>(Selection.transforms).Length > 0;
+	}	
+
 	[MenuItem("Tools/" + pb_Constant.PRODUCT_NAME + "/Actions/ProBuilderize Selection", false, pb_Constant.MENU_ACTIONS + 1)]
 	public static void MenuProBuilderizeTris()
 	{
@@ -100,20 +107,15 @@ public class ProBuilderizeMesh : Editor
 							faceTris,
 							t.GetComponent<MeshRenderer>().sharedMaterials[n],
 							new pb_UV(),
-							0,	// smoothing group
-							-1,	// texture group
-							-1,	// element group
+							0,		// smoothing group
+							-1,		// texture group
+							-1,		// element group
+							false, 	// manualUV 
 							Color.white
 						));					
 				}
 			}
 		}
-
-#if UNITY_3_0 || UNITY_3_0_0 || UNITY_3_1 || UNITY_3_2 || UNITY_3_3 || UNITY_3_4 || UNITY_3_5	
-		t.gameObject.active = false;
-#else
-		t.gameObject.SetActive(false);
-#endif
 
 		GameObject go = (GameObject)GameObject.Instantiate(t.gameObject);
 		go.GetComponent<MeshFilter>().sharedMesh = null;
@@ -121,7 +123,7 @@ public class ProBuilderizeMesh : Editor
 		pb_Object pb = go.AddComponent<pb_Object>();
 		pb.GeometryWithVerticesFaces(verts.ToArray(), faces.ToArray());
 
-		pb.SetName("FrankenMesh");
+		pb.SetName(t.name);
 		
 		pb_Editor_Utility.SetEntityType(EntityType.Detail, pb.gameObject);
 		
@@ -130,6 +132,15 @@ public class ProBuilderizeMesh : Editor
 		go.transform.localScale = t.localScale;
 		
 		pb.FreezeScaleTransform();
+
+#if UNITY_3_0 || UNITY_3_0_0 || UNITY_3_1 || UNITY_3_2 || UNITY_3_3 || UNITY_3_4 || UNITY_3_5	
+		t.gameObject.active = false;
+#else
+		t.gameObject.SetActive(false);
+#endif
+
+
+
 		return pb;
 	}
 }

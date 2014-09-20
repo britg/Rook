@@ -13,6 +13,12 @@ namespace ProBuilder2.Actions
 {
 	public class MakeAsset : Editor
 	{
+		[MenuItem("Tools/" + pb_Constant.PRODUCT_NAME + "/Actions/Make Asset", true, 0)]
+		public static bool VerifyMakeAsset()
+		{
+			return pbUtil.GetComponents<pb_Object>(Selection.transforms).Length > 0;
+		}
+
 		[MenuItem("Tools/" + pb_Constant.PRODUCT_NAME + "/Actions/Make Asset")]
 		public static void MenuMakeAsset()
 		{

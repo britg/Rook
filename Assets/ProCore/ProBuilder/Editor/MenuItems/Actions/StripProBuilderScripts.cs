@@ -20,6 +20,12 @@ namespace ProBuilder2.Actions
 			Strip(all);
 		}
 
+		[MenuItem("Tools/" + pb_Constant.PRODUCT_NAME + "/Actions/Strip ProBuilder Scripts in Selection", true, 0)]
+		public static bool VerifyStripSelection()
+		{
+			return pbUtil.GetComponents<pb_Object>(Selection.transforms).Length > 0;
+		}
+
 		[MenuItem("Tools/" + pb_Constant.PRODUCT_NAME + "/Actions/Strip ProBuilder Scripts in Selection")]
 		public static void StripAllSelected()
 		{

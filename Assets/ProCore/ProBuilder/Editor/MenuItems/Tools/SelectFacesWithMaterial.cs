@@ -3,12 +3,17 @@ using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
 using ProBuilder2.Common;
-using ProBuilder2.EditorEnum;
 
 // namespace ProBuilder2.Actions
 // {
 	public class SelectFacesWithMaterial : EditorWindow
 	{
+		[MenuItem("Tools/" + pb_Constant.PRODUCT_NAME + "/Tools/Replace Faces with Material", true, pb_Constant.MENU_TOOLS)]
+		public static bool VerifyOpenSelectFaces()
+		{
+			return pb_Editor.instance != null;
+		}
+
 		[MenuItem("Tools/" + pb_Constant.PRODUCT_NAME + "/Tools/Replace Faces with Material", false, pb_Constant.MENU_TOOLS)]
 		public static void SelectFacesWithMat()
 		{
@@ -82,13 +87,13 @@ using ProBuilder2.EditorEnum;
 			{
 				bool addToSelection = false;
 
-				foreach(pb_Face f in pb.faces)
+				for(int i = 0; i < pb.faces.Length; i++)
 				{
-					if(f.material == mat)
+					if(pb.faces[i].material == mat)
 					{
 
 						addToSelection = true;
-						pb.AddToFaceSelection(f);
+						pb.AddToFaceSelection(i);
 					}
 				}
 
@@ -109,13 +114,13 @@ using ProBuilder2.EditorEnum;
 			{
 				bool addToSelection = false;
 
-				foreach(pb_Face f in pb.faces)
+				for(int f = 0; f < pb.faces.Length; f++)
 				{
-					if(f.material == mat)
+					if(pb.faces[f].material == mat)
 					{
 						addToSelection = true;
 						
-						f.SetMaterial(rmat);
+						pb.faces[f].SetMaterial(rmat);
 
 						pb.AddToFaceSelection(f);
 					}

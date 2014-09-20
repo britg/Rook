@@ -11,47 +11,27 @@
 using UnityEngine;
 using UnityEditor;
 using System.Collections;
-using ProBuilder2.EditorEnum;
 using ProBuilder2.MeshOperations;
 using ProBuilder2.Common;
 
+/**
+ * This probably doesn't need to exist anymore...
+ */
 namespace ProBuilder2.Actions
 {
-
-public class Bridge : Editor
-{
-	// [MenuItem("Tools/" + pb_Constant.PRODUCT_NAME + "/Geometry/Bridge Edges &b", true, pb_Constant.MENU_GEOMETRY + pb_Constant.MENU_GEOMETRY_EDGE)]
-	// public static bool VerifyEdgeMenuItem()
-	// {
-	// 	return pb_Editor.instanceIfExists != null && pb_Editor.instanceIfExists.selectionMode == SelectMode.Edge;
-	// }
-	
-	[MenuItem("Tools/" + pb_Constant.PRODUCT_NAME + "/Geometry/Bridge Edges &b", false, pb_Constant.MENU_GEOMETRY + pb_Constant.MENU_GEOMETRY_EDGE)]
-	public static void BridgeEdges()
+	public class Bridge : Editor
 	{
-		pbUndo.RecordObjects( pbUtil.GetComponents<pb_Object>(Selection.transforms), "Bridge Edges");
-
-		bool success = false;
-		bool limitToPerimeterEdges = pb_Preferences_Internal.GetBool(pb_Constant.pbPerimeterEdgeBridgeOnly);
-		foreach(pb_Object pb in pbUtil.GetComponents<pb_Object>(Selection.transforms))
+		[MenuItem("Tools/" + pb_Constant.PRODUCT_NAME + "/Geometry/Bridge Edges &b", true, pb_Constant.MENU_GEOMETRY + pb_Constant.MENU_GEOMETRY_EDGE)]
+		public static bool VerifyBridgeEdges()
 		{
-			if(pb.SelectedEdges.Length == 2)
-				if(pb.Bridge(pb.SelectedEdges[0], pb.SelectedEdges[1], limitToPerimeterEdges))
-				{
-					success = true;
-					pb.GenerateUV2(true);
-					pb.Refresh();
-				}
+			return pb_Editor.instance != null && pb_Editor.instance.selectedEdgeCount == 2;
 		}
 
-		if(success)
+		[MenuItem("Tools/" + pb_Constant.PRODUCT_NAME + "/Geometry/Bridge Edges &b", false, pb_Constant.MENU_GEOMETRY + pb_Constant.MENU_GEOMETRY_EDGE)]
+		public static void BridgeEdges()
 		{
-			pb_Editor.instance.UpdateSelection();
-			pb_Editor_Utility.ShowNotification("Bridge Edges", "");
+			pb_Menu_Commands.MenuBridgeEdges(pbUtil.GetComponents<pb_Object>(Selection.transforms));
 		}
-		
-		EditorWindow.FocusWindowIfItsOpen(typeof(SceneView));
 	}
-}
 }
 #endif

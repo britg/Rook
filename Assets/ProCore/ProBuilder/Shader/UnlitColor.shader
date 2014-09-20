@@ -10,12 +10,11 @@ Shader "Hidden/ProBuilder/UnlitColor"
 	{
 		Lighting Off
 		ZWrite On
-		Cull Back
+		Cull Off
 		Blend SrcAlpha OneMinusSrcAlpha
-		Offset 0, -1
-	//	AlphaTest Greater 0.001
+		Offset -1, -1
 		Fog { Mode Off }
-		Tags {"Queue"="Transparent" }
+		Tags {"Queue"="Transparent+1" }
 
 		SubShader
 		{
