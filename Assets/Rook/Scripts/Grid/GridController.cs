@@ -26,7 +26,6 @@ public class GridController : GameController {
 
     public void HighlightCellAt (Vector3 point) {
         point.y = transform.position.y;
-        Debug.Log("highlighting cell at " + point);
         FlatHexPoint gridPoint = map[point];
         TileCell cell = grid[gridPoint];
 
@@ -37,4 +36,13 @@ public class GridController : GameController {
         currentCell = cell;
         currentCell.Color = highlightColor;
     }
+
+    public Vector3 NearestCellCenter (Vector3 worldPoint) {
+        FlatHexPoint gridPoint = map[worldPoint];
+        TileCell cell = grid[gridPoint];
+        return cell.Center;
+    }
+}
+namespace System.Runtime.CompilerServices {
+    public class ExtensionAttribute : Attribute { }
 }

@@ -53,13 +53,23 @@ public class GameController : MonoBehaviour {
         }
     }
 
-    GFHexGrid _grid;
-    public GFHexGrid grid {
+    //GFHexGrid _grid;
+    //public GFHexGrid grid {
+    //    get {
+    //        if (_grid == null) {
+    //            _grid = GameObject.Find("Hex Grid").GetComponent<GFHexGrid>();
+    //        }
+    //        return _grid;
+    //    }
+    //}
+
+    GridController _gridController;
+    public GridController gridController {
         get {
-            if (_grid == null) {
-                _grid = GameObject.Find("Hex Grid").GetComponent<GFHexGrid>();
+            if (_gridController == null) {
+                _gridController = GameObject.Find("Grid").GetComponent<GridController>();
             }
-            return _grid;
+            return _gridController;
         }
     }
 
@@ -67,7 +77,7 @@ public class GameController : MonoBehaviour {
 	public TileSelectionController tileSelectionController {
 		get {
 			if (_tileSelectionController == null) {
-				_tileSelectionController = grid.GetComponent<TileSelectionController>();
+				_tileSelectionController = GameObject.Find("Grid").GetComponent<TileSelectionController>();
 			}
 			return _tileSelectionController;
 		}
@@ -87,8 +97,8 @@ public class GameController : MonoBehaviour {
     }
 
     protected void SnapToGrid () {
-        Vector3 nearestGridPos = grid.NearestFaceW(transform.position);
-        transform.position = nearestGridPos;
+        //Vector3 nearestGridPos = grid.NearestFaceW(transform.position);
+        transform.position = gridController.NearestCellCenter(transform.position);
     }
 
     protected void EndPlayerTurn () {

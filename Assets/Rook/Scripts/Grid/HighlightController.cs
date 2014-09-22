@@ -9,7 +9,7 @@ public class HighlightController : GameController {
     Vector3 currentPosition;
 	Vector3 gridPosition {
 		get {
-			return grid.NearestFaceW(currentPosition);
+			return gridController.NearestCellCenter(currentPosition);
 		}
 	}
 
@@ -27,10 +27,6 @@ public class HighlightController : GameController {
 
     void DrawHighlight () {
 //		highlightView.HighlightTiles();
-    }
-
-    Vector3 GridPosition () {
-        return grid.NearestFaceW(currentPosition);
     }
 
 }

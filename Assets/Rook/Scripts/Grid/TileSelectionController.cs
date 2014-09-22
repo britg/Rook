@@ -5,8 +5,6 @@ public class TileSelectionController : GameController {
 
 	public delegate void SelectionHandler(Vector2 selection);
 
-	public GFHexGrid grid;
-
 	SelectionHandler handler;
 	Vector2 selectedGridPoint;
 

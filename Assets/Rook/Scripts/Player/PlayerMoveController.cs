@@ -19,6 +19,16 @@ public class PlayerMoveController : GameController {
 
     VectorLine line;
     List<Vector3> waypoints;
+    Vector3 lastWaypoint {
+        get {
+            if (waypoints.Count > 0) {
+                return waypoints[waypoints.Count - 1];
+            } else {
+                Debug.Log("last waypoint is player's position");
+                return transform.position;
+            }
+        }
+    }
     Vector3 moveDestination;
     int currentMoveIndex = 0;
 
@@ -66,7 +76,7 @@ public class PlayerMoveController : GameController {
 
     // Called from Player Mouse Move Controller FSM
     public void UpdateMoveDestination (Vector3 pos) {
-        moveDestination = grid.NearestFaceW(pos);
+        moveDestination = gridController.NearestCellCenter(pos);
 		UpdateWaypoints();
 	}
 
@@ -75,9 +85,9 @@ public class PlayerMoveController : GameController {
         // raycast to the move destination and see if anything
         // is in that hex
         if (DestinationOccupied()) {
+            Debug.Log("Destination occupied");
             return;
         }
-
 
         moveDestination.y = transform.position.y;
 
@@ -94,7 +104,6 @@ public class PlayerMoveController : GameController {
         } 
 
 		// check if moveDestination is the same as the last waypoint
-        Vector3 lastWaypoint = waypoints[waypoints.Count - 1];
         if (moveDestination.Equals(lastWaypoint)) {
             Redraw();
             return;
@@ -122,13 +131,14 @@ public class PlayerMoveController : GameController {
 
     bool DestinationOccupied () {
         float sphereRadius = 0.5f;
+
         // get direction to move destination
-        Vector3 start = transform.position;
+        Vector3 start = lastWaypoint; 
         start.y = sphereRadius;
-        Vector3 direction = moveDestination - transform.position; 
+        Vector3 direction = moveDestination - start;
 
         // get distance to move destination
-        float dist = Vector3.Distance(transform.position, moveDestination);
+        float dist = Vector3.Distance(start, moveDestination);
         RaycastHit[] hits = Physics.SphereCastAll(start, sphereRadius, direction, dist);
         Debug.DrawRay(start, direction);
         foreach (RaycastHit hit in hits) {
@@ -141,7 +151,7 @@ public class PlayerMoveController : GameController {
     }
 
     bool BlocksDestination (GameObject go) {
-        if (go.tag == "Player" || go.tag == "Floor") {
+        if (go.tag == "Player" || go.tag == "Grid") {
             return false;
         }
         return true;

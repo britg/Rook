@@ -83,7 +83,6 @@ MonoBehaviour:
       y: 2
     _smoothingGroup: 0
     _uv:
-      projectionAxis: 3
       useWorldSpace: 0
       flipU: 0
       flipV: 0
@@ -93,7 +92,8 @@ MonoBehaviour:
       offset: {x: 0, y: 0}
       rotation: 0
       justify: 5
-      projectionValue: {x: 0, y: 0, z: 0}
+      localPivot: {x: .50000006, y: .0250000004}
+      localSize: {x: 1.00000012, y: .0500000007}
     _mat: {fileID: 2100000, guid: 55296d1b6ee54e14e8eb4648d4b448ee, type: 2}
     _colors:
     - serializedVersion: 2
@@ -124,7 +124,6 @@ MonoBehaviour:
       y: 6
     _smoothingGroup: 0
     _uv:
-      projectionAxis: 3
       useWorldSpace: 0
       flipU: 0
       flipV: 0
@@ -134,7 +133,8 @@ MonoBehaviour:
       offset: {x: 0, y: 0}
       rotation: 0
       justify: 5
-      projectionValue: {x: 0, y: 0, z: 0}
+      localPivot: {x: .5, y: .0250000004}
+      localSize: {x: 1, y: .0500000007}
     _mat: {fileID: 2100000, guid: 55296d1b6ee54e14e8eb4648d4b448ee, type: 2}
     _colors:
     - serializedVersion: 2
@@ -165,7 +165,6 @@ MonoBehaviour:
       y: 10
     _smoothingGroup: 0
     _uv:
-      projectionAxis: 3
       useWorldSpace: 0
       flipU: 0
       flipV: 0
@@ -175,7 +174,8 @@ MonoBehaviour:
       offset: {x: 0, y: 0}
       rotation: 0
       justify: 5
-      projectionValue: {x: 0, y: 0, z: 0}
+      localPivot: {x: .5, y: .0250000004}
+      localSize: {x: 1, y: .0500000007}
     _mat: {fileID: 2100000, guid: 55296d1b6ee54e14e8eb4648d4b448ee, type: 2}
     _colors:
     - serializedVersion: 2
@@ -206,7 +206,6 @@ MonoBehaviour:
       y: 14
     _smoothingGroup: 0
     _uv:
-      projectionAxis: 3
       useWorldSpace: 0
       flipU: 0
       flipV: 0
@@ -216,7 +215,8 @@ MonoBehaviour:
       offset: {x: 0, y: 0}
       rotation: 0
       justify: 5
-      projectionValue: {x: 0, y: 0, z: 0}
+      localPivot: {x: .5, y: .0250000004}
+      localSize: {x: 1, y: .0500000007}
     _mat: {fileID: 2100000, guid: 55296d1b6ee54e14e8eb4648d4b448ee, type: 2}
     _colors:
     - serializedVersion: 2
@@ -247,7 +247,6 @@ MonoBehaviour:
       y: 18
     _smoothingGroup: 0
     _uv:
-      projectionAxis: 3
       useWorldSpace: 0
       flipU: 0
       flipV: 0
@@ -257,7 +256,8 @@ MonoBehaviour:
       offset: {x: 0, y: 0}
       rotation: 0
       justify: 5
-      projectionValue: {x: 0, y: 0, z: 0}
+      localPivot: {x: .499999911, y: .0250000004}
+      localSize: {x: .999999821, y: .0500000007}
     _mat: {fileID: 2100000, guid: 55296d1b6ee54e14e8eb4648d4b448ee, type: 2}
     _colors:
     - serializedVersion: 2
@@ -288,7 +288,6 @@ MonoBehaviour:
       y: 22
     _smoothingGroup: 0
     _uv:
-      projectionAxis: 3
       useWorldSpace: 0
       flipU: 0
       flipV: 0
@@ -298,7 +297,8 @@ MonoBehaviour:
       offset: {x: 0, y: 0}
       rotation: 0
       justify: 5
-      projectionValue: {x: 0, y: 0, z: 0}
+      localPivot: {x: .50000006, y: .0250000004}
+      localSize: {x: 1.00000012, y: .0500000007}
     _mat: {fileID: 2100000, guid: 55296d1b6ee54e14e8eb4648d4b448ee, type: 2}
     _colors:
     - serializedVersion: 2
@@ -329,7 +329,6 @@ MonoBehaviour:
       y: 26
     _smoothingGroup: 0
     _uv:
-      projectionAxis: 3
       useWorldSpace: 0
       flipU: 0
       flipV: 0
@@ -339,7 +338,8 @@ MonoBehaviour:
       offset: {x: 0, y: 0}
       rotation: 0
       justify: 5
-      projectionValue: {x: 0, y: 0, z: 0}
+      localPivot: {x: .50000006, y: .0249999966}
+      localSize: {x: 1.00000012, y: .0500000007}
     _mat: {fileID: 2100000, guid: 55296d1b6ee54e14e8eb4648d4b448ee, type: 2}
     _colors:
     - serializedVersion: 2
@@ -370,7 +370,6 @@ MonoBehaviour:
       y: 30
     _smoothingGroup: 0
     _uv:
-      projectionAxis: 3
       useWorldSpace: 0
       flipU: 0
       flipV: 0
@@ -380,7 +379,8 @@ MonoBehaviour:
       offset: {x: 0, y: 0}
       rotation: 0
       justify: 5
-      projectionValue: {x: 0, y: 0, z: 0}
+      localPivot: {x: .5, y: .0249999966}
+      localSize: {x: 1, y: .0500000007}
     _mat: {fileID: 2100000, guid: 55296d1b6ee54e14e8eb4648d4b448ee, type: 2}
     _colors:
     - serializedVersion: 2
@@ -411,7 +411,6 @@ MonoBehaviour:
       y: 34
     _smoothingGroup: 0
     _uv:
-      projectionAxis: 3
       useWorldSpace: 0
       flipU: 0
       flipV: 0
@@ -421,7 +420,8 @@ MonoBehaviour:
       offset: {x: 0, y: 0}
       rotation: 0
       justify: 5
-      projectionValue: {x: 0, y: 0, z: 0}
+      localPivot: {x: .5, y: .0249999966}
+      localSize: {x: 1, y: .0500000007}
     _mat: {fileID: 2100000, guid: 55296d1b6ee54e14e8eb4648d4b448ee, type: 2}
     _colors:
     - serializedVersion: 2
@@ -452,7 +452,6 @@ MonoBehaviour:
       y: 38
     _smoothingGroup: 0
     _uv:
-      projectionAxis: 3
       useWorldSpace: 0
       flipU: 0
       flipV: 0
@@ -462,7 +461,8 @@ MonoBehaviour:
       offset: {x: 0, y: 0}
       rotation: 0
       justify: 5
-      projectionValue: {x: 0, y: 0, z: 0}
+      localPivot: {x: .5, y: .0249999966}
+      localSize: {x: 1, y: .0500000007}
     _mat: {fileID: 2100000, guid: 55296d1b6ee54e14e8eb4648d4b448ee, type: 2}
     _colors:
     - serializedVersion: 2
@@ -493,7 +493,6 @@ MonoBehaviour:
       y: 42
     _smoothingGroup: 0
     _uv:
-      projectionAxis: 3
       useWorldSpace: 0
       flipU: 0
       flipV: 0
@@ -503,7 +502,8 @@ MonoBehaviour:
       offset: {x: 0, y: 0}
       rotation: 0
       justify: 5
-      projectionValue: {x: 0, y: 0, z: 0}
+      localPivot: {x: .499999911, y: .0249999966}
+      localSize: {x: .999999821, y: .0500000007}
     _mat: {fileID: 2100000, guid: 55296d1b6ee54e14e8eb4648d4b448ee, type: 2}
     _colors:
     - serializedVersion: 2
@@ -534,7 +534,6 @@ MonoBehaviour:
       y: 46
     _smoothingGroup: 0
     _uv:
-      projectionAxis: 3
       useWorldSpace: 0
       flipU: 0
       flipV: 0
@@ -544,7 +543,8 @@ MonoBehaviour:
       offset: {x: 0, y: 0}
       rotation: 0
       justify: 5
-      projectionValue: {x: 0, y: 0, z: 0}
+      localPivot: {x: .50000006, y: .0249999966}
+      localSize: {x: 1.00000012, y: .0500000007}
     _mat: {fileID: 2100000, guid: 55296d1b6ee54e14e8eb4648d4b448ee, type: 2}
     _colors:
     - serializedVersion: 2
@@ -573,7 +573,6 @@ MonoBehaviour:
       y: 50
     _smoothingGroup: 0
     _uv:
-      projectionAxis: 3
       useWorldSpace: 0
       flipU: 0
       flipV: 0
@@ -583,7 +582,8 @@ MonoBehaviour:
       offset: {x: 0, y: 0}
       rotation: 0
       justify: 5
-      projectionValue: {x: 0, y: 0, z: 0}
+      localPivot: {x: .5, y: .433012724}
+      localSize: {x: 1, y: .866025448}
     _mat: {fileID: 2100000, guid: 55296d1b6ee54e14e8eb4648d4b448ee, type: 2}
     _colors:
     - serializedVersion: 2
@@ -606,7 +606,6 @@ MonoBehaviour:
       y: 56
     _smoothingGroup: 0
     _uv:
-      projectionAxis: 3
       useWorldSpace: 0
       flipU: 0
       flipV: 0
@@ -616,7 +615,8 @@ MonoBehaviour:
       offset: {x: 0, y: 0}
       rotation: 0
       justify: 5
-      projectionValue: {x: 0, y: 0, z: 0}
+      localPivot: {x: .5, y: .433012724}
+      localSize: {x: 1, y: .866025448}
     _mat: {fileID: 2100000, guid: 55296d1b6ee54e14e8eb4648d4b448ee, type: 2}
     _colors:
     - serializedVersion: 2
@@ -639,7 +639,6 @@ MonoBehaviour:
       y: 62
     _smoothingGroup: 0
     _uv:
-      projectionAxis: 3
       useWorldSpace: 0
       flipU: 0
       flipV: 0
@@ -649,7 +648,8 @@ MonoBehaviour:
       offset: {x: 0, y: 0}
       rotation: 0
       justify: 5
-      projectionValue: {x: 0, y: 0, z: 0}
+      localPivot: {x: .5, y: .433012724}
+      localSize: {x: 1, y: .866025448}
     _mat: {fileID: 2100000, guid: 55296d1b6ee54e14e8eb4648d4b448ee, type: 2}
     _colors:
     - serializedVersion: 2
@@ -672,7 +672,6 @@ MonoBehaviour:
       y: 68
     _smoothingGroup: 0
     _uv:
-      projectionAxis: 3
       useWorldSpace: 0
       flipU: 0
       flipV: 0
@@ -682,7 +681,8 @@ MonoBehaviour:
       offset: {x: 0, y: 0}
       rotation: 0
       justify: 5
-      projectionValue: {x: 0, y: 0, z: 0}
+      localPivot: {x: .5, y: .433012724}
+      localSize: {x: 1, y: .866025448}
     _mat: {fileID: 2100000, guid: 55296d1b6ee54e14e8eb4648d4b448ee, type: 2}
     _colors:
     - serializedVersion: 2
@@ -705,7 +705,6 @@ MonoBehaviour:
       y: 74
     _smoothingGroup: 0
     _uv:
-      projectionAxis: 3
       useWorldSpace: 0
       flipU: 0
       flipV: 0
@@ -715,7 +714,8 @@ MonoBehaviour:
       offset: {x: 0, y: 0}
       rotation: 0
       justify: 5
-      projectionValue: {x: 0, y: 0, z: 0}
+      localPivot: {x: .499999911, y: .433012724}
+      localSize: {x: .999999821, y: .866025448}
     _mat: {fileID: 2100000, guid: 55296d1b6ee54e14e8eb4648d4b448ee, type: 2}
     _colors:
     - serializedVersion: 2
@@ -738,7 +738,6 @@ MonoBehaviour:
       y: 80
     _smoothingGroup: 0
     _uv:
-      projectionAxis: 3
       useWorldSpace: 0
       flipU: 0
       flipV: 0
@@ -748,7 +747,8 @@ MonoBehaviour:
       offset: {x: 0, y: 0}
       rotation: 0
       justify: 5
-      projectionValue: {x: 0, y: 0, z: 0}
+      localPivot: {x: .5, y: .433012724}
+      localSize: {x: 1, y: .866025448}
     _mat: {fileID: 2100000, guid: 55296d1b6ee54e14e8eb4648d4b448ee, type: 2}
     _colors:
     - serializedVersion: 2
@@ -771,7 +771,6 @@ MonoBehaviour:
       y: 51
     _smoothingGroup: 0
     _uv:
-      projectionAxis: 3
       useWorldSpace: 0
       flipU: 0
       flipV: 0
@@ -781,7 +780,8 @@ MonoBehaviour:
       offset: {x: 0, y: 0}
       rotation: 0
       justify: 5
-      projectionValue: {x: 0, y: 0, z: 0}
+      localPivot: {x: .5, y: .433012724}
+      localSize: {x: 1, y: .866025448}
     _mat: {fileID: 2100000, guid: 55296d1b6ee54e14e8eb4648d4b448ee, type: 2}
     _colors:
     - serializedVersion: 2
@@ -804,7 +804,6 @@ MonoBehaviour:
       y: 57
     _smoothingGroup: 0
     _uv:
-      projectionAxis: 3
       useWorldSpace: 0
       flipU: 0
       flipV: 0
@@ -814,7 +813,8 @@ MonoBehaviour:
       offset: {x: 0, y: 0}
       rotation: 0
       justify: 5
-      projectionValue: {x: 0, y: 0, z: 0}
+      localPivot: {x: .5, y: .433012724}
+      localSize: {x: 1, y: .866025448}
     _mat: {fileID: 2100000, guid: 55296d1b6ee54e14e8eb4648d4b448ee, type: 2}
     _colors:
     - serializedVersion: 2
@@ -837,7 +837,6 @@ MonoBehaviour:
       y: 63
     _smoothingGroup: 0
     _uv:
-      projectionAxis: 3
       useWorldSpace: 0
       flipU: 0
       flipV: 0
@@ -847,7 +846,8 @@ MonoBehaviour:
       offset: {x: 0, y: 0}
       rotation: 0
       justify: 5
-      projectionValue: {x: 0, y: 0, z: 0}
+      localPivot: {x: .5, y: .433012724}
+      localSize: {x: 1, y: .866025448}
     _mat: {fileID: 2100000, guid: 55296d1b6ee54e14e8eb4648d4b448ee, type: 2}
     _colors:
     - serializedVersion: 2
@@ -870,7 +870,6 @@ MonoBehaviour:
       y: 69
     _smoothingGroup: 0
     _uv:
-      projectionAxis: 3
       useWorldSpace: 0
       flipU: 0
       flipV: 0
@@ -880,7 +879,8 @@ MonoBehaviour:
       offset: {x: 0, y: 0}
       rotation: 0
       justify: 5
-      projectionValue: {x: 0, y: 0, z: 0}
+      localPivot: {x: .5, y: .433012724}
+      localSize: {x: 1, y: .866025448}
     _mat: {fileID: 2100000, guid: 55296d1b6ee54e14e8eb4648d4b448ee, type: 2}
     _colors:
     - serializedVersion: 2
@@ -903,7 +903,6 @@ MonoBehaviour:
       y: 75
     _smoothingGroup: 0
     _uv:
-      projectionAxis: 3
       useWorldSpace: 0
       flipU: 0
       flipV: 0
@@ -913,7 +912,8 @@ MonoBehaviour:
       offset: {x: 0, y: 0}
       rotation: 0
       justify: 5
-      projectionValue: {x: 0, y: 0, z: 0}
+      localPivot: {x: .499999911, y: .433012724}
+      localSize: {x: .999999821, y: .866025448}
     _mat: {fileID: 2100000, guid: 55296d1b6ee54e14e8eb4648d4b448ee, type: 2}
     _colors:
     - serializedVersion: 2
@@ -936,7 +936,6 @@ MonoBehaviour:
       y: 81
     _smoothingGroup: 0
     _uv:
-      projectionAxis: 3
       useWorldSpace: 0
       flipU: 0
       flipV: 0
@@ -946,7 +945,8 @@ MonoBehaviour:
       offset: {x: 0, y: 0}
       rotation: 0
       justify: 5
-      projectionValue: {x: 0, y: 0, z: 0}
+      localPivot: {x: .5, y: .433012724}
+      localSize: {x: 1, y: .866025448}
     _mat: {fileID: 2100000, guid: 55296d1b6ee54e14e8eb4648d4b448ee, type: 2}
     _colors:
     - serializedVersion: 2
@@ -958,7 +958,6 @@ MonoBehaviour:
     manualUV: 0
     elementGroup: 0
     textureGroup: -1
-  _shape: 10
   _sharedIndices:
   - array: 00000000160000003000000050000000
   - array: 0100000017000000180000002e000000
@@ -980,7 +979,6 @@ MonoBehaviour:
   - array: 2b0000002d0000004d00000051000000
   - array: 31000000370000003d00000043000000490000004f000000
   - array: 340000003a00000040000000460000004c00000052000000
-  _uniqueIndices: 0000000001000000020000000300000006000000070000000a0000000b0000000e0000000f0000001200000013000000190000001b0000001f00000023000000270000002b0000003100000034000000
   _vertices:
   - {x: 1, y: 0, z: 0}
   - {x: 1, y: .0500000007, z: 0}
@@ -1066,12 +1064,97 @@ MonoBehaviour:
   - {x: .499999911, y: .100000001, z: -.866025448}
   - {x: 0, y: .100000001, z: 0}
   - {x: 1, y: .100000001, z: 0}
+  _uv:
+  - {x: 0, y: 0}
+  - {x: 0, y: .0500000007}
+  - {x: 1.00000012, y: 0}
+  - {x: 1.00000012, y: .0500000007}
+  - {x: 0, y: 0}
+  - {x: 0, y: .0500000007}
+  - {x: 1, y: 0}
+  - {x: 1, y: .0500000007}
+  - {x: 0, y: 0}
+  - {x: 0, y: .0500000007}
+  - {x: 1, y: 0}
+  - {x: 1, y: .0500000007}
+  - {x: -2.98023224e-08, y: 0}
+  - {x: -2.98023224e-08, y: .0500000007}
+  - {x: 1, y: 0}
+  - {x: 1, y: .0500000007}
+  - {x: 0, y: 0}
+  - {x: 0, y: .0500000007}
+  - {x: .999999821, y: 0}
+  - {x: .999999821, y: .0500000007}
+  - {x: 0, y: 0}
+  - {x: 0, y: .0500000007}
+  - {x: 1.00000012, y: 0}
+  - {x: 1.00000012, y: .0500000007}
+  - {x: 0, y: -3.7252903e-09}
+  - {x: 0, y: .049999997}
+  - {x: 1.00000012, y: -3.7252903e-09}
+  - {x: 1.00000012, y: .049999997}
+  - {x: 0, y: -3.7252903e-09}
+  - {x: 0, y: .049999997}
+  - {x: 1, y: -3.7252903e-09}
+  - {x: 1, y: .049999997}
+  - {x: 0, y: -3.7252903e-09}
+  - {x: 0, y: .049999997}
+  - {x: 1, y: -3.7252903e-09}
+  - {x: 1, y: .049999997}
+  - {x: -2.98023224e-08, y: -3.7252903e-09}
+  - {x: -2.98023224e-08, y: .049999997}
+  - {x: 1, y: -3.7252903e-09}
+  - {x: 1, y: .049999997}
+  - {x: 0, y: -3.7252903e-09}
+  - {x: 0, y: .049999997}
+  - {x: .999999821, y: -3.7252903e-09}
+  - {x: .999999821, y: .049999997}
+  - {x: 0, y: -3.7252903e-09}
+  - {x: 0, y: .049999997}
+  - {x: 1.00000012, y: -3.7252903e-09}
+  - {x: 1.00000012, y: .049999997}
+  - {x: 0, y: 0}
+  - {x: 1, y: 0}
+  - {x: .5, y: .866025448}
+  - {x: 1, y: 0}
+  - {x: 0, y: 0}
+  - {x: .49999997, y: .866025448}
+  - {x: 0, y: .866025448}
+  - {x: .49999994, y: 0}
+  - {x: 1, y: .866025388}
+  - {x: 1, y: .866025448}
+  - {x: .50000006, y: 0}
+  - {x: 0, y: .866025388}
+  - {x: .50000006, y: .866025448}
+  - {x: 0, y: 5.96046448e-08}
+  - {x: 1, y: -2.98023224e-08}
+  - {x: .49999994, y: .866025448}
+  - {x: 1, y: 5.96046448e-08}
+  - {x: 0, y: -2.98023224e-08}
+  - {x: 1, y: .866025388}
+  - {x: 0, y: .866025448}
+  - {x: .499999911, y: 0}
+  - {x: 0, y: .866025388}
+  - {x: 1, y: .866025448}
+  - {x: .500000119, y: 0}
+  - {x: .999999821, y: 0}
+  - {x: .499999911, y: .866025448}
+  - {x: 0, y: 0}
+  - {x: 0, y: 0}
+  - {x: .499999911, y: .866025448}
+  - {x: .999999821, y: 0}
+  - {x: .500000119, y: 0}
+  - {x: 1, y: .866025448}
+  - {x: 0, y: .866025448}
+  - {x: .499999911, y: 0}
+  - {x: 0, y: .866025448}
+  - {x: 1, y: .866025448}
   _sharedIndicesUV: []
   angleError: 8
   areaError: 15
   hardAngle: 88
   packMargin: 20
-  m_selectedFaces: []
+  m_selectedFaces: 
   m_SelectedEdges: []
   m_selectedTriangles: 
   previousTransform: {x: 0, y: 0, z: 0}
