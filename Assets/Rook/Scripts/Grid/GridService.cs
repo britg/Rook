@@ -15,11 +15,6 @@ public class GridService {
 		map = builder.Map;
 	}
 
-	public GridService (FlatHexGrid<TileCell> _grid, IMap3D<FlatHexPoint> _map) {
-		grid = _grid;
-		map = _map;
-	}
-
 	public FlatHexPoint GridPointFromWorldPoint (Vector3 worldPoint) {
 		return map[worldPoint];
 	}
@@ -52,5 +47,15 @@ public class GridService {
 			.Translate(playerPosition.x, playerPosition.z)
 			.To3DXZ();
 	}
-	
+
+	public void HighlightCellAt (Vector3 worldPoint, Color color) {
+		TileCell cell = GridCellFromWorldPoint(worldPoint);
+		cell.Color = color;
+	}
+
+	public void ClearHighlights () {
+
+	}
+
+
 }

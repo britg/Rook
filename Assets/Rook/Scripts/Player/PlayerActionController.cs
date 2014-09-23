@@ -29,6 +29,14 @@ public class PlayerActionController : GameController {
 		}
     }
 
+	public void WarriorActionButtonPointerEnter () {
+		Debug.Log ("Warrior action button pointer enter");
+	}
+
+	public void WarriorActionButtonPointerExit () {
+		Debug.Log ("Warrior action button pointer exit");
+	}
+
 	public void OnEnterControlMode () {
 		BeginActionForControlMode(player.controlMode);
 	}
