@@ -5,9 +5,6 @@ using Vectrosity;
 
 public class PlayerMoveController : GameController {
 
-    PlayerMove playerMove;
-    PlayerMoveView playerMoveView;
-
     public float lineWidth;
     public Color lineColor;
     public float moveTime;
@@ -24,7 +21,6 @@ public class PlayerMoveController : GameController {
             if (waypoints.Count > 0) {
                 return waypoints[waypoints.Count - 1];
             } else {
-                Debug.Log("last waypoint is player's position");
                 return transform.position;
             }
         }
@@ -33,8 +29,6 @@ public class PlayerMoveController : GameController {
     int currentMoveIndex = 0;
 
     void Start () {
-        playerMove = new PlayerMove(player);
-        playerMoveView = GetComponent<PlayerMoveView>();
         waypoints = new List<Vector3>();
     }
 
@@ -76,20 +70,16 @@ public class PlayerMoveController : GameController {
 
     // Called from Player Mouse Move Controller FSM
     public void UpdateMoveDestination (Vector3 pos) {
-        moveDestination = gridController.NearestCellCenter(pos);
+        moveDestination = gridService.NearestCellCenter(pos);
 		UpdateWaypoints();
 	}
 
 	public void UpdateWaypoints () {
+        moveDestination.y = transform.position.y;
 
-        // raycast to the move destination and see if anything
-        // is in that hex
-        if (DestinationOccupied()) {
-            Debug.Log("Destination occupied");
+        if (DestinationOccupied() || !DestinationValid()) {
             return;
         }
-
-        moveDestination.y = transform.position.y;
 
         if (moveDestination.Equals(transform.position)) {
             Reset();
@@ -140,22 +130,12 @@ public class PlayerMoveController : GameController {
         // get distance to move destination
         float dist = Vector3.Distance(start, moveDestination);
         RaycastHit[] hits = Physics.SphereCastAll(start, sphereRadius, direction, dist);
-        Debug.DrawRay(start, direction);
-        foreach (RaycastHit hit in hits) {
-            if (BlocksDestination(hit.collider.gameObject)) {
-                return true;
-            }
-        }
-
-        return false;
+		return PlayerMove.BlockedBy(hits);
     }
 
-    bool BlocksDestination (GameObject go) {
-        if (go.tag == "Player" || go.tag == "Grid") {
-            return false;
-        }
-        return true;
-    }
+	bool DestinationValid () {
+		return PlayerMove.ValidMove(moveDestination, waypoints);
+	}
 
     // Called from Player Mouse Move Controller FSM
     public void MoveFinished () {

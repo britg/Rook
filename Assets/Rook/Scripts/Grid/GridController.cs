@@ -7,16 +7,15 @@ public class GridController : GameController {
     public Color defaultColor;
     public Color highlightColor;
 
-    FlatHexGrid<TileCell> grid;
-    IMap3D<FlatHexPoint> map;
+	public GridService gridService;
 
     TileCell currentCell;
 
 	// Use this for initialization
 	void Start () {
-        FlatHexTileGridBuilder builder = GetComponent<FlatHexTileGridBuilder>();
-        grid = builder.Grid;
-        map = builder.Map;
+        GridBuilder builder = GetComponent<GridBuilder>();
+		gridService = new GridService(builder);
+		NotificationCenter.AddObserver(this, Notifications.PlayerTurn);
 	}
 	
 	// Update is called once per frame
@@ -26,23 +25,22 @@ public class GridController : GameController {
 
     public void HighlightCellAt (Vector3 point) {
         point.y = transform.position.y;
-        FlatHexPoint gridPoint = map[point];
-        TileCell cell = grid[gridPoint];
+		TileCell cell = gridService.GridCellFromWorldPoint(point);
 
         if (currentCell != null) {
             currentCell.Color = defaultColor;
         }
 
+		if (cell == null) {
+			return;
+		}
+
         currentCell = cell;
         currentCell.Color = highlightColor;
     }
 
-    public Vector3 NearestCellCenter (Vector3 worldPoint) {
-        FlatHexPoint gridPoint = map[worldPoint];
-        TileCell cell = grid[gridPoint];
-        return cell.Center;
-    }
-}
-namespace System.Runtime.CompilerServices {
-    public class ExtensionAttribute : Attribute { }
+	void OnPlayerTurn () {
+		gridService.ResetMap(playerObj.transform.position);
+	}
+
 }

@@ -35,7 +35,7 @@ public class EnemyController : GameController {
         }
 
         Vector3 oneHexTowardsPlayer = transform.position + playerDir.normalized * (1.5f);
-        Vector3 nearestHex = gridController.NearestCellCenter(oneHexTowardsPlayer);
+        Vector3 nearestHex = gridService.NearestCellCenter(oneHexTowardsPlayer);
 
         if (nearestHex.Equals(playerObj.transform.position)) {
             Attack();

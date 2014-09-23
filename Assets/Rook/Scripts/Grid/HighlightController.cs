@@ -9,7 +9,7 @@ public class HighlightController : GameController {
     Vector3 currentPosition;
 	Vector3 gridPosition {
 		get {
-			return gridController.NearestCellCenter(currentPosition);
+			return gridService.NearestCellCenter(currentPosition);
 		}
 	}
 

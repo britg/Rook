@@ -73,6 +73,16 @@ public class GameController : MonoBehaviour {
         }
     }
 
+	GridService _gridService;
+	public GridService gridService {
+		get {
+			if (_gridService == null) {
+				_gridService = gridController.gridService;
+			}
+			return _gridService;
+		}
+	}
+
 	TileSelectionController _tileSelectionController;
 	public TileSelectionController tileSelectionController {
 		get {
@@ -98,7 +108,7 @@ public class GameController : MonoBehaviour {
 
     protected void SnapToGrid () {
         //Vector3 nearestGridPos = grid.NearestFaceW(transform.position);
-        transform.position = gridController.NearestCellCenter(transform.position);
+        transform.position = gridService.NearestCellCenter(transform.position);
     }
 
     protected void EndPlayerTurn () {
