@@ -31,10 +31,12 @@ public class PlayerActionController : GameController {
 
 	public void WarriorActionButtonPointerEnter () {
 		Debug.Log ("Warrior action button pointer enter");
+		gridService.HighlightAction(player.warriorAction);
 	}
 
 	public void WarriorActionButtonPointerExit () {
 		Debug.Log ("Warrior action button pointer exit");
+		gridService.ResetColors();
 	}
 
 	public void OnEnterControlMode () {

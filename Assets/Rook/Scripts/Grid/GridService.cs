@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using Gamelogic.Grids;
 
 public class GridService {
@@ -8,10 +9,15 @@ public class GridService {
 	FlatHexGrid<TileCell> grid;
 	IMap3D<FlatHexPoint> map;
 
-	public GridService (GridBuilder _builder) {
+	List<TileCell> coloredCells = new List<TileCell>();
+
+	Transform playerTransform;
+
+	public GridService (GridBuilder _builder, Transform _playerTransform) {
 		builder = _builder;
 		grid = builder.Grid;
 		map = builder.Map;
+		playerTransform = _playerTransform;
 	}
 
 	public FlatHexPoint GridPointFromWorldPoint (Vector3 worldPoint) {
@@ -24,6 +30,10 @@ public class GridService {
 
 	public TileCell GridCellFromWorldPoint (Vector3 worldPoint) {
 		FlatHexPoint gridPoint = GridPointFromWorldPoint(worldPoint);
+		return GridCellFromGridPoint(gridPoint);
+	}
+
+	public TileCell GridCellFromGridPoint (FlatHexPoint gridPoint) {
 		if (grid.Contains(gridPoint)) {
 			return grid[gridPoint];
 		} else {
@@ -32,8 +42,10 @@ public class GridService {
 	}
 
 	public Vector3 NearestCellCenter (Vector3 worldPoint) {
-        FlatHexPoint gridPoint = map[worldPoint];
-        TileCell cell = grid[gridPoint];
+        TileCell cell = GridCellFromWorldPoint(worldPoint);
+		if (cell == null) {
+			return worldPoint;
+		}
         return cell.Center;
 	}
 
@@ -58,11 +70,28 @@ public class GridService {
 
 	public void SetCellColor (TileCell cell, Color color) {
 		cell.Color = color;
+		coloredCells.Add(cell);
 	}
 
-	public void ClearHighlights () {
-
+	public void ResetColors () {
+		foreach (TileCell cell in coloredCells) {
+			ResetCellColor(cell);
+		}
+		coloredCells = new List<TileCell>();
 	}
 
+	public void ResetCellColor (TileCell cell) {
+		cell.Color = GameColors.defaultCellColor;
+	}
+
+	public void HighlightAction (PlayerAction action) {
+		foreach (FlatHexPoint point in action.gridPoints) {
+			Vector3 worldPoint = WorldPointFromGridPoint(point);
+			Vector3 rotated = playerTransform.TransformPoint(worldPoint);
+			FlatHexPoint gridPoint = GridPointFromWorldPoint(rotated);
+			TileCell cell = GridCellFromGridPoint(gridPoint);
+			SetCellColor(cell, GameColors.warriorCellColor);
+		}
+	}
 
 }

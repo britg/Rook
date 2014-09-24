@@ -11,17 +11,12 @@ public class GridController : GameController {
 	// Use this for initialization
 	void Start () {
         GridBuilder builder = GetComponent<GridBuilder>();
-		gridService = new GridService(builder);
-		NotificationCenter.AddObserver(this, Notifications.PlayerTurn);
+		gridService = new GridService(builder, playerObj.transform);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	
-	}
-
-	void OnPlayerTurn () {
-		gridService.ResetMap(playerObj.transform.position);
 	}
 
 }

@@ -6,6 +6,7 @@ public class GridFollowController : GameController {
 	// Use this for initialization
 	void Start () {
         NotificationCenter.AddObserver(this, Notifications.PlayerTurn);
+        NotificationCenter.AddObserver(this, Notifications.ActionFinished);
 	}
 	
 	// Update is called once per frame
@@ -17,7 +18,12 @@ public class GridFollowController : GameController {
         AlignToPlayer();
     }
 
+	void OnActionFinished () {
+		AlignToPlayer();
+	}
+
     void AlignToPlayer () {
         transform.position = playerObj.transform.position;
+		gridService.ResetMap(transform.position);
     }
 }

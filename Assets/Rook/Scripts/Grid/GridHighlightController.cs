@@ -4,8 +4,6 @@ using Gamelogic.Grids;
 
 public class GridHighlightController : GameController {
 
-	public Color defaultColor;
-	public Color highlightColor;
 	TileCell currentCell;
 	
 	void Start () {
@@ -19,7 +17,7 @@ public class GridHighlightController : GameController {
 		TileCell cell = gridService.GridCellFromWorldPoint(point);
 		
 		if (currentCell != null) {
-			gridService.SetCellColor(currentCell, defaultColor);
+			gridService.SetCellColor(currentCell, GameColors.defaultCellColor);
 		}
 		
 		if (cell == null) {
@@ -27,7 +25,7 @@ public class GridHighlightController : GameController {
 		}
 		
 		currentCell = cell;
-		gridService.SetCellColor(currentCell, highlightColor);
+		gridService.SetCellColor(currentCell, GameColors.cursorCellColor);
 	}
 	
 	void DrawHighlight () {
