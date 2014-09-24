@@ -2,10 +2,7 @@
 using System.Collections;
 using Gamelogic.Grids;
 
-public class GridController : GameController {
-
-    public Color defaultColor;
-    public Color highlightColor;
+public class GridController : GameController { 
 
 	public GridService gridService;
 
@@ -22,22 +19,6 @@ public class GridController : GameController {
 	void Update () {
 	
 	}
-
-    public void HighlightCellAt (Vector3 point) {
-        point.y = transform.position.y;
-		TileCell cell = gridService.GridCellFromWorldPoint(point);
-
-        if (currentCell != null) {
-            currentCell.Color = defaultColor;
-        }
-
-		if (cell == null) {
-			return;
-		}
-
-        currentCell = cell;
-        currentCell.Color = highlightColor;
-    }
 
 	void OnPlayerTurn () {
 		gridService.ResetMap(playerObj.transform.position);

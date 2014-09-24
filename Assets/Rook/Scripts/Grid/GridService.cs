@@ -9,7 +9,6 @@ public class GridService {
 	IMap3D<FlatHexPoint> map;
 
 	public GridService (GridBuilder _builder) {
-		Debug.Log (_builder.Map.GetType());
 		builder = _builder;
 		grid = builder.Grid;
 		map = builder.Map;
@@ -25,7 +24,11 @@ public class GridService {
 
 	public TileCell GridCellFromWorldPoint (Vector3 worldPoint) {
 		FlatHexPoint gridPoint = GridPointFromWorldPoint(worldPoint);
-		return grid[gridPoint];
+		if (grid.Contains(gridPoint)) {
+			return grid[gridPoint];
+		} else {
+			return null;
+		}
 	}
 
 	public Vector3 NearestCellCenter (Vector3 worldPoint) {
@@ -48,8 +51,12 @@ public class GridService {
 			.To3DXZ();
 	}
 
-	public void HighlightCellAt (Vector3 worldPoint, Color color) {
+	public void SetCellColorAt (Vector3 worldPoint, Color color) {
 		TileCell cell = GridCellFromWorldPoint(worldPoint);
+		SetCellColor(cell, color);
+	}
+
+	public void SetCellColor (TileCell cell, Color color) {
 		cell.Color = color;
 	}
 

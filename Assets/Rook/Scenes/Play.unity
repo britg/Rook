@@ -22834,6 +22834,7 @@ GameObject:
   - 114: {fileID: 589549017}
   - 114: {fileID: 589549018}
   - 114: {fileID: 589549019}
+  - 114: {fileID: 589549014}
   m_Layer: 11
   m_Name: Grid
   m_TagString: Untagged
@@ -22841,6 +22842,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &589549014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 589549013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61109b078a0d3684387a4e7c06dcd88c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultColor: {r: 1, g: 1, b: 1, a: .31764707}
+  highlightColor: {r: .898199856, g: .95588237, b: .358455896, a: .360784322}
 --- !u!4 &589549015
 Transform:
   m_ObjectHideFlags: 0
@@ -23135,8 +23149,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fbc3daa14e8c2e4aae857053754f2a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultColor: {r: 1, g: .994186044, b: .994186044, a: .325490206}
-  highlightColor: {r: .875, g: .761942208, b: .289522082, a: .345098048}
 --- !u!114 &589549017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23150,7 +23162,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fsm:
     usedInTemplate: {fileID: 0}
-    name: FSM
+    name: Grid Mouse Position
     startState: Mouse Pick
     states:
     - name: Mouse Pick
@@ -23170,19 +23182,21 @@ MonoBehaviour:
           name: FINISHED
           isSystemEvent: 1
           isGlobal: 0
-        toState: Send Mouse Position
+        toState: Check didPickObject
         linkStyle: 0
         linkConstraint: 0
         colorIndex: 0
       actionData:
         actionNames:
         - HutongGames.PlayMaker.Actions.MousePick
+        - HutongGames.PlayMaker.Actions.NextFrameEvent
         customNames:
         - 
-        actionEnabled: 01
-        actionIsOpen: 01
-        actionStartIndex: 00000000
-        actionHashCodes: 3b448f99
+        - 
+        actionEnabled: 0101
+        actionIsOpen: 0101
+        actionStartIndex: 000000000a000000
+        actionHashCodes: 3b448f99c631a949
         unityObjectParams: []
         fsmGameObjectParams:
         - useVariable: 1
@@ -23201,13 +23215,13 @@ MonoBehaviour:
         fsmStringParams: []
         fsmObjectParams: []
         fsmVarParams: []
-        byteData: 0000c842000001000000000000000000000000016d6f7573655069636b506f696e740000000000000000000000000100000000010b00000000000000
+        byteData: 0000c8420000016469645069636b4f626a656374000000000000000000000000016d6f7573655069636b506f696e740000000000000000000000000100000000010b0000000000000046494e4953484544
         arrayParamSizes: 01000000
         arrayParamTypes:
         - HutongGames.PlayMaker.FsmInt
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 0f00000011000000130000001c0000001c0000000f0000000c000000100000001100000001000000
+        paramDataType: 0f00000011000000130000001c0000001c0000000f0000000c00000010000000110000000100000017000000
         paramName:
         - rayDistance
         - storeDidPickObject
@@ -23219,15 +23233,16 @@ MonoBehaviour:
         - 
         - invertMask
         - everyFrame
-        paramDataPos: 00000000050000000000000007000000220000002f0000000000000034000000390000003b000000
-        paramByteDataSize: 0500000002000000000000001b0000000d0000000500000000000000050000000200000001000000
+        - sendEvent
+        paramDataPos: 000000000500000000000000140000002f0000003c0000000000000041000000460000004800000049000000
+        paramByteDataSize: 050000000f000000000000001b0000000d000000050000000000000005000000020000000100000008000000
     - name: Send Mouse Position
       description: 
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 58
-        y: 184
+        x: 50
+        y: 274
         width: 156
         height: 32
       isBreakpoint: 0
@@ -23266,7 +23281,7 @@ MonoBehaviour:
             value: {fileID: 0}
         animationCurveParams: []
         functionCallParams:
-        - FunctionName: HighlightCellAt
+        - FunctionName: MouseOverGridAt
           parameterType: Vector3
           BoolParameter:
             useVariable: 0
@@ -23388,15 +23403,87 @@ MonoBehaviour:
         - sendEvent
         paramDataPos: 0000000000000000040000000000000008000000
         paramByteDataSize: 0000000004000000040000000000000008000000
+    - name: Check didPickObject
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 52
+        y: 173
+        width: 147
+        height: 48
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Mouse Pick
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
+      - fsmEvent:
+          name: onDidPickObject
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: Send Mouse Position
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - HutongGames.PlayMaker.Actions.BoolTest
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 3334d172
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        byteData: 00016469645069636b4f626a6563746f6e4469645069636b4f626a65637446494e495348454401
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 11000000170000001700000001000000
+        paramName:
+        - boolVariable
+        - isTrue
+        - isFalse
+        - everyFrame
+        paramDataPos: 000000000f0000001e00000026000000
+        paramByteDataSize: 0f0000000f0000000800000001000000
     events:
     - name: FINISHED
       isSystemEvent: 1
+      isGlobal: 0
+    - name: onDidPickObject
+      isSystemEvent: 0
       isGlobal: 0
     globalTransitions: []
     variables:
       floatVariables: []
       intVariables: []
-      boolVariables: []
+      boolVariables:
+      - useVariable: 1
+        name: didPickObject
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: 0
       stringVariables: []
       vector2Variables: []
       vector3Variables:
@@ -29906,13 +29993,13 @@ MonoBehaviour:
     controlMode: 5
     warriorAction:
       name: 
-      tileSelection: {fileID: 0}
+      gridPoints: []
     thiefAction:
       name: 
-      tileSelection: {fileID: 0}
+      gridPoints: []
     mageAction:
       name: 
-      tileSelection: {fileID: 0}
+      gridPoints: []
 --- !u!114 &734265062
 MonoBehaviour:
   m_ObjectHideFlags: 0
