@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour {
 														   new FlatHexPoint(0, 3) };
 		player.warriorAction = warriorAction;
 
-		Debug.Log ("game colors " + GameColors.defaultCellColor);
+		Debug.Log ("Dist is " + Vector3.Distance(new Vector3(1.659722f, 0f, 0.9543402f), Vector3.zero));
 
     }
 

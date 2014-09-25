@@ -5,6 +5,8 @@ using Gamelogic.Grids;
 
 public class GridService {
 
+	public static float gridUnit = 1.91f;
+
 	GridBuilder builder;
 	FlatHexGrid<TileCell> grid;
 	IMap3D<FlatHexPoint> map;
@@ -12,12 +14,14 @@ public class GridService {
 	List<TileCell> coloredCells = new List<TileCell>();
 
 	Transform playerTransform;
+	Transform actionProxyTransform;
 
 	public GridService (GridBuilder _builder, Transform _playerTransform) {
 		builder = _builder;
 		grid = builder.Grid;
 		map = builder.Map;
 		playerTransform = _playerTransform;
+		actionProxyTransform = playerTransform.FindChild("AimProxy").transform;
 	}
 
 	public FlatHexPoint GridPointFromWorldPoint (Vector3 worldPoint) {
@@ -86,12 +90,33 @@ public class GridService {
 
 	public void HighlightAction (PlayerAction action) {
 		foreach (FlatHexPoint point in action.gridPoints) {
-			Vector3 worldPoint = WorldPointFromGridPoint(point);
-			Vector3 rotated = playerTransform.TransformPoint(worldPoint);
-			FlatHexPoint gridPoint = GridPointFromWorldPoint(rotated);
+			FlatHexPoint gridPoint = RotatedPoint(point, playerTransform.eulerAngles.y);
 			TileCell cell = GridCellFromGridPoint(gridPoint);
 			SetCellColor(cell, GameColors.warriorCellColor);
 		}
+	}
+
+	FlatHexPoint RotatedPoint (FlatHexPoint point, float playerRotation) {
+		int rotationSlot = Mathf.RoundToInt(playerRotation / 60f);
+		Debug.Log ("Rotation slot is " + rotationSlot);
+		switch (rotationSlot) {
+		case 1:
+			return point.Rotate300();
+			break;
+		case 2:
+			return point.Rotate240();
+			break;
+		case 3:
+			return point.Rotate180();
+			break;
+		case 4:
+			return point.Rotate120();
+			break;
+		case 5:
+			return point.Rotate60();
+			break;
+		}
+		return point;
 	}
 
 }
