@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class TileSelectionController : GameController {
@@ -11,7 +11,7 @@ public class TileSelectionController : GameController {
 	void Update () {
 	}
 
-	public void PromptSelectionForAction (PlayerAction action, SelectionHandler _handler) {
+	public void PromptSelectionForAction (CharacterAction action, SelectionHandler _handler) {
 		Debug.Log ("Prompting selection of tiles for action" + action);
 		handler = _handler;
 		Invoke ("MakeSelection", 1f);

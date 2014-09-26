@@ -5,6 +5,8 @@ using Gamelogic.Grids;
 
 public class PlayerController : MonoBehaviour {
 
+	public int seedHitPoints;
+	public int seedActionPoints;
     public Player player;
 
     public bool isMoving {
@@ -13,18 +15,19 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+	void Awake () {
+		player.hitPoints = new CharacterAttribute(seedValue: seedHitPoints);
+		player.actionPoints = new CharacterAttribute(seedValue: seedActionPoints);
+	}
+
     void Start () {
 		NotificationCenter.AddObserver(this, Notifications.PlayerTurn);
-
-		PlayerAction warriorAction = new PlayerAction();
-		warriorAction.gridPoints = new List<FlatHexPoint>{ new FlatHexPoint(0, 1),
-														   new FlatHexPoint(0, 2),
-														   new FlatHexPoint(0, 3) };
-		player.warriorAction = warriorAction;
-
-		Debug.Log ("Dist is " + Vector3.Distance(new Vector3(1.659722f, 0f, 0.9543402f), Vector3.zero));
-
+		InitializePlayer();
     }
+
+	void InitializePlayer () {
+		player.AssignWarriorAction(new SwordSwipeAction());
+	}
 
 	public void EnterMode (PlayerControlMode mode) {
 		player.EnterMode(mode);
@@ -37,10 +40,10 @@ public class PlayerController : MonoBehaviour {
 
 	void OnPlayerTurn () {
 		DefaultMode();
-		RefillActionPoints();
+		ResetActionPoints();
 	}
 
-	void RefillActionPoints () {
-		player.actionPoints.currentValue = player.actionPoints.maxValue;
+	void ResetActionPoints () {
+		player.ResetActionPoints();
 	}
 }

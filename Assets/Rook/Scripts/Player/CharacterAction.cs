@@ -4,12 +4,19 @@ using System.Collections.Generic;
 using Gamelogic.Grids;
 
 [System.Serializable]
-public class PlayerAction  {
+public class CharacterAction  {
 
 	public PlayerCharacterType playerCharacterType;
 
 	public string name;
 	public List<FlatHexPoint> gridPoints;
 	public int actionPointCost;
+	public PlayerControlMode controlMode;
+
+	public bool requiresSelection {
+		get {
+			return controlMode == PlayerControlMode.GridSelect;
+		}
+	}
 
 }

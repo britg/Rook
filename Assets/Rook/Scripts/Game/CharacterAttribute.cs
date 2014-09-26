@@ -31,4 +31,8 @@ public class CharacterAttribute {
 		return Decrement(1);
 	}
 
+	public void SetToMax () {
+		currentValue = maxValue;
+	}
+
 }

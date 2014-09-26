@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using Gamelogic.Grids;
@@ -88,12 +88,16 @@ public class GridService {
 		cell.Color = GameColors.defaultCellColor;
 	}
 
-	public void HighlightAction (PlayerAction action) {
+	public void HighlightAction (CharacterAction action) {
 		foreach (FlatHexPoint point in action.gridPoints) {
-			FlatHexPoint gridPoint = RotatedPoint(point, playerTransform.eulerAngles.y);
-			TileCell cell = GridCellFromGridPoint(gridPoint);
-			SetCellColor(cell, GameColors.warriorCellColor);
+			HighlightRelativePoint(point);
 		}
+	}
+
+	public void HighlightRelativePoint (FlatHexPoint point) {
+		FlatHexPoint gridPoint = RotatedPoint(point, playerTransform.eulerAngles.y);
+		TileCell cell = GridCellFromGridPoint(gridPoint);
+		SetCellColor(cell, GameColors.warriorCellColor);
 	}
 
 	FlatHexPoint RotatedPoint (FlatHexPoint point, float playerRotation) {

@@ -28501,6 +28501,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4a55bf296be0e146b4c0e7d1ed6d193, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  seedHitPoints: 100
+  seedActionPoints: 5
   player:
     controlMode: 5
     warriorAction:
@@ -28508,16 +28510,19 @@ MonoBehaviour:
       name: 
       gridPoints: []
       actionPointCost: 0
+      controlMode: 0
     thiefAction:
       playerCharacterType: 0
       name: 
       gridPoints: []
       actionPointCost: 0
+      controlMode: 0
     mageAction:
       playerCharacterType: 0
       name: 
       gridPoints: []
       actionPointCost: 0
+      controlMode: 0
 --- !u!114 &734265062
 MonoBehaviour:
   m_ObjectHideFlags: 0
