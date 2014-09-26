@@ -90,10 +90,14 @@ public class GridService {
 
 	public void HighlightAction (PlayerAction action) {
 		foreach (FlatHexPoint point in action.gridPoints) {
-			FlatHexPoint gridPoint = RotatedPoint(point, playerTransform.eulerAngles.y);
-			TileCell cell = GridCellFromGridPoint(gridPoint);
-			SetCellColor(cell, GameColors.warriorCellColor);
+			HighlightRelativePoint(point);
 		}
+	}
+
+	public void HighlightRelativePoint (FlatHexPoint point) {
+		FlatHexPoint gridPoint = RotatedPoint(point, playerTransform.eulerAngles.y);
+		TileCell cell = GridCellFromGridPoint(gridPoint);
+		SetCellColor(cell, GameColors.warriorCellColor);
 	}
 
 	FlatHexPoint RotatedPoint (FlatHexPoint point, float playerRotation) {
