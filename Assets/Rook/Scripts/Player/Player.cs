@@ -10,9 +10,9 @@ public class Player : Character {
 	public Thief thief;
 	public Mage mage;
 
-	public PlayerAction warriorAction;
-	public PlayerAction thiefAction;
-	public PlayerAction mageAction;
+	public CharacterAction warriorAction;
+	public CharacterAction thiefAction;
+	public CharacterAction mageAction;
 
     public bool isRotating {
         get {
@@ -35,20 +35,20 @@ public class Player : Character {
 		actionPoints.SetToMax();
 	}
 
-	public void AssignAction (PlayerAction action, PlayerCharacterType type) {
+	public void AssignAction (CharacterAction action, PlayerCharacterType type) {
 
 	}
 
-	public void AssignWarriorAction (PlayerAction action) {
+	public void AssignWarriorAction (CharacterAction action) {
 		warriorAction = action;
 		warriorAction.playerCharacterType = PlayerCharacterType.Warrior;
 	}
 
-	public void AssignThiefAction (PlayerAction action) {
+	public void AssignThiefAction (CharacterAction action) {
 
 	}
 
-	public void AssignMageAction (PlayerAction action) {
+	public void AssignMageAction (CharacterAction action) {
 
 	}
 

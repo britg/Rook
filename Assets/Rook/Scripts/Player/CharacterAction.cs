@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Gamelogic.Grids;
 
 [System.Serializable]
-public class PlayerAction  {
+public class CharacterAction  {
 
 	public PlayerCharacterType playerCharacterType;
 

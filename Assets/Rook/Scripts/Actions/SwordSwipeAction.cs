@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Gamelogic.Grids;
 
-public class  SwordSwipeAction : PlayerAction {
+public class  SwordSwipeAction : CharacterAction {
 
 	public SwordSwipeAction () {
 		name = "Sword Swipe";

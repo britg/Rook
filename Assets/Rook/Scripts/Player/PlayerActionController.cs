@@ -1,9 +1,9 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class PlayerActionController : GameController {
 
-	PlayerAction currentAction;
+	CharacterAction currentAction;
 
 	// Use this for initialization
 	void Start () {
@@ -26,7 +26,7 @@ public class PlayerActionController : GameController {
 		gridService.ResetColors();
 	}
 
-	public void StartAction (PlayerAction action) {
+	public void StartAction (CharacterAction action) {
 		if (action.requiresSelection) {
 			PromptSelection(action);
 		} else {
@@ -34,13 +34,13 @@ public class PlayerActionController : GameController {
 		}
 	}
 
-	public void PromptSelection (PlayerAction action) {
+	public void PromptSelection (CharacterAction action) {
 		Debug.Log ("Prompting selection for action " + action);
 		playerController.EnterMode(PlayerControlMode.GridSelect);
 		// prompt the selection and get the callback
 	}
 
-	public void PerformAction (PlayerAction action) {
+	public void PerformAction (CharacterAction action) {
 		Debug.Log ("Performing action " + action);
 		playerController.EnterMode (PlayerControlMode.Wait);
 	}

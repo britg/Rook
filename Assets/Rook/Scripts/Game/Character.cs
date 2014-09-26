@@ -8,4 +8,6 @@ public abstract class Character {
 	public CharacterAttribute armorRating { get; set; }
 	public CharacterAttribute attackRating { get; set; }
 
+	public CharacterAction action { get; set; }
+
 }

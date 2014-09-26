@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using Gamelogic.Grids;
@@ -88,7 +88,7 @@ public class GridService {
 		cell.Color = GameColors.defaultCellColor;
 	}
 
-	public void HighlightAction (PlayerAction action) {
+	public void HighlightAction (CharacterAction action) {
 		foreach (FlatHexPoint point in action.gridPoints) {
 			HighlightRelativePoint(point);
 		}
