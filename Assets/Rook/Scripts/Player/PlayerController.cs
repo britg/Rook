@@ -5,6 +5,8 @@ using Gamelogic.Grids;
 
 public class PlayerController : MonoBehaviour {
 
+	public int seedHitPoints;
+	public int seedActionPoints;
     public Player player;
 
     public bool isMoving {
@@ -12,6 +14,11 @@ public class PlayerController : MonoBehaviour {
             return player.isMoving;
         }
     }
+
+	void Awake () {
+		player.hitPoints = new CharacterAttribute(seedValue: seedHitPoints);
+		player.actionPoints = new CharacterAttribute(seedValue: seedActionPoints);
+	}
 
     void Start () {
 		NotificationCenter.AddObserver(this, Notifications.PlayerTurn);

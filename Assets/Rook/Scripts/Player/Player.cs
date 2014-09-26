@@ -2,12 +2,13 @@
 using System.Collections;
 
 [System.Serializable]
-public class Player {
+public class Player : Character {
 
     public PlayerControlMode controlMode;
 
-	public CharacterAttribute hitPoints = new CharacterAttribute(seedValue: 100);
-	public CharacterAttribute actionPoints = new CharacterAttribute(seedValue: 5);
+	public Warrior warrior;
+	public Thief thief;
+	public Mage mage;
 
 	public PlayerAction warriorAction;
 	public PlayerAction thiefAction;
