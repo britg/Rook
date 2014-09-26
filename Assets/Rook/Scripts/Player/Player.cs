@@ -25,15 +25,30 @@ public class Player {
         }
     }
 
-	public bool warriorActionActive {
-		get {
-			return controlMode == PlayerControlMode.WarriorAction;
-		}
-	}
-
     public void EnterMode (PlayerControlMode mode) {
         Debug.Log("Entering mode " + mode);
         controlMode = mode;
     }
+
+	public void ResetActionPoints () {
+		actionPoints.SetToMax();
+	}
+
+	public void AssignAction (PlayerAction action, PlayerCharacterType type) {
+
+	}
+
+	public void AssignWarriorAction (PlayerAction action) {
+		warriorAction = action;
+		warriorAction.playerCharacterType = PlayerCharacterType.Warrior;
+	}
+
+	public void AssignThiefAction (PlayerAction action) {
+
+	}
+
+	public void AssignMageAction (PlayerAction action) {
+
+	}
 
 }

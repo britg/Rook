@@ -11,5 +11,12 @@ public class PlayerAction  {
 	public string name;
 	public List<FlatHexPoint> gridPoints;
 	public int actionPointCost;
+	public PlayerControlMode controlMode;
+
+	public bool requiresSelection {
+		get {
+			return controlMode == PlayerControlMode.GridSelect;
+		}
+	}
 
 }

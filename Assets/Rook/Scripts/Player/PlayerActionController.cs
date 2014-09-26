@@ -3,17 +3,10 @@ using System.Collections;
 
 public class PlayerActionController : GameController {
 
-	bool warriorActionActive {
-		get {
-			return player.warriorActionActive;
-		}
-	}
-
 	PlayerAction currentAction;
 
 	// Use this for initialization
 	void Start () {
-		NotificationCenter.AddObserver(this, Notifications.EnterControlMode);
 	}
 	
 	// Update is called once per frame
@@ -22,45 +15,34 @@ public class PlayerActionController : GameController {
 	}
 
     public void WarriorActionButtonPressed () {
-		if (warriorActionActive) {
-			playerController.DefaultMode();
-		} else {
-        	playerController.EnterMode(PlayerControlMode.WarriorAction);
-		}
+		StartAction(player.warriorAction);
     }
 
 	public void WarriorActionButtonPointerEnter () {
-		Debug.Log ("Warrior action button pointer enter");
 		gridService.HighlightAction(player.warriorAction);
 	}
 
 	public void WarriorActionButtonPointerExit () {
-		Debug.Log ("Warrior action button pointer exit");
 		gridService.ResetColors();
 	}
 
-	public void OnEnterControlMode () {
-		BeginActionForControlMode(player.controlMode);
-	}
-
-	void BeginActionForControlMode (PlayerControlMode mode) {
-		switch (mode) {
-		case PlayerControlMode.WarriorAction:
-			BeginWarriorAction();
-			break;
+	public void StartAction (PlayerAction action) {
+		if (action.requiresSelection) {
+			PromptSelection(action);
+		} else {
+			PerformAction(action);
 		}
 	}
 
-	void BeginWarriorAction () {
-		currentAction = player.warriorAction;
-		tileSelectionController.PromptSelectionForAction(currentAction, OnTileSelectionMade);
+	public void PromptSelection (PlayerAction action) {
+		Debug.Log ("Prompting selection for action " + action);
+		playerController.EnterMode(PlayerControlMode.GridSelect);
+		// prompt the selection and get the callback
 	}
 
-	void OnTileSelectionMade (Vector2 selectedGridPoint) {
-		Debug.Log ("Tile selection made " + selectedGridPoint);
-		// get affected tiles from the action
-		// raycast to affected game objects
-		// apply the action's effects to the affected game objects
+	public void PerformAction (PlayerAction action) {
+		Debug.Log ("Performing action " + action);
+		playerController.EnterMode (PlayerControlMode.Wait);
 	}
 
 }
