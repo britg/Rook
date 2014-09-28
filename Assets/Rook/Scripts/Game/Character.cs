@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class Character {
+public abstract class Character : IReceiveAction {
+
+    public GameObject go { get; set; }
 
     public abstract CharacterAlignment alignment { get; }
 
@@ -10,7 +12,16 @@ public abstract class Character {
 	public CharacterAttribute armorRating { get; set; }
 	public CharacterAttribute attackRating { get; set; }
 
-	public CharacterAction action { get; set; }
+    CharacterAction _action;
+	public CharacterAction action {
+        get {
+            return _action;
+        }
+        set {
+            _action = value;
+            _action.owner = this;
+        }
+    }
 
     public virtual void ResetActionPoints () {
         actionPoints.SetToMax();

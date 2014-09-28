@@ -15,13 +15,46 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    GameObject _warriorObj;
+    GameObject warriorObj {
+        get {
+            if (_warriorObj == null) {
+                _warriorObj = transform.FindChild("Warrior").gameObject;
+            }
+            return _warriorObj;
+        }
+    }
+
+    GameObject _thiefObj;
+    GameObject thiefObj {
+        get {
+            if (_thiefObj == null) {
+                _thiefObj = transform.FindChild("Thief").gameObject;
+            }
+            return _thiefObj;
+        }
+    }
+
+    GameObject _mageObj;
+    GameObject mageObj {
+        get {
+            if (_mageObj == null) {
+                _mageObj = transform.FindChild("Mage").gameObject;
+            }
+            return _mageObj;
+        }
+    }
+
+
 	void Awake () {
 		InitializePlayer();
 	}
 
 	void InitializePlayer () {
+        player.go = gameObject;
 		player.hitPoints = new CharacterAttribute(seedValue: seedHitPoints);
 		player.actionPoints = new CharacterAttribute(seedValue: seedActionPoints);
+        player.warrior.go = warriorObj;
 		player.AssignWarriorAction(new SwordSwipeAction());
 	}
 

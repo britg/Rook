@@ -88,6 +88,14 @@ public class GridService {
 		cell.Color = GameColors.defaultCellColor;
 	}
 
+    public List<Vector3> WorldPointsForAction (CharacterAction action) {
+        var worldPoints = new List<Vector3>();
+		foreach (FlatHexPoint point in action.gridPoints) {
+			worldPoints.Add(WorldPointFromGridPoint(point));
+		}
+        return worldPoints;
+    }
+
 	public void HighlightAction (CharacterAction action) {
 		foreach (FlatHexPoint point in action.gridPoints) {
 			HighlightRelativePoint(point);

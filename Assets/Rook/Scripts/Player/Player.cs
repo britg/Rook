@@ -47,7 +47,7 @@ public class Player : Character {
     }
 
     public void EnterMode (PlayerControlMode mode) {
-        Debug.Log("Entering mode " + mode);
+        Debug.Log("Entering mode " + mode + " with game object " + go);
         controlMode = mode;
     }
 
@@ -57,7 +57,6 @@ public class Player : Character {
 
 	public void AssignWarriorAction (CharacterAction action) {
         warrior.action = action;
-        action.character = warrior;
 	}
 
 	public void AssignThiefAction (CharacterAction action) {

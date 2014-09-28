@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerActionController : GameController {
 
@@ -28,6 +29,7 @@ public class PlayerActionController : GameController {
 		if (action.requiresSelection) {
 			PromptSelection(action);
 		} else {
+            action.ValidateTargets(TargetsInRange(action));
 			PerformAction(action);
 		}
 	}
@@ -38,9 +40,23 @@ public class PlayerActionController : GameController {
 		// prompt the selection and get the callback
 	}
 
+    // We assume here the action already has its targets
 	public void PerformAction (CharacterAction action) {
 		Debug.Log ("Performing action " + action);
 		playerController.EnterMode (PlayerControlMode.Wait);
+
+        if (!action.isValid) {
+            Debug.Log("Not a valid target!");
+            playerController.DefaultMode();
+            return;
+        }
 	}
+
+    List<IReceiveAction> TargetsInRange (CharacterAction action) {
+        List<IReceiveAction> targetsInRange = new List<IReceiveAction>();
+        // raycast and find targets in range
+        List<Vector3> pointsToCheck = gridService.WorldPointsForAction(action);
+        return targetsInRange;
+    }
 
 }
