@@ -4,15 +4,35 @@ using System.Collections;
 [System.Serializable]
 public class Player : Character {
 
+    public override CharacterAlignment alignment {
+        get {
+            return CharacterAlignment.Player;
+        }
+    }
+
     public PlayerControlMode controlMode;
 
-	public Warrior warrior;
-	public Thief thief;
-	public Mage mage;
+	public Warrior warrior = new Warrior();
+	public Thief thief = new Thief();
+	public Mage mage = new Mage();
 
-	public CharacterAction warriorAction;
-	public CharacterAction thiefAction;
-	public CharacterAction mageAction;
+    public CharacterAction warriorAction {
+        get {
+            return warrior.action;
+        }
+    }
+
+    public CharacterAction thiefAction {
+        get {
+            return thief.action;
+        }
+    }
+
+    public CharacterAction mageAction {
+        get {
+            return mage.action;
+        }
+    }
 
     public bool isRotating {
         get {
@@ -31,17 +51,13 @@ public class Player : Character {
         controlMode = mode;
     }
 
-	public void ResetActionPoints () {
-		actionPoints.SetToMax();
-	}
-
 	public void AssignAction (CharacterAction action, PlayerCharacterType type) {
 
 	}
 
 	public void AssignWarriorAction (CharacterAction action) {
-		warriorAction = action;
-		warriorAction.playerCharacterType = PlayerCharacterType.Warrior;
+        warrior.action = action;
+        action.character = warrior;
 	}
 
 	public void AssignThiefAction (CharacterAction action) {

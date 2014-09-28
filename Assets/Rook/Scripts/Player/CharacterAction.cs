@@ -6,7 +6,7 @@ using Gamelogic.Grids;
 [System.Serializable]
 public class CharacterAction  {
 
-	public PlayerCharacterType playerCharacterType;
+    public Character character;
 
 	public string name;
 	public List<FlatHexPoint> gridPoints;

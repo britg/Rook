@@ -4,9 +4,7 @@ using Gamelogic.Grids;
 
 public class GridController : GameController { 
 
-	public GridService gridService;
-
-    TileCell currentCell;
+	public new GridService gridService;
 
 	// Use this for initialization
 	void Start () {

@@ -28505,12 +28505,6 @@ MonoBehaviour:
   seedActionPoints: 5
   player:
     controlMode: 5
-    warriorAction:
-      playerCharacterType: 0
-      name: 
-      gridPoints: []
-      actionPointCost: 0
-      controlMode: 0
     thiefAction:
       playerCharacterType: 0
       name: 

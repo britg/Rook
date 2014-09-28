@@ -1,4 +1,4 @@
 ﻿
-//namespace System.Runtime.CompilerServices {
-//	public class ExtensionAttribute : Attribute { }
-//}
+namespace System.Runtime.CompilerServices {
+    public class ExtensionAttribute : Attribute { }
+}

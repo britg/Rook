@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GameController : MonoBehaviour {
+public abstract class GameController : MonoBehaviour {
 
     GameObject _gameObj;
-    public GameObject gameObj {
+    public virtual GameObject gameObj {
         get {
             if (_gameObj == null) {
                 _gameObj = GameObject.Find("Game");
@@ -14,7 +14,7 @@ public class GameController : MonoBehaviour {
     }
 
     TurnController _turnController;
-    public TurnController turnController {
+    public virtual TurnController turnController {
         get {
             if (_turnController == null) {
                 _turnController = gameObj.GetComponent<TurnController>();
@@ -24,7 +24,7 @@ public class GameController : MonoBehaviour {
     }
 
     GameObject _playerObj;
-    public GameObject playerObj {
+    public virtual GameObject playerObj {
         get {
             if (_playerObj == null) {
                 _playerObj = GameObject.Find("Player");
@@ -34,7 +34,7 @@ public class GameController : MonoBehaviour {
     }
 
     PlayerController _playerController;
-    public PlayerController playerController {
+    public virtual PlayerController playerController {
         get {
             if (_playerController == null) {
                 _playerController = playerObj.GetComponent<PlayerController>();
@@ -44,7 +44,7 @@ public class GameController : MonoBehaviour {
     }
 
     Player _player;
-    public Player player {
+    public virtual Player player {
         get {
             if (_player == null) {
                 _player = playerController.player;
@@ -53,18 +53,8 @@ public class GameController : MonoBehaviour {
         }
     }
 
-    //GFHexGrid _grid;
-    //public GFHexGrid grid {
-    //    get {
-    //        if (_grid == null) {
-    //            _grid = GameObject.Find("Hex Grid").GetComponent<GFHexGrid>();
-    //        }
-    //        return _grid;
-    //    }
-    //}
-
     GridController _gridController;
-    public GridController gridController {
+    public virtual GridController gridController {
         get {
             if (_gridController == null) {
                 _gridController = GameObject.Find("Grid").GetComponent<GridController>();
@@ -74,7 +64,7 @@ public class GameController : MonoBehaviour {
     }
 
 	GridService _gridService;
-	public GridService gridService {
+	public virtual GridService gridService {
 		get {
 			if (_gridService == null) {
 				_gridService = gridController.gridService;
@@ -84,7 +74,7 @@ public class GameController : MonoBehaviour {
 	}
 
 	TileSelectionController _tileSelectionController;
-	public TileSelectionController tileSelectionController {
+	public virtual TileSelectionController tileSelectionController {
 		get {
 			if (_tileSelectionController == null) {
 				_tileSelectionController = GameObject.Find("Grid").GetComponent<TileSelectionController>();
@@ -106,12 +96,12 @@ public class GameController : MonoBehaviour {
         }
     }
 
-    protected void SnapToGrid () {
+    protected virtual void SnapToGrid () {
         //Vector3 nearestGridPos = grid.NearestFaceW(transform.position);
         transform.position = gridService.NearestCellCenter(transform.position);
     }
 
-    protected void EndPlayerTurn () {
+    protected virtual void EndPlayerTurn () {
         turnController.EndTurn();
     }
 }

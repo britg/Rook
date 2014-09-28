@@ -16,18 +16,18 @@ public class PlayerController : MonoBehaviour {
     }
 
 	void Awake () {
+		InitializePlayer();
+	}
+
+	void InitializePlayer () {
 		player.hitPoints = new CharacterAttribute(seedValue: seedHitPoints);
 		player.actionPoints = new CharacterAttribute(seedValue: seedActionPoints);
+		player.AssignWarriorAction(new SwordSwipeAction());
 	}
 
     void Start () {
 		NotificationCenter.AddObserver(this, Notifications.PlayerTurn);
-		InitializePlayer();
     }
-
-	void InitializePlayer () {
-		player.AssignWarriorAction(new SwordSwipeAction());
-	}
 
 	public void EnterMode (PlayerControlMode mode) {
 		player.EnterMode(mode);

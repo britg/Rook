@@ -3,8 +3,6 @@ using System.Collections;
 
 public class PlayerActionController : GameController {
 
-	CharacterAction currentAction;
-
 	// Use this for initialization
 	void Start () {
 	}

@@ -102,25 +102,26 @@ public class GridService {
 
 	FlatHexPoint RotatedPoint (FlatHexPoint point, float playerRotation) {
 		int rotationSlot = Mathf.RoundToInt(playerRotation / 60f);
-		Debug.Log ("Rotation slot is " + rotationSlot);
+        //Debug.Log ("Rotation slot is " + rotationSlot);
+        FlatHexPoint rotated = point;
 		switch (rotationSlot) {
 		case 1:
-			return point.Rotate300();
+			rotated = point.Rotate300();
 			break;
 		case 2:
-			return point.Rotate240();
+			rotated = point.Rotate240();
 			break;
 		case 3:
-			return point.Rotate180();
+			rotated = point.Rotate180();
 			break;
 		case 4:
-			return point.Rotate120();
+			rotated = point.Rotate120();
 			break;
 		case 5:
-			return point.Rotate60();
+			rotated = point.Rotate60();
 			break;
 		}
-		return point;
+		return rotated;
 	}
 
 }
