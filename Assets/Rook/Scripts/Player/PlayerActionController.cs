@@ -26,6 +26,7 @@ public class PlayerActionController : GameController {
 	}
 
 	public void StartAction (CharacterAction action) {
+		playerController.EnterMode (action.controlMode);
 		if (action.requiresSelection) {
 			PromptSelection(action);
 		} else {
@@ -36,14 +37,12 @@ public class PlayerActionController : GameController {
 
 	public void PromptSelection (CharacterAction action) {
 		Debug.Log ("Prompting selection for action " + action);
-		playerController.EnterMode(PlayerControlMode.GridSelect);
 		// prompt the selection and get the callback
 	}
 
     // We assume here the action already has its targets
 	public void PerformAction (CharacterAction action) {
 		Debug.Log ("Performing action " + action);
-		playerController.EnterMode (PlayerControlMode.Wait);
 
         if (!action.isValid) {
             Debug.Log("Not a valid target!");
@@ -56,7 +55,17 @@ public class PlayerActionController : GameController {
         List<IReceiveAction> targetsInRange = new List<IReceiveAction>();
         // raycast and find targets in range
         List<Vector3> pointsToCheck = gridService.WorldPointsForAction(action);
+		foreach (Vector3 pointToCheck in pointsToCheck) {
+			var t = GetTargetAtPoint(pointToCheck);
+			if (t != null) {
+				targetsInRange.Add(t);
+			}
+		}
         return targetsInRange;
     }
+
+	IReceiveAction GetTargetAtPoint (Vector3 point) {
+		return null;
+	}
 
 }

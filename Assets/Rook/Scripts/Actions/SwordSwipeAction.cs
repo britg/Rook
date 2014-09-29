@@ -10,6 +10,7 @@ public class  SwordSwipeAction : CharacterAction {
 		gridPoints = new List<FlatHexPoint>{ new FlatHexPoint(0, 1) };
 		actionPointCost = 1;
 		controlMode = PlayerControlMode.Wait;
+		damage = new ValueRange(from: 5, to:10);
 	}
 
 }

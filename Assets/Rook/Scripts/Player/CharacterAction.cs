@@ -8,11 +8,12 @@ public class CharacterAction  {
 
     public Character owner;
     public List<IReceiveAction> targets;
+	public PlayerControlMode controlMode;
 
 	public string name;
 	public List<FlatHexPoint> gridPoints;
 	public int actionPointCost;
-	public PlayerControlMode controlMode;
+	public ValueRange damage;
 
     public virtual bool isValid {
         get {

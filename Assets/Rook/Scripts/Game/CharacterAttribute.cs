@@ -19,10 +19,6 @@ public class CharacterAttribute {
 		return currentValue;
 	}
 
-	public int RandomValue () {
-		return Random.Range(minValue, maxValue);
-	}
-
 	public int Decrement (int amount) {
 		return SetValue (currentValue - amount);
 	}
