@@ -2,34 +2,12 @@
 using System.Collections;
 
 [System.Serializable]
-public class Enemy {
+public class Enemy : Character {
 
-    [SerializeField]
-    int actionPoints;
-
-    [SerializeField]
-    int maxActionPoints;
-
-    [SerializeField]
-    int detectRange;
-
-
-    public int ActionPoints {
-        get {
-            return actionPoints;
-        }
-    }
-
-    public int MaxActionPoints {
-        get {
-            return maxActionPoints;
-        }
-    }
-
-    public int DetectRange {
-        get {
-            return detectRange;
-        }
-    }
+	public override CharacterAlignment alignment {
+		get {
+			return CharacterAlignment.Enemy;
+		}
+	}
 
 }

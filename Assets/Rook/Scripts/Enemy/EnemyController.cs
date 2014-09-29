@@ -8,10 +8,20 @@ public class EnemyController : GameController {
     Vector3 playerDir;
     float playerDistance;
 
-	// Use this for initialization
+	void Awake () {
+		InitializeEnemy();
+	}
+
 	void Start () {
         Register();
         SnapToGrid();
+	}
+
+	void InitializeEnemy () {
+		enemy = new Enemy();
+		enemy.go = gameObject;
+		enemy.actionPoints = new CharacterAttribute(seedValue: 1);
+		enemy.detectRange = new CharacterAttribute(seedValue: 10);
 	}
 
     void Register () {
@@ -48,7 +58,7 @@ public class EnemyController : GameController {
         playerPos = playerObj.transform.position;
         playerDir = playerPos - transform.position;
         playerDistance = Vector3.Distance(playerPos, transform.position);
-        return playerDistance <= (float)enemy.DetectRange;
+		return enemy.InDetectionRange(playerDistance);
     }
 
     void Attack () {
