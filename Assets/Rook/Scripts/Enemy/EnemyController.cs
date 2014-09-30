@@ -4,9 +4,16 @@ using System.Collections;
 public class EnemyController : GameController {
 
     public Enemy enemy;
-    Vector3 playerPos;
-    Vector3 playerDir;
-    float playerDistance;
+    Vector3 playerPos {
+		get {
+			return playerObj.transform.position;
+		}
+	}
+    Vector3 playerDir {
+		get {
+			return (playerPos - transform.position).normalized;
+		}
+	}
 
 	void Awake () {
 		InitializeEnemy();
@@ -30,21 +37,19 @@ public class EnemyController : GameController {
 
     void TakeTurn () {
         TakeAction();
-        SnapToGrid();
     }
 
     void TakeAction () {
 
-        bool inRange = DetectPlayerInRange();
-
-        if (inRange) {
+        if (enemy.Detect(playerObj)) {
             EnterCombat();
         } else {
+			ExitCombat();
             TurnFinished();
             return;
         }
 
-        Vector3 oneHexTowardsPlayer = transform.position + playerDir.normalized * (1.5f);
+        Vector3 oneHexTowardsPlayer = transform.position + playerDir * GridService.gridUnit;
         Vector3 nearestHex = gridService.NearestCellCenter(oneHexTowardsPlayer);
 
         if (nearestHex.Equals(playerObj.transform.position)) {
@@ -52,13 +57,6 @@ public class EnemyController : GameController {
         } else {
             MoveToPosition(nearestHex);
         }
-    }
-
-    bool DetectPlayerInRange () {
-        playerPos = playerObj.transform.position;
-        playerDir = playerPos - transform.position;
-        playerDistance = Vector3.Distance(playerPos, transform.position);
-		return enemy.InDetectionRange(playerDistance);
     }
 
     void Attack () {
@@ -77,10 +75,15 @@ public class EnemyController : GameController {
     }
 
     void TurnFinished () {
+        SnapToGrid();
         turnController.EnemyTurnFinished(gameObject);
     }
 
     void EnterCombat () {
-        turnController.EnterCombat();
+        combatService.EnterCombat(gameObject);
     }
+
+	void ExitCombat () {
+		combatService.ExitCombat(gameObject);
+	}
 }

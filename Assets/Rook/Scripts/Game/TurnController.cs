@@ -13,10 +13,7 @@ public class TurnController : GameController {
         get { return playerTurn; }
     }
 
-    public bool inCombat = false;
-    public bool InCombat {
-        get { return inCombat; }
-    }
+	public CombatService combatService = new CombatService();
 
     void Start () {
 		Invoke("StartTurn", 1f);
@@ -56,15 +53,6 @@ public class TurnController : GameController {
         currentTurn++;
         playerTurn = true;
         NotificationCenter.PostNotification(this, Notifications.PlayerTurn);
-    }
-
-    public void EnterCombat () {
-        if (inCombat) {
-            return;
-        }
-
-        Debug.Log("Entering combat!");
-        inCombat = true;
     }
 
 	void OnActionFinished () {

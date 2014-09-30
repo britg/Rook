@@ -31,4 +31,9 @@ public abstract class Character : IReceiveAction {
 	public bool InDetectionRange (float distance) {
 		return distance <= (float)detectRange.maxValue;
 	}
+
+	public bool Detect (GameObject other) {
+        float otherDistance = Vector3.Distance(other.transform.position, go.transform.position);
+		return InDetectionRange(otherDistance);
+	}
 }

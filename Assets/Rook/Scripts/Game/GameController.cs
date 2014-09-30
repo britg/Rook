@@ -23,6 +23,16 @@ public abstract class GameController : MonoBehaviour {
         }
     }
 
+	CombatService _combatService;
+	public virtual CombatService combatService {
+		get {
+			if (_combatService == null) {
+				_combatService = turnController.combatService;
+			}
+			return _combatService;
+		}
+	}
+
     GameObject _playerObj;
     public virtual GameObject playerObj {
         get {
@@ -92,7 +102,7 @@ public abstract class GameController : MonoBehaviour {
 
     public bool InCombat {
         get {
-            return turnController.InCombat;
+            return combatService.InCombat;
         }
     }
 
