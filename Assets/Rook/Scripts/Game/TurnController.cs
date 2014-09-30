@@ -20,9 +20,13 @@ public class TurnController : GameController {
 		NotificationCenter.AddObserver(this, Notifications.ActionFinished);
     }
 
-    public void RegisterEnemy (GameObject enemy) {
-        enemies.Add(enemy);
+    public void RegisterEnemy (GameObject enemyObj) {
+        enemies.Add(enemyObj);
     }
+
+	public void UnregisterEnemy (GameObject enemyObj) {
+		enemies.Remove(enemyObj);
+	}
 
     public void EndTurn () {
         playerTurn = false;
@@ -37,8 +41,8 @@ public class TurnController : GameController {
         }
     }
 
-    public void EnemyTurnFinished (GameObject enemy) {
-        enemiesTakingTurn.Remove(enemy);
+    public void EnemyTurnFinished (GameObject enemyObj) {
+        enemiesTakingTurn.Remove(enemyObj);
 
         if (enemiesTakingTurn.Count < 1) {
             EndEnemyTurn();

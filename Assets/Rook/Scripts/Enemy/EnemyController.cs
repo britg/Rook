@@ -35,6 +35,7 @@ public class EnemyController : GameController {
 		enemy.go = gameObject;
 		enemy.actionPoints = new CharacterAttribute(seedValue: 1);
 		enemy.detectRange = new CharacterAttribute(seedValue: 10);
+		enemy.hitPoints = new CharacterAttribute(seedValue: 10);
 		enemy.action = new CharacterAction();
 		enemy.action.actionPointCost = 1;
 		enemy.action.damage = new ValueRange(from: 3, to: 5);
@@ -42,7 +43,12 @@ public class EnemyController : GameController {
 
     void Register () {
         turnController.RegisterEnemy(gameObject);
+		NotificationCenter.AddObserver(this, Notifications.ActionFinished);
     }
+
+	void Unregister () {
+		turnController.UnregisterEnemy(gameObject);
+	}
 
     void TakeTurn () {
         TakeAction();
@@ -94,5 +100,16 @@ public class EnemyController : GameController {
 
 	void ExitCombat () {
 		combatService.ExitCombat(gameObject);
+	}
+
+	void OnActionFinished () {
+		DieIfDead();
+	}
+
+	void DieIfDead () {
+		if (enemy.dead) {
+			Unregister();
+			Destroy (gameObject);
+		}
 	}
 }

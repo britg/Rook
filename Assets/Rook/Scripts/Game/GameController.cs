@@ -23,6 +23,16 @@ public abstract class GameController : MonoBehaviour {
         }
     }
 
+	ActionQueueController _aqController;
+	public virtual ActionQueueController actionQueueController {
+		get {
+			if (_aqController == null) {
+				_aqController = gameObj.GetComponent<ActionQueueController>();
+			}
+			return _aqController;
+		}
+	}
+
 	CombatService _combatService;
 	public virtual CombatService combatService {
 		get {

@@ -14,6 +14,8 @@ public abstract class Character : IReceiveAction {
 	public CharacterAttribute attackRating { get; set; }
 	public CharacterAttribute detectRange { get; set; }
 
+	public bool dead;
+
     CharacterAction _action;
 	public virtual CharacterAction action {
         get {
@@ -38,43 +40,26 @@ public abstract class Character : IReceiveAction {
 		return InDetectionRange(otherDistance);
 	}
 
-	public bool HasEnoughActionPoints (CharacterAction action) {
-		return actionPoints.currentValue >= action.actionPointCost;
+	public virtual void ReceiveAction (CharacterAction action) {
+		Debug.Log ("Receiving Action");
+		TakeDamage(action);
 	}
 
-	public List<IReceiveAction> TargetsInRange (GridService gridService) {
-		var targetsInRange = new List<IReceiveAction>();
-		List<Vector3> pointsToCheck = gridService.WorldPointsForAction(action);
-		foreach (Vector3 pointToCheck in pointsToCheck) {
-			var t = GetTargetsAtPoint(pointToCheck);
-			if (t.Count > 0) {
-				targetsInRange.AddRange(t);
-			}
+	void TakeDamage (CharacterAction action) {
+		int amount = action.damage.rand;
+		hitPoints.Decrement(amount);
+
+		Debug.Log ("Took damage " + amount);
+		Debug.Log ("Current hp: " + hitPoints.currentValue);
+
+		if (hitPoints.currentValue <= 0) {
+			Die();
 		}
-		return targetsInRange;
 	}
 
-	List<IReceiveAction> GetTargetsAtPoint (Vector3 point) {
-		float sphereRadius = 0.5f;
-		
-		// get direction to move destination
-		Vector3 start = go.transform.position; 
-		start.y = sphereRadius;
-		Vector3 direction = point - start;
-		
-		// get distance to move destination
-		float dist = Vector3.Distance(start, point);
-		RaycastHit[] hits = Physics.SphereCastAll(start, sphereRadius, direction, dist);
-		
-		var targets = new List<IReceiveAction>();
-		foreach (RaycastHit hit in hits) {
-			var hitObj = hit.collider.gameObject;
-			var gc = hitObj.GetComponent<GameController>();
-			if (gc != null && gc.actionReceiver != null) {
-				Debug.Log ("Action receiver is " + gc.actionReceiver);
-				targets.Add(gc.actionReceiver);
-			}
-		}
-		return targets;
+	void Die () {
+		Debug.Log("I'm dead");
+		dead = true;
 	}
+
 }

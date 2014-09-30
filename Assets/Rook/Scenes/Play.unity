@@ -28560,6 +28560,7 @@ MonoBehaviour:
   seedHitPoints: 100
   seedActionPoints: 5
   player:
+    dead: 0
     controlMode: 5
 --- !u!114 &734265062
 MonoBehaviour:
@@ -35726,6 +35727,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c967ce03a1edd314a992a26027d718c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemy:
+    dead: 0
 --- !u!1 &863957094
 GameObject:
   m_ObjectHideFlags: 0
@@ -56964,6 +56967,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c967ce03a1edd314a992a26027d718c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemy:
+    dead: 0
 --- !u!64 &1443562701
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -60166,6 +60171,7 @@ GameObject:
   - 114: {fileID: 1474764484}
   - 114: {fileID: 1474764483}
   - 114: {fileID: 1474764486}
+  - 114: {fileID: 1474764487}
   m_Layer: 0
   m_Name: Game
   m_TagString: Untagged
@@ -60413,6 +60419,17 @@ MonoBehaviour:
     _warriorCellColor: {r: 1, g: 0, b: 0, a: .360784322}
     _thiefCellColor: {r: 0, g: 0, b: 0, a: 0}
     _mageCellColor: {r: 0, g: 0, b: 0, a: 0}
+--- !u!114 &1474764487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1474764482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6b2d62e619784a99a8973509c8399ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1475717355
 GameObject:
   m_ObjectHideFlags: 0
