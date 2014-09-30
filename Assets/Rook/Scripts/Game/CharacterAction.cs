@@ -14,12 +14,13 @@ public class CharacterAction  {
 	public List<FlatHexPoint> gridPoints;
 	public int actionPointCost;
 	public ValueRange damage;
+	public int requiredTargetCount = 1;
 
-    public virtual bool isValid {
-        get {
-            return false;
-        }
-    }
+	public virtual bool enoughActionPoints {
+		get {
+			return owner.actionPoints.currentValue >= actionPointCost;
+		}
+	}
     
 
 	public bool requiresSelection {
@@ -38,7 +39,21 @@ public class CharacterAction  {
     }
 
     public bool ValidTarget (IReceiveAction target) {
-        return false;
+        return true;
     }
+
+	public bool CanPerform (GridService gridService) {
+		if (!enoughActionPoints) {
+			return false;
+		}
+
+		var targetsInRange = owner.TargetsInRange(gridService);
+		ValidateTargets(targetsInRange);
+        return targets.Count >= requiredTargetCount;
+	}
+
+	public void Perform () {
+		owner.actionPoints.Decrement(actionPointCost);
+	}
 
 }

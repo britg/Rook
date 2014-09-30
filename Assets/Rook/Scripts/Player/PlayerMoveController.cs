@@ -157,7 +157,7 @@ public class PlayerMoveController : GameController {
 
     void FinishMove () {
         Reset();
-		NotificationCenter.PostNotification(this, Notifications.ActionFinished);
+		PostActionFinished();
     }
 
 

@@ -1,11 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Warrior : Character {
+public class Warrior : SubCharacter {
 
-    public override CharacterAlignment alignment {
-        get {
-            return CharacterAlignment.Player;
-        }
-    }
 }

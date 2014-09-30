@@ -106,6 +106,12 @@ public abstract class GameController : MonoBehaviour {
         }
     }
 
+	public virtual IReceiveAction actionReceiver {
+		get {
+			return null;
+		}
+	}
+
     protected virtual void SnapToGrid () {
         //Vector3 nearestGridPos = grid.NearestFaceW(transform.position);
         transform.position = gridService.NearestCellCenter(transform.position);
@@ -114,4 +120,8 @@ public abstract class GameController : MonoBehaviour {
     protected virtual void EndPlayerTurn () {
         turnController.EndTurn();
     }
+
+	protected void PostActionFinished () {
+		NotificationCenter.PostNotification(this, Notifications.ActionFinished);
+	}
 }

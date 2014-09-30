@@ -56,6 +56,7 @@ public class PlayerController : MonoBehaviour {
 		player.actionPoints = new CharacterAttribute(seedValue: seedActionPoints);
         player.warrior.go = warriorObj;
 		player.AssignWarriorAction(new SwordSwipeAction());
+		player.Init();
 	}
 
     void Start () {

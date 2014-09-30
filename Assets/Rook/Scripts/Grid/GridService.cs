@@ -16,6 +16,12 @@ public class GridService {
 	Transform playerTransform;
 	Transform actionProxyTransform;
 
+	float playerRotation {
+		get {
+			return playerTransform.eulerAngles.y;
+		}
+	}
+
 	public GridService (GridBuilder _builder, Transform _playerTransform) {
 		builder = _builder;
 		grid = builder.Grid;
@@ -91,7 +97,8 @@ public class GridService {
     public List<Vector3> WorldPointsForAction (CharacterAction action) {
         var worldPoints = new List<Vector3>();
 		foreach (FlatHexPoint point in action.gridPoints) {
-			worldPoints.Add(WorldPointFromGridPoint(point));
+			var rotatedPoint = RotatedPoint(point, playerRotation);
+			worldPoints.Add(WorldPointFromGridPoint(rotatedPoint));
 		}
         return worldPoints;
     }
@@ -103,7 +110,7 @@ public class GridService {
 	}
 
 	public void HighlightRelativePoint (FlatHexPoint point) {
-		FlatHexPoint gridPoint = RotatedPoint(point, playerTransform.eulerAngles.y);
+		FlatHexPoint gridPoint = RotatedPoint(point, playerRotation);
 		TileCell cell = GridCellFromGridPoint(gridPoint);
 		SetCellColor(cell, GameColors.warriorCellColor);
 	}

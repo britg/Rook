@@ -15,6 +15,12 @@ public class EnemyController : GameController {
 		}
 	}
 
+	public override IReceiveAction actionReceiver {
+		get {
+			return enemy;
+		}
+	}
+
 	void Awake () {
 		InitializeEnemy();
 	}
@@ -29,6 +35,9 @@ public class EnemyController : GameController {
 		enemy.go = gameObject;
 		enemy.actionPoints = new CharacterAttribute(seedValue: 1);
 		enemy.detectRange = new CharacterAttribute(seedValue: 10);
+		enemy.action = new CharacterAction();
+		enemy.action.actionPointCost = 1;
+		enemy.action.damage = new ValueRange(from: 3, to: 5);
 	}
 
     void Register () {

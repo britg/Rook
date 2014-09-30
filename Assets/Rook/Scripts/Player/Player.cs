@@ -46,14 +46,23 @@ public class Player : Character {
         }
     }
 
+	public bool canStartAction {
+		get {
+			return controlMode == PlayerControlMode.Move;
+		}
+	}
+
+
+	public void Init () {
+		warrior.player = this;
+		thief.player = this;
+		mage.player = this;
+	}
+
     public void EnterMode (PlayerControlMode mode) {
         Debug.Log("Entering mode " + mode + " with game object " + go);
         controlMode = mode;
     }
-
-	public void AssignAction (CharacterAction action, PlayerCharacterType type) {
-
-	}
 
 	public void AssignWarriorAction (CharacterAction action) {
         warrior.action = action;
