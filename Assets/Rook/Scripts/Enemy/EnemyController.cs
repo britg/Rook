@@ -33,12 +33,10 @@ public class EnemyController : GameController {
 	void InitializeEnemy () {
 		enemy = new Enemy();
 		enemy.go = gameObject;
-		enemy.actionPoints = new CharacterAttribute(seedValue: 1);
+		enemy.actionPoints = new CharacterAttribute(seedValue: 3);
 		enemy.detectRange = new CharacterAttribute(seedValue: 10);
-		enemy.hitPoints = new CharacterAttribute(seedValue: 10);
-		enemy.action = new CharacterAction();
-		enemy.action.actionPointCost = 1;
-		enemy.action.damage = new ValueRange(from: 3, to: 5);
+		enemy.hitPoints = new CharacterAttribute(seedValue: 100);
+		enemy.action = new SwordSwipeAction(from: 20, to: 30);
 	}
 
     void Register () {
@@ -51,7 +49,9 @@ public class EnemyController : GameController {
 	}
 
     void TakeTurn () {
-        TakeAction();
+		while (enemy.actionPoints.currentValue > 0) {
+        	TakeAction();
+		}
     }
 
     void TakeAction () {
@@ -71,6 +71,7 @@ public class EnemyController : GameController {
             Attack();
         } else {
             MoveToPosition(nearestHex);
+			enemy.actionPoints.Decrement();
         }
     }
 

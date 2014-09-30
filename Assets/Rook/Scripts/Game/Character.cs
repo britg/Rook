@@ -7,6 +7,7 @@ public abstract class Character : IReceiveAction {
     public GameObject go { get; set; }
 
     public abstract CharacterAlignment alignment { get; }
+	public PlayerControlMode controlMode;
 
 	public CharacterAttribute hitPoints { get; set; }
 	public virtual CharacterAttribute actionPoints { get; set; }
@@ -62,4 +63,9 @@ public abstract class Character : IReceiveAction {
 		dead = true;
 	}
 
+	public void EnterMode (PlayerControlMode mode) {
+		Debug.Log("Entering mode " + mode + " with game object " + go);
+		controlMode = mode;
+	}
+	
 }

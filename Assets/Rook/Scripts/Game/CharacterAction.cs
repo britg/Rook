@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Gamelogic.Grids;
 
 [System.Serializable]
-public class CharacterAction  {
+public class CharacterAction : GameAction  {
 
     public Character owner;
     public List<IReceiveAction> targets;
@@ -21,7 +21,6 @@ public class CharacterAction  {
 			return owner.actionPoints.currentValue >= actionPointCost;
 		}
 	}
-    
 
 	public bool requiresSelection {
 		get {
@@ -96,6 +95,7 @@ public class CharacterAction  {
 
 
 	public void Perform () {
+		owner.EnterMode(controlMode);
 		owner.actionPoints.Decrement(actionPointCost);
 		foreach (IReceiveAction target in targets) {
 			target.ReceiveAction(this);

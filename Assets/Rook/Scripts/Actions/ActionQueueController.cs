@@ -4,9 +4,10 @@ using System.Collections;
 public class ActionQueueController : GameController {
 
 	Queue queue = new Queue();
-	CharacterAction currentAction;
+	GameAction currentAction;
 
-	public void Add (CharacterAction action) {
+	public void Add (GameAction action) {
+
 		queue.Enqueue(action);
 		Process();
 	}
@@ -20,7 +21,7 @@ public class ActionQueueController : GameController {
 			return ;
 		}
 
-		currentAction = (CharacterAction)queue.Dequeue();
+		currentAction = (GameAction)queue.Dequeue();
 		StartAction();
 	}
 
@@ -28,38 +29,19 @@ public class ActionQueueController : GameController {
 		StartAction (currentAction);
 	}
 	
-	public void StartAction (CharacterAction action) {
-		if (!player.canStartAction) {
-			return;
-		}
-		
-		if (action.requiresSelection) {
-			PromptSelection(action);
-		} else {
-			PerformAction(action);
-		}
+	public void StartAction (GameAction action) {
+		PerformAction(action);
 	}
-	
-	public void PromptSelection (CharacterAction action) {
-		Debug.Log ("Prompting selection for action " + action);
-		// prompt the selection and get the callback
-	}
-	
-	public void PerformAction (CharacterAction action) {
+
+	public void PerformAction (GameAction action) {
 		Debug.Log ("Performing action " + action);
-		
-		if (action.CanPerform(gridService)) {
-			playerController.EnterMode (action.controlMode);
-			action.Perform();
-			Invoke ("FinishAction", 1f);
-		} else {
-			Debug.Log("No valid targets!");
-		}
+//		action.Perform();
+		Invoke ("FinishAction", 1f);
 	}
 	
 	public void FinishAction () {
 		PostActionFinished();
-		playerController.DefaultMode();
+//		playerController.DefaultMode();
 		currentAction = null;
 		Process();
 	}

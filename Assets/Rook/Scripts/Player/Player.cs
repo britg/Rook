@@ -10,8 +10,6 @@ public class Player : Character {
         }
     }
 
-    public PlayerControlMode controlMode;
-
 	public Warrior warrior = new Warrior();
 	public Thief thief = new Thief();
 	public Mage mage = new Mage();
@@ -59,10 +57,6 @@ public class Player : Character {
 		mage.player = this;
 	}
 
-    public void EnterMode (PlayerControlMode mode) {
-        Debug.Log("Entering mode " + mode + " with game object " + go);
-        controlMode = mode;
-    }
 
 	public void AssignWarriorAction (CharacterAction action) {
         warrior.action = action;

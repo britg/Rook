@@ -5,12 +5,12 @@ using Gamelogic.Grids;
 
 public class  SwordSwipeAction : CharacterAction {
 
-	public SwordSwipeAction () {
+	public SwordSwipeAction (int from, int to) {
 		name = "Sword Swipe";
 		gridPoints = new List<FlatHexPoint>{ new FlatHexPoint(0, 1) };
 		actionPointCost = 1;
 		controlMode = PlayerControlMode.Wait;
-		damage = new ValueRange(from: 5, to:10);
+		damage = new ValueRange(from: from, to: to);
 	}
 
 }

@@ -55,7 +55,7 @@ public class PlayerController : MonoBehaviour {
 		player.hitPoints = new CharacterAttribute(seedValue: seedHitPoints);
 		player.actionPoints = new CharacterAttribute(seedValue: seedActionPoints);
         player.warrior.go = warriorObj;
-		player.AssignWarriorAction(new SwordSwipeAction());
+		player.AssignWarriorAction(new SwordSwipeAction(from: 30, to: 50));
 		player.Init();
 	}
 
