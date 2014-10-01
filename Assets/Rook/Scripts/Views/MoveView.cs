@@ -40,7 +40,7 @@ public class MoveView : View {
 		}
 		
 		line.Resize(moveAction.waypoints.Count + 1);
-		line.points3[0] = transform.position;
+		line.points3[0] = moveAction.characterPosition;
 		
 		for (int i = 0; i < moveAction.waypoints.Count; i++) {
 			Vector3 p = moveAction.waypoints[i];
@@ -49,7 +49,7 @@ public class MoveView : View {
 		}
 	}
 
-	void Reset () {
+	public void Reset () {
 		VectorLine.Destroy(ref line);
 	}
 }

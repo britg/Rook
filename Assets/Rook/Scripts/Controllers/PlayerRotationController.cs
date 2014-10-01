@@ -6,6 +6,7 @@ public class PlayerRotationController : GameController {
     Vector3 aimPoint;
 
 	PlayerRotationAction rotationAction;
+	PlayerRotationView rotationView;
 
     public bool isRotating {
         get {

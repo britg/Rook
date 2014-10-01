@@ -42,6 +42,7 @@ public class ActionQueueController : GameController {
 	}
 
 	public void CompletedAction () {
+		currentAction.Done();
 		PostActionFinished();
 		Continue();
 	}

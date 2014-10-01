@@ -15,4 +15,7 @@ public abstract class GameAction {
 		}
 	}
 
+	public virtual void Done () {
+	}
+
 }

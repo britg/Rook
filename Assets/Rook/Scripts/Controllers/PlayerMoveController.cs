@@ -17,16 +17,13 @@ public class PlayerMoveController : GameController {
 	}
 
 	void MoveInputStart () {
-		currentMoveAction = new MoveAction(player);
-		moveView.moveAction = currentMoveAction;
+		currentMoveAction = new MoveAction(player, moveView);
 	}
 
 	void MoveInputUpdate (Vector3 pos) {
         Vector3 waypoint = gridService.NearestCellCenter(pos);
 		currentMoveAction.AddWaypoint(waypoint);
-		moveView.Redraw();
 	}
-
 
 	void MoveInputFinished () {
 		actionQueueController.Add(currentMoveAction);

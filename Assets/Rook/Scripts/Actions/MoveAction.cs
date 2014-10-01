@@ -18,13 +18,15 @@ public class MoveAction : GameAction {
         }
     }
 
+	MoveView moveView;
+
 	public GameObject go {
 		get {
 			return character.go;
 		}
 	}
 
-	Vector3 characterPosition {
+	public Vector3 characterPosition {
 		get {
 			return character.go.transform.position;
 		}
@@ -36,8 +38,10 @@ public class MoveAction : GameAction {
 		}
 	}
 
-	public MoveAction (Character _c) {
+	public MoveAction (Character _c, MoveView view) {
 		character = _c;
+		moveView = view;
+		moveView.moveAction = this;
 		waypoints = new List<Vector3>();
 	}
 
@@ -58,6 +62,7 @@ public class MoveAction : GameAction {
 		// First waypoint
 		if (waypoints.Count == 0 && maxMoves > 0) {
 			waypoints.Add(moveDestination);
+			moveView.Redraw();
 			return;
 		} 
 		
@@ -65,11 +70,6 @@ public class MoveAction : GameAction {
 		if (moveDestination.Equals(lastWaypoint)) {
 			return;
 		}
-		
-		if (waypoints.Count >= maxMoves) {
-			return;
-		}
-		
 		
 		Vector3 p;
 		for (int i = 0; i < waypoints.Count; i++) {
@@ -80,12 +80,22 @@ public class MoveAction : GameAction {
 				return;
 			}
 		}
-		
+
+		if (waypoints.Count >= maxMoves) {
+			return;
+		}
+
 		waypoints.Add(moveDestination);
+		moveView.Redraw();
 	}
 
 	void Reset () {
 		waypoints = new List<Vector3>();
+		moveView.Reset();
+	}
+
+	public override void Done () {
+		moveView.Reset();
 	}
 
 	bool DestinationValid (Vector3 moveDestination) {

@@ -14,7 +14,7 @@ public class MoveProcessor : ActionProcessor {
 	
 	int currentMoveIndex = 0;
 	public MoveAction moveAction;
-	
+
 	List<Vector3> waypoints {
 		get {
 			return moveAction.waypoints;
@@ -39,6 +39,10 @@ public class MoveProcessor : ActionProcessor {
 		                                         "oncompletetarget", gameObject));
 		currentMoveIndex++;
 		moveAction.character.actionPoints.Decrement(moveAction.actionPointCost);
+	}
+
+	public override void DoneProcessing () {
+		base.DoneProcessing();
 	}
 	
 }
