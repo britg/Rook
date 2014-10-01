@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class MoveAction : GameAction {
 
+	static List<string> nonBlockingTags = new List<string>{ "Player", "Grid", "Floor" };
+
 	public Character character;
     public List<Vector3> waypoints;
     public Vector3 lastWaypoint {
@@ -44,7 +46,7 @@ public class MoveAction : GameAction {
 		Vector3 moveDestination = point;
 		moveDestination.y = characterPosition.y;
 		
-		if (DestinationOccupied(moveDestination) || !DestinationValid(moveDestination)) {
+		if (!DestinationValid(moveDestination)) {
 			return;
 		}
 		
@@ -85,6 +87,10 @@ public class MoveAction : GameAction {
 	void Reset () {
 		waypoints = new List<Vector3>();
 	}
+
+	bool DestinationValid (Vector3 moveDestination) {
+		return !DestinationOccupied(moveDestination);
+	}
 	
 	bool DestinationOccupied (Vector3 moveDestination) {
 		float sphereRadius = 0.5f;
@@ -97,11 +103,18 @@ public class MoveAction : GameAction {
 		// get distance to move destination
 		float dist = Vector3.Distance(start, moveDestination);
 		RaycastHit[] hits = Physics.SphereCastAll(start, sphereRadius, direction, dist);
-		return PlayerMove.BlockedBy(hits);
-	}
-	
-	bool DestinationValid (Vector3 moveDestination) {
-		return PlayerMove.ValidMove(moveDestination, waypoints);
+		return BlockedBy(hits);
 	}
 
+	public static bool BlockedBy (RaycastHit[] hits) {
+		foreach (RaycastHit hit in hits) {
+			if (!nonBlockingTags.Contains(hit.collider.gameObject.tag)) {
+				Debug.Log ("Blocked by " + hit.collider.gameObject.tag);
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 }

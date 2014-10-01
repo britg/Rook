@@ -49,9 +49,7 @@ public class EnemyController : GameController {
 	}
 
     void TakeTurn () {
-		while (enemy.actionPoints.currentValue > 0) {
-        	TakeAction();
-		}
+    	TakeAction();
     }
 
     void TakeAction () {
