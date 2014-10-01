@@ -93,7 +93,7 @@ public class MoveAction : GameAction {
 	}
 	
 	bool DestinationOccupied (Vector3 moveDestination) {
-		float sphereRadius = 0.5f;
+		float sphereRadius = GridService.gridUnit/2f;
 		
 		// get direction to move destination
 		Vector3 start = lastWaypoint; 
