@@ -64,8 +64,9 @@ public class TurnController : GameController {
 		DetermineEndOfTurn();
 	}
 
-	void DetermineAutoEndOfTurn () {
+	void DetermineEndOfTurn () {
 		if (player.actionPoints.currentValue < 1) {
+			Debug.Log ("No more action points left!");
 		}
 	}
 
