@@ -3,11 +3,7 @@ using System.Collections;
 
 public class PlayerRotationController : GameController {
 
-    public float rotateAngle = 60f;
-    public float rotateTime = 0.2f;
-
     Vector3 aimPoint;
-    public Transform aimProxy;
 
 	PlayerRotationAction rotationAction;
 
@@ -15,14 +11,6 @@ public class PlayerRotationController : GameController {
         get {
             return player.isRotating;
         }
-    }
-
-    // Use this for initialization
-    void Start () {
-    }
-
-    // Update is called once per frame
-    void Update () {
     }
 
     public void RotateButtonPressed () {
@@ -42,45 +30,18 @@ public class PlayerRotationController : GameController {
     }
 
 	void StartRotate () {
-
+		rotationAction = new PlayerRotationAction(playerObj);
 	}
 
 	public void UpdateRotateInput (Vector3 _aimPoint) {
-
+		rotationAction.UpdateAimPoint(_aimPoint);
 	}
 
-	public void CommitRotate () {
+	public void CommitRotateInput () {
 		Debug.Log ("Commit called");
 		if (isRotating) {
-			playerController.EnterMode(PlayerControlMode.Move);
-			player.actionPoints.Decrement();
-			NotificationCenter.PostNotification(this, Notifications.ActionFinished);
+			actionQueueController.Add(rotationAction);
 		}
 	}
-
-    public void SetAimPoint (Vector3 _aimPoint) {
-        aimPoint = _aimPoint;
-        RotateToAimPoint();
-    }
-
-    void RotateToAimPoint () {
-        aimProxy.LookAt(aimPoint);
-        Vector3 angles = aimProxy.eulerAngles;
-        float angle = angles.y;
-        float remain = angle % rotateAngle;
-        float nearest = 0f;
-        if (remain > rotateAngle / 2f) {
-            nearest = Mathf.Ceil(angle / rotateAngle) * rotateAngle;
-        } else {
-            nearest = Mathf.Floor(angle / rotateAngle) * rotateAngle;
-        }
-
-        angles.y = nearest;
-        transform.eulerAngles = angles;
-    }
-
-    void RotateToTouch () {
-
-    }
 
 }

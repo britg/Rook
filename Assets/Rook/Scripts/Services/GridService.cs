@@ -6,6 +6,7 @@ using Gamelogic.Grids;
 public class GridService {
 
 	public static float gridUnit = 1.91f;
+	public static float rotationAngle = 60f;
 
 	GridBuilder builder;
 	FlatHexGrid<TileCell> grid;

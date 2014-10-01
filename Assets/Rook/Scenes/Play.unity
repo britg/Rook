@@ -21595,7 +21595,6 @@ GameObject:
   - 114: {fileID: 589549020}
   - 114: {fileID: 589549016}
   - 114: {fileID: 589549017}
-  - 114: {fileID: 589549018}
   - 114: {fileID: 589549019}
   - 114: {fileID: 589549014}
   m_Layer: 11
@@ -22273,35 +22272,6 @@ MonoBehaviour:
     StepFrame: 0
     activeStateName: 
   fsmTemplate: {fileID: 0}
---- !u!114 &589549018
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 589549013}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4dbabf7819094712bea08ff1d522893, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _gameObj: {fileID: 0}
-  _turnController: {fileID: 0}
-  _aqController: {fileID: 0}
-  _playerObj: {fileID: 0}
-  _playerController: {fileID: 0}
-  _player:
-    controlMode: 0
-    dead: 0
-    _action:
-      controlMode: 0
-      name: 
-      gridPoints: []
-      actionPointCost: 0
-      requiredTargetCount: 1
-    <go>k__BackingField: {fileID: 0}
-  _gridController: {fileID: 0}
-  _tileSelectionController: {fileID: 0}
-  selectedGridPoint: {x: 0, y: 0}
 --- !u!114 &589549019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28724,9 +28694,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8e970c4c15fda84ca2df2f3c23a3191, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotateAngle: 60
-  rotateTime: .200000003
-  aimProxy: {fileID: 1787055250}
 --- !u!114 &734265061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29099,7 +29066,7 @@ MonoBehaviour:
             value: {fileID: 0}
         animationCurveParams: []
         functionCallParams:
-        - FunctionName: SetAimPoint
+        - FunctionName: UpdateRotateInput
           parameterType: Vector3
           BoolParameter:
             useVariable: 0
@@ -29330,7 +29297,7 @@ MonoBehaviour:
             value: {fileID: 0}
         animationCurveParams: []
         functionCallParams:
-        - FunctionName: ToggleRotateMode
+        - FunctionName: CommitRotateInput
           parameterType: None
           BoolParameter:
             useVariable: 0
@@ -40309,6 +40276,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1002123866}
   - 114: {fileID: 1002123865}
+  - 114: {fileID: 1002123867}
   m_Layer: 0
   m_Name: ActionProcessors
   m_TagString: Untagged
@@ -40340,6 +40308,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1474764485}
   m_RootOrder: 0
+--- !u!114 &1002123867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1002123864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcb0f5f26ded946d480ba2e0f8e4ad79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotateTime: .200000003
 --- !u!1 &1004439578
 GameObject:
   m_ObjectHideFlags: 0

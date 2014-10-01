@@ -38,7 +38,7 @@ public class MoveProcessor : ActionProcessor {
 		                                         "oncomplete", "NextMove",
 		                                         "oncompletetarget", gameObject));
 		currentMoveIndex++;
-		moveAction.character.actionPoints.Decrement();
+		moveAction.character.actionPoints.Decrement(moveAction.actionPointCost);
 	}
 	
 }

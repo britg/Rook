@@ -6,7 +6,7 @@ using Gamelogic.Grids;
 [System.Serializable]
 public class CharacterAction : GameAction  {
 
-    public Character owner;
+    public Character character;
     public List<IReceiveAction> targets;
 	public PlayerControlMode controlMode;
 
@@ -24,7 +24,7 @@ public class CharacterAction : GameAction  {
 
 	public virtual bool enoughActionPoints {
 		get {
-			return owner.actionPoints.currentValue >= actionPointCost;
+			return character.actionPoints.currentValue >= actionPointCost;
 		}
 	}
 
@@ -64,7 +64,7 @@ public class CharacterAction : GameAction  {
 		float sphereRadius = GridService.gridUnit/2f;
 		
 		// get direction to move destination
-		Vector3 start = owner.go.transform.position; 
+		Vector3 start = character.go.transform.position; 
 		start.y = sphereRadius;
 		Vector3 direction = point - start;
 		
@@ -101,8 +101,8 @@ public class CharacterAction : GameAction  {
 
 
 	public void Perform () {
-		owner.EnterMode(controlMode);
-		owner.actionPoints.Decrement(actionPointCost);
+		character.EnterMode(controlMode);
+		character.actionPoints.Decrement(actionPointCost);
 		foreach (IReceiveAction target in targets) {
 			target.ReceiveAction(this);
 		}

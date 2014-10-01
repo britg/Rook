@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -24,7 +24,7 @@ public abstract class Character : IReceiveAction {
         }
         set {
             _action = value;
-            _action.owner = this;
+            _action.character = this;
         }
     }
 
