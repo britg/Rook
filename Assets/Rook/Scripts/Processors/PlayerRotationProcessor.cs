@@ -3,6 +3,8 @@ using System.Collections;
 
 public class PlayerRotationProcessor : MonoBehaviour {
 
+	public float rotateTime = 0.2f;
+
 	// Use this for initialization
 	void Start () {
 	

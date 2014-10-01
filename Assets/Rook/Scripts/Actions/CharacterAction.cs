@@ -12,7 +12,13 @@ public class CharacterAction : GameAction  {
 
 	public string name;
 	public List<FlatHexPoint> gridPoints;
-	public int actionPointCost;
+	public int _actionPointCost;
+	public override int actionPointCost {
+		get {
+			return _actionPointCost;
+		}
+	}
+
 	public ValueRange damage;
 	public int requiredTargetCount = 1;
 

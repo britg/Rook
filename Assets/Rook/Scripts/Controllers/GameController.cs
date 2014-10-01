@@ -93,17 +93,6 @@ public abstract class GameController : MonoBehaviour {
 		}
 	}
 
-	TileSelectionController _tileSelectionController;
-	public virtual TileSelectionController tileSelectionController {
-		get {
-			if (_tileSelectionController == null) {
-				_tileSelectionController = GameObject.Find("Grid").GetComponent<TileSelectionController>();
-			}
-			return _tileSelectionController;
-		}
-	}
-
-
     public bool PlayerTurn {
         get {
             return turnController.PlayerTurn;

@@ -9,6 +9,8 @@ public class PlayerRotationController : GameController {
     Vector3 aimPoint;
     public Transform aimProxy;
 
+	PlayerRotationAction rotationAction;
+
     public bool isRotating {
         get {
             return player.isRotating;
@@ -34,9 +36,18 @@ public class PlayerRotationController : GameController {
         } else {
 			if (player.actionPoints.currentValue > 0) {
 				playerController.EnterMode(PlayerControlMode.Rotate);
+				StartRotate();
 			}
         }
     }
+
+	void StartRotate () {
+
+	}
+
+	public void UpdateRotateInput (Vector3 _aimPoint) {
+
+	}
 
 	public void CommitRotate () {
 		Debug.Log ("Commit called");

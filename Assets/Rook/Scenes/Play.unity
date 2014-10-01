@@ -22284,6 +22284,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4dbabf7819094712bea08ff1d522893, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gameObj: {fileID: 0}
+  _turnController: {fileID: 0}
+  _aqController: {fileID: 0}
+  _playerObj: {fileID: 0}
+  _playerController: {fileID: 0}
+  _player:
+    controlMode: 0
+    dead: 0
+    _action:
+      controlMode: 0
+      name: 
+      gridPoints: []
+      actionPointCost: 0
+      requiredTargetCount: 1
+    <go>k__BackingField: {fileID: 0}
+  _gridController: {fileID: 0}
+  _tileSelectionController: {fileID: 0}
+  selectedGridPoint: {x: 0, y: 0}
 --- !u!114 &589549019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40306,7 +40324,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1002123864}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 676f3ab57fd7a464ba583def831c9da9, type: 3}
+  m_Script: {fileID: 11500000, guid: 6d353f784a1e04d3999f23645a2a3d6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   moveTime: .200000003
