@@ -13,4 +13,8 @@ public class  SwordSwipeAction : CharacterAction {
 		damage = new ValueRange(from: from, to: to);
 	}
 
+	public void Process () {
+		Debug.Log ("Sword swipe action processing");
+	}
+
 }

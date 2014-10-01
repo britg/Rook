@@ -4,9 +4,15 @@ using System.Collections.Generic;
 
 public class MoveAction : GameAction {
 
+	public override string ActionType {
+		get {
+			return "MoveAction";
+		}
+	}
+
 	static List<string> nonBlockingTags = new List<string>{ "Player", "Grid", "Floor" };
 
-	public Character character;
+	public override Character character { get; set; }
     public List<Vector3> waypoints;
     public Vector3 lastWaypoint {
         get {

@@ -95,7 +95,7 @@ public class GridService {
 		cell.Color = GameColors.defaultCellColor;
 	}
 
-    public List<Vector3> WorldPointsForAction (CharacterAction action) {
+    public List<Vector3> WorldPointsForAction (GameAction action) {
         var worldPoints = new List<Vector3>();
 		foreach (FlatHexPoint point in action.gridPoints) {
 			var rotatedPoint = RotatedPoint(point, playerRotation);
@@ -104,7 +104,10 @@ public class GridService {
         return worldPoints;
     }
 
-	public void HighlightAction (CharacterAction action) {
+	public void HighlightAction (GameAction action) {
+		if (action.gridPoints == null) {
+			return;
+		}
 		foreach (FlatHexPoint point in action.gridPoints) {
 			HighlightRelativePoint(point);
 		}

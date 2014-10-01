@@ -17,8 +17,8 @@ public abstract class Character : IReceiveAction {
 
 	public bool dead;
 
-    CharacterAction _action;
-	public virtual CharacterAction action {
+    GameAction _action;
+	public virtual GameAction action {
         get {
             return _action;
         }

@@ -31,12 +31,14 @@ public class ActionQueueController : GameController {
 		}
 
 		currentAction = (GameAction)queue.Dequeue();
-		string actionType = currentAction.GetType().ToString();
-		ActionProcessor processorForType = registry[actionType];
+		string actionType = currentAction.ActionType;
 
-		if (processorForType != null) {
+		if (registry.ContainsKey(actionType)) {
+			Debug.Log ("Processing a new action: " + actionType);
+			ActionProcessor processorForType = registry[actionType];
 			processorForType.Process(currentAction);
 		} else {
+			Debug.Log ("A processor was not found for type " + actionType);
 			Continue();
 		}
 	}
@@ -48,7 +50,6 @@ public class ActionQueueController : GameController {
 	}
 
 	public void Continue () {
-//		playerController.DefaultMode();
 		currentAction = null;
 		Process();
 	}

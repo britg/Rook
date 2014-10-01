@@ -11,7 +11,6 @@ public class CharacterAction : GameAction  {
 	public PlayerControlMode controlMode;
 
 	public string name;
-	public List<FlatHexPoint> gridPoints;
 	public int _actionPointCost;
 	public override int actionPointCost {
 		get {
@@ -75,10 +74,13 @@ public class CharacterAction : GameAction  {
 		var actionTargets = new List<IReceiveAction>();
 		foreach (RaycastHit hit in hits) {
 			var hitObj = hit.collider.gameObject;
-			var gc = hitObj.GetComponent<GameController>();
-			if (gc != null && gc.actionReceiver != null) {
-				Debug.Log ("Action receiver is " + gc.actionReceiver);
-				actionTargets.Add(gc.actionReceiver);
+			var gcs = hitObj.GetComponents<GameController>();
+
+			foreach (GameController gc in gcs) {
+				if (gc != null && gc.actionReceiver != null) {
+					Debug.Log ("Action receiver is " + gc.actionReceiver);
+					actionTargets.Add(gc.actionReceiver);
+				}
 			}
 		}
 		return actionTargets;

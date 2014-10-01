@@ -17,8 +17,6 @@ public class PlayerActionController : GameController {
 
     public void WarriorActionButtonPressed () {
 		QueueWarriorAction();
-//		currentAction = player.warriorAction;
-//		Invoke ("StartAction", 0.1f);
     }
 
 	void QueueWarriorAction () {

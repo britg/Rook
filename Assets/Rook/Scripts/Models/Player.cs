@@ -14,19 +14,19 @@ public class Player : Character {
 	public Thief thief = new Thief();
 	public Mage mage = new Mage();
 
-    public CharacterAction warriorAction {
+    public GameAction warriorAction {
         get {
             return warrior.action;
         }
     }
 
-    public CharacterAction thiefAction {
+    public GameAction thiefAction {
         get {
             return thief.action;
         }
     }
 
-    public CharacterAction mageAction {
+    public GameAction mageAction {
         get {
             return mage.action;
         }
@@ -57,16 +57,15 @@ public class Player : Character {
 		mage.player = this;
 	}
 
-
-	public void AssignWarriorAction (CharacterAction action) {
+	public void AssignWarriorAction (GameAction action) {
         warrior.action = action;
 	}
 
-	public void AssignThiefAction (CharacterAction action) {
+	public void AssignThiefAction (GameAction action) {
 
 	}
 
-	public void AssignMageAction (CharacterAction action) {
+	public void AssignMageAction (GameAction action) {
 
 	}
 
