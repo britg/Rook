@@ -40277,6 +40277,7 @@ GameObject:
   - 4: {fileID: 1002123866}
   - 114: {fileID: 1002123865}
   - 114: {fileID: 1002123867}
+  - 114: {fileID: 1002123868}
   m_Layer: 0
   m_Name: ActionProcessors
   m_TagString: Untagged
@@ -40320,6 +40321,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateTime: .200000003
+--- !u!114 &1002123868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1002123864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61c9cc74182854418a007efda11f7b91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1004439578
 GameObject:
   m_ObjectHideFlags: 0
