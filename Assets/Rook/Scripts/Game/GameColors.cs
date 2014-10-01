@@ -48,4 +48,18 @@ public class GameColors  {
 		}
 	}
 	public Color _mageCellColor;
+
+	public Color _moveLineColor;
+	public static Color moveLineColor {
+		get {
+			return Instance._moveLineColor;
+		}
+	}
+
+	public float _moveLineThickness;
+	public static float moveLineThickness {
+		get {
+			return Instance._moveLineThickness;
+		}
+	}
 }
