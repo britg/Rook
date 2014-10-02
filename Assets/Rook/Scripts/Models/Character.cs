@@ -67,5 +67,9 @@ public abstract class Character : IReceiveAction {
 		Debug.Log("Entering mode " + mode + " with game object " + go);
 		controlMode = mode;
 	}
+
+    public virtual void SnapToGrid (GridService gridService) {
+        go.transform.position = gridService.NearestCellCenter(go.transform.position);
+    }
 	
 }

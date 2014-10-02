@@ -40278,6 +40278,8 @@ GameObject:
   - 114: {fileID: 1002123865}
   - 114: {fileID: 1002123867}
   - 114: {fileID: 1002123868}
+  - 114: {fileID: 1002123869}
+  - 114: {fileID: 1002123870}
   m_Layer: 0
   m_Name: ActionProcessors
   m_TagString: Untagged
@@ -40332,6 +40334,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61c9cc74182854418a007efda11f7b91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1002123869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1002123864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 469a044353bdd4ca08294c5b17c4841a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1002123870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1002123864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a780bbd89d56e417890bfeedd8449fd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy:
+    controlMode: 0
+    dead: 0
 --- !u!1 &1004439578
 GameObject:
   m_ObjectHideFlags: 0
@@ -66576,7 +66603,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1474764484}
-        m_MethodName: EndTurn
+        m_MethodName: EndTurnButtonPressed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

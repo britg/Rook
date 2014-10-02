@@ -16,7 +16,7 @@ public class ActionQueueController : GameController {
 
 	public void Add (GameAction action) {
 		queue.Enqueue(action);
-		Process();
+		Invoke ("Process", 0f);
 	}
 
 	void Process () {

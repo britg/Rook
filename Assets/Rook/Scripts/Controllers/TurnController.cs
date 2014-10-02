@@ -5,8 +5,8 @@ using System.Collections.Generic;
 public class TurnController : GameController {
 
 	public int currentTurn = 1;
-    List<GameObject> enemies = new List<GameObject>();
-    List<GameObject> enemiesTakingTurn = new List<GameObject>();
+    List<Enemy> enemies = new List<Enemy>();
+	List<Enemy> enemiesTakingTurn = new List<Enemy>();
 
     bool playerTurn = false;
     public new bool PlayerTurn {
@@ -20,12 +20,21 @@ public class TurnController : GameController {
 		NotificationCenter.AddObserver(this, Notifications.ActionFinished);
     }
 
-    public void RegisterEnemy (GameObject enemyObj) {
-        enemies.Add(enemyObj);
+    public void RegisterEnemy (Enemy enemy) {
+        enemies.Add(enemy);
     }
 
-	public void UnregisterEnemy (GameObject enemyObj) {
-		enemies.Remove(enemyObj);
+	public void UnregisterEnemy (Enemy enemy) {
+		enemies.Remove(enemy);
+	}
+
+	public void EndTurnButtonPressed () {
+		QueueEndTurn();
+	}
+
+	void QueueEndTurn () {
+		var endTurnAction = new EndTurnAction();
+		actionQueueController.Add(endTurnAction);
 	}
 
     public void EndTurn () {
@@ -34,15 +43,17 @@ public class TurnController : GameController {
     }
 
     void StartEnemyTurn () {
-        enemiesTakingTurn = new List<GameObject>();
-        foreach (GameObject enemy in enemies) {
+        enemiesTakingTurn = new List<Enemy>();
+        foreach (Enemy enemy in enemies) {
             enemiesTakingTurn.Add(enemy);
-            enemy.SendMessage("TakeTurn", SendMessageOptions.DontRequireReceiver);
+			var startEnemyTurnAction = new StartEnemyTurnAction(enemy);
+			actionQueueController.Add (startEnemyTurnAction);
+//            enemy.SendMessage("TakeTurn", SendMessageOptions.DontRequireReceiver);
         }
     }
 
-    public void EnemyTurnFinished (GameObject enemyObj) {
-        enemiesTakingTurn.Remove(enemyObj);
+    public void EnemyTurnFinished (Enemy enemy) {
+        enemiesTakingTurn.Remove(enemy);
 
         if (enemiesTakingTurn.Count < 1) {
             EndEnemyTurn();

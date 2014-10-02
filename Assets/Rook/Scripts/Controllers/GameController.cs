@@ -116,10 +116,6 @@ public abstract class GameController : MonoBehaviour {
         transform.position = gridService.NearestCellCenter(transform.position);
     }
 
-    protected virtual void EndPlayerTurn () {
-        turnController.EndTurn();
-    }
-
 	protected void PostActionFinished () {
 		NotificationCenter.PostNotification(this, Notifications.ActionFinished);
 	}

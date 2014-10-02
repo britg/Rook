@@ -4,16 +4,7 @@ using System.Collections;
 public class EnemyController : GameController {
 
     public Enemy enemy;
-    Vector3 playerPos {
-		get {
-			return playerObj.transform.position;
-		}
-	}
-    Vector3 playerDir {
-		get {
-			return (playerPos - transform.position).normalized;
-		}
-	}
+    
 
 	public override IReceiveAction actionReceiver {
 		get {
@@ -40,75 +31,22 @@ public class EnemyController : GameController {
 	}
 
     void Register () {
-        turnController.RegisterEnemy(gameObject);
+        turnController.RegisterEnemy(enemy);
 		NotificationCenter.AddObserver(this, Notifications.ActionFinished);
     }
 
 	void Unregister () {
-		turnController.UnregisterEnemy(gameObject);
-	}
-
-    void TakeTurn () {
-    	TakeAction();
-    }
-
-    void TakeAction () {
-
-        if (enemy.Detect(playerObj)) {
-            EnterCombat();
-        } else {
-			ExitCombat();
-            TurnFinished();
-            return;
-        }
-
-        Vector3 oneHexTowardsPlayer = transform.position + playerDir * GridService.gridUnit;
-        Vector3 nearestHex = gridService.NearestCellCenter(oneHexTowardsPlayer);
-
-        if (nearestHex.Equals(playerObj.transform.position)) {
-            Attack();
-        } else {
-            MoveToPosition(nearestHex);
-			enemy.actionPoints.Decrement();
-        }
-    }
-
-    void Attack () {
-        Debug.Log("Attacking player!");
-        TurnFinished();
-    }
-
-    void MoveToPosition (Vector3 pos) {
-        iTween.MoveTo(gameObject, iTween.Hash("position", pos,
-                                              "time", 0.2f,
-                                              "oncomplete", "DoneMoving"));
-    }
-
-    void DoneMoving () {
-        TurnFinished();
-    }
-
-    void TurnFinished () {
-        SnapToGrid();
-        turnController.EnemyTurnFinished(gameObject);
-    }
-
-    void EnterCombat () {
-        combatService.EnterCombat(gameObject);
-    }
-
-	void ExitCombat () {
-		combatService.ExitCombat(gameObject);
+		turnController.UnregisterEnemy(enemy);
 	}
 
 	void OnActionFinished () {
 		DieIfDead();
 	}
-
+	
 	void DieIfDead () {
 		if (enemy.dead) {
 			Unregister();
 			Destroy (gameObject);
 		}
-	}
+	} 
 }
