@@ -9,11 +9,11 @@ public class TurnController : GameController {
     List<GameObject> enemiesTakingTurn = new List<GameObject>();
 
     bool playerTurn = false;
-    public bool PlayerTurn {
+    public new bool PlayerTurn {
         get { return playerTurn; }
     }
 
-	public CombatService combatService = new CombatService();
+	public new CombatService combatService = new CombatService();
 
     void Start () {
 		Invoke("StartTurn", 1f);

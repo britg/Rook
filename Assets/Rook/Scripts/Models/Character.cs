@@ -41,13 +41,13 @@ public abstract class Character : IReceiveAction {
 		return InDetectionRange(otherDistance);
 	}
 
-	public virtual void ReceiveAction (CharacterAction action) {
+	public virtual void ReceiveAction (GameAction action) {
 		Debug.Log ("Receiving Action");
-		TakeDamage(action);
+		TakeDamage((AttackAction)action);
 	}
 
-	void TakeDamage (CharacterAction action) {
-		int amount = action.damage.rand;
+	void TakeDamage (AttackAction action) {
+		int amount = action.damageRange.rand;
 		hitPoints.Decrement(amount);
 
 		Debug.Log ("Took damage " + amount);

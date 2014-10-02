@@ -6,7 +6,6 @@ using Gamelogic.Grids;
 [System.Serializable]
 public class CharacterAction : GameAction  {
 
-    public Character character;
     public List<IReceiveAction> targets;
 	public PlayerControlMode controlMode;
 
@@ -24,12 +23,6 @@ public class CharacterAction : GameAction  {
 	public virtual bool enoughActionPoints {
 		get {
 			return character.actionPoints.currentValue >= actionPointCost;
-		}
-	}
-
-	public bool requiresSelection {
-		get {
-			return controlMode == PlayerControlMode.GridSelect;
 		}
 	}
 

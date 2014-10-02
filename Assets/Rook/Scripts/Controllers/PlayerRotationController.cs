@@ -3,10 +3,8 @@ using System.Collections;
 
 public class PlayerRotationController : GameController {
 
-    Vector3 aimPoint;
-
 	PlayerRotationAction rotationAction;
-	PlayerRotationView rotationView;
+    //PlayerRotationView rotationView;
 
     public bool isRotating {
         get {
@@ -31,7 +29,7 @@ public class PlayerRotationController : GameController {
     }
 
 	void StartRotate () {
-		rotationAction = new PlayerRotationAction(playerObj);
+		rotationAction = new PlayerRotationAction(player);
 	}
 
 	public void UpdateRotateInput (Vector3 _aimPoint) {

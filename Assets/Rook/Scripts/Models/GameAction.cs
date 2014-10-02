@@ -33,6 +33,18 @@ public abstract class GameAction {
 
 	public virtual List<FlatHexPoint> gridPoints { get; set; }
 
+    public virtual bool hasEnoughActionPoints {
+        get {
+            return character.actionPoints.currentValue >= actionPointCost;
+        }
+    }
+
+    public virtual bool exclusive {
+        get {
+            return false;
+        }
+    }
+
 	public virtual void Done () {
 
 	}

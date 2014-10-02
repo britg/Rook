@@ -3,6 +3,11 @@ using System.Collections;
 
 public class PlayerRotationAction : GameAction {
 
+    public override string ActionType {
+        get {
+            return "PlayerRotationAction";
+        }
+    }
 
 	public override int actionPointCost {
 		get {
@@ -10,7 +15,12 @@ public class PlayerRotationAction : GameAction {
 		}
 	}
 
-	GameObject playerObj;
+	GameObject playerObj {
+        get {
+            return character.go;
+        }
+    }
+
 	public Vector3 aimPoint;
     public Transform aimProxy { 
 		get {
@@ -18,8 +28,8 @@ public class PlayerRotationAction : GameAction {
 		}
 	}
 
-	public PlayerRotationAction (GameObject _playerObj) {
-		playerObj = _playerObj;
+	public PlayerRotationAction (Character c) {
+        character = c;
 	}
 
 	public void UpdateAimPoint (Vector3 _aimPoint) {

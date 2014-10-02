@@ -4,8 +4,6 @@ using System.Collections.Generic;
 
 public class PlayerActionController : GameController {
 
-	CharacterAction currentAction;
-
 	// Use this for initialization
 	void Start () {
 	}

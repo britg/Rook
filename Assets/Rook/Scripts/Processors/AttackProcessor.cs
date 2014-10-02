@@ -16,10 +16,28 @@ public class AttackProcessor : ActionProcessor {
 	public override void Process (GameAction action) {
 		attackAction = (AttackAction)action;
 		targets = ValidTargetsInRange();
-		// Get valid targets at the gridPoints of the action
-		// if there are any valid targets, attack them and then use the action points necessary
-		// if there are no valid targets show a warning
+
+        if (CanAttack()) {
+            Attack();
+        } else {
+            Debug.Log("No valid targets");
+            DoneProcessing();
+        }
 	}
+
+    bool CanAttack () {
+        return targets.Count > 0 && attackAction.hasEnoughActionPoints;
+    }
+
+    void Attack () {
+        player.actionPoints.Decrement(attackAction.actionPointCost);
+        foreach (IReceiveAction receiver in targets) {
+            receiver.ReceiveAction(attackAction);
+        }
+        
+        // proxy for animations and stuff
+        Invoke("DoneProcessing", 0.5f);
+    }
 
 	public List<IReceiveAction> ValidTargetsInRange () {
 		var targetsInRange = TargetsInRange();
