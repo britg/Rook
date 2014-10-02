@@ -44,6 +44,12 @@ public class MoveAction : GameAction {
 		}
 	}
 
+	public MoveAction (Character _c) {
+		character = _c;
+		moveView = null;
+		waypoints = new List<Vector3>();
+	}
+
 	public MoveAction (Character _c, MoveView view) {
 		character = _c;
 		moveView = view;
@@ -57,6 +63,7 @@ public class MoveAction : GameAction {
 		moveDestination.y = characterPosition.y;
 		
 		if (!DestinationValid(moveDestination)) {
+			Debug.Log ("Destination is not valid");
 			return;
 		}
 		
@@ -68,7 +75,7 @@ public class MoveAction : GameAction {
 		// First waypoint
 		if (waypoints.Count == 0 && maxMoves > 0) {
 			waypoints.Add(moveDestination);
-			moveView.Redraw();
+			Redraw();
 			return;
 		} 
 		
@@ -92,16 +99,26 @@ public class MoveAction : GameAction {
 		}
 
 		waypoints.Add(moveDestination);
-		moveView.Redraw();
+		Redraw();
+	}
+
+	void Redraw () {
+		if (moveView != null) {
+			moveView.Redraw();
+		}
 	}
 
 	void Reset () {
 		waypoints = new List<Vector3>();
-		moveView.Reset();
+		if (moveView != null) {
+			moveView.Reset();
+		}
 	}
 
 	public override void Done () {
-		moveView.Reset();
+		if (moveView != null) {
+			moveView.Reset();
+		}
 	}
 
 	bool DestinationValid (Vector3 moveDestination) {
@@ -122,9 +139,9 @@ public class MoveAction : GameAction {
 		return BlockedBy(hits);
 	}
 
-	public static bool BlockedBy (RaycastHit[] hits) {
+	public bool BlockedBy (RaycastHit[] hits) {
 		foreach (RaycastHit hit in hits) {
-			if (!nonBlockingTags.Contains(hit.collider.gameObject.tag)) {
+			if (hit.collider.gameObject != go && !nonBlockingTags.Contains(hit.collider.gameObject.tag)) {
 				Debug.Log ("Blocked by " + hit.collider.gameObject.tag);
 				return true;
 			}

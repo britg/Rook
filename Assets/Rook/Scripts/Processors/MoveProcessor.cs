@@ -29,6 +29,7 @@ public class MoveProcessor : ActionProcessor {
 	
 	void NextMove () {
 		if (currentMoveIndex >= waypoints.Count) {
+			Debug.Log("Done with move at index " + currentMoveIndex);
 			DoneProcessing();
 			return;
 		}

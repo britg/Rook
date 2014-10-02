@@ -16,7 +16,7 @@ public class ActionQueueController : GameController {
 
 	public void Add (GameAction action) {
 		queue.Enqueue(action);
-		Invoke ("Process", 0f);
+		Process();
 	}
 
 	void Process () {
@@ -34,11 +34,11 @@ public class ActionQueueController : GameController {
 		string actionType = currentAction.ActionType;
 
 		if (registry.ContainsKey(actionType)) {
-			Debug.Log ("Processing a new action: " + actionType);
+			Debug.Log ("Processing a new action: " + currentAction);
 			ActionProcessor processorForType = registry[actionType];
 			processorForType.Process(currentAction);
 		} else {
-			Debug.Log ("A processor was not found for type " + actionType);
+			Debug.Log ("A processor was not found for " + currentAction);
 			Continue();
 		}
 	}
@@ -46,7 +46,8 @@ public class ActionQueueController : GameController {
 	public void CompletedAction () {
 		currentAction.Done();
 		PostActionFinished();
-		Continue();
+//		Continue();
+		Invoke("Continue", 1f);
 	}
 
 	public void Continue () {

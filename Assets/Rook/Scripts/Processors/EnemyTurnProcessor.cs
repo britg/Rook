@@ -33,6 +33,9 @@ public class EnemyTurnProcessor : ActionProcessor {
 		case "Start":
 			StartTurn((StartEnemyTurnAction)action);
 			break;
+		case "Continue":
+			ContinueTurn((ContinueEnemyTurnAction)action);
+			break;
 		default:
 			Debug.Log ("Could not processes action " + action);
 			break;
@@ -42,10 +45,12 @@ public class EnemyTurnProcessor : ActionProcessor {
 	void StartTurn (StartEnemyTurnAction startAction) {
 		enemy = startAction.enemy;
 		enemy.ResetActionPoints();
-		ContinueTurn();
+		QueueContinue();
+		DoneProcessing();
 	}
 
-	public void ContinueTurn () {
+	public void ContinueTurn (ContinueEnemyTurnAction continueAction) {
+		enemy = continueAction.enemy;
 		if (enemy.actionPoints.currentValue > 0) {
 			TakeAction();
 		} else {
@@ -69,7 +74,7 @@ public class EnemyTurnProcessor : ActionProcessor {
 		if (nearestHex.Equals(playerPos)) {
 			Attack();
 		} else {
-			MoveToPosition(nearestHex);
+			PathfindToTarget();
 		}
 	}
 	
@@ -78,18 +83,40 @@ public class EnemyTurnProcessor : ActionProcessor {
 		enemy.actionPoints.Decrement();
 		Invoke ("EnemyActionDone", 0.5f);
 	}
+
+	void PathfindToTarget () {
+
+	}
 	
 	void MoveToPosition (Vector3 pos) {
-		enemy.actionPoints.Decrement();
-		iTween.MoveTo(enemy.go, iTween.Hash("position", pos,
-		                                      "time", 0.2f,
-		                                      "oncomplete", "EnemyActionDone",
-		                                      "oncompletetarget", gameObject));
+		var moveAction = new MoveAction((Character)enemy);
+		moveAction.AddWaypoint(pos);
+
+		if (moveAction.waypoints.Count < 1) {
+			Debug.Log ("No valid moves for enemy");
+			DoneProcessing();
+			return;
+		}
+
+		actionQueueController.Add (moveAction);
+		QueueContinue();
+		DoneProcessing();
+//		enemy.actionPoints.Decrement();
+//		iTween.MoveTo(enemy.go, iTween.Hash("position", pos,
+//		                                      "time", 0.2f,
+//		                                      "oncomplete", "EnemyActionDone",
+//		                                      "oncompletetarget", gameObject));
+	}
+
+	void QueueContinue () {
+		var continueAction = new ContinueEnemyTurnAction(enemy);
+		actionQueueController.Add(continueAction);
 	}
 	
 	void EnemyActionDone () {
 		enemy.SnapToGrid(gridService);
-		ContinueTurn();
+		QueueContinue();
+		DoneProcessing();
 	}
 	
 	void TurnFinished () {
