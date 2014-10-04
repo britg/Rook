@@ -3,11 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using Gamelogic.Grids;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : GameController {
 
 	public int seedHitPoints;
 	public int seedActionPoints;
     public Player player;
+
+	public override IReceiveAction actionReceiver {
+		get {
+			return player;
+		}
+	}
 
     public bool isMoving {
         get {

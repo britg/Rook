@@ -81,10 +81,15 @@ public class EnemyTurnProcessor : ActionProcessor {
 	void Attack () {
 		Debug.Log("Attacking player!");
 		enemy.actionPoints.Decrement();
+		actionQueueController.Add (enemy.action);
 		Invoke ("EnemyActionDone", 0.5f);
 	}
 
 	void PathfindToTarget () {
+
+		// Do pathfinding
+		// Temp
+		TurnFinished();
 
 	}
 	

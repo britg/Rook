@@ -55,13 +55,6 @@ public class TurnController : GameController {
     public void EnemyTurnFinished (Enemy enemy) {
         enemiesTakingTurn.Remove(enemy);
 
-        if (enemiesTakingTurn.Count < 1) {
-            EndEnemyTurn();
-        }
-    }
-
-    public void EndEnemyTurn () {
-        StartTurn();
     }
 
     public void StartTurn () {
@@ -72,12 +65,24 @@ public class TurnController : GameController {
 
 	void OnActionFinished () {
 		Debug.Log ("Action finished");
-		DetermineEndOfTurn();
+		if (playerTurn) {
+			DetermineEndOfPlayerTurn();
+		} else {
+			DetermineStartOfPlayerTurn();
+		}
 	}
 
-	void DetermineEndOfTurn () {
+	void DetermineEndOfPlayerTurn () {
 		if (player.actionPoints.currentValue < 1) {
 			Debug.Log ("No more action points left!");
+		}
+	}
+
+	void DetermineStartOfPlayerTurn() {
+		Debug.Log ("Enemies taking turn: " + enemiesTakingTurn.Count);
+		if (enemiesTakingTurn.Count < 1) {
+			Debug.Log ("End of enemies turn");
+			StartTurn();
 		}
 	}
 

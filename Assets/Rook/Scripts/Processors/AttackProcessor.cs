@@ -74,7 +74,7 @@ public class AttackProcessor : ActionProcessor {
 			var gcs = hitObj.GetComponents<GameController>();
 			
 			foreach (GameController gc in gcs) {
-				if (gc != null && gc.actionReceiver != null) {
+				if (gc != null && gc.actionReceiver != null && gc.gameObject != attackAction.character.go) {
 					Debug.Log ("Action receiver is " + gc.actionReceiver);
 					actionTargets.Add(gc.actionReceiver);
 				}

@@ -4,7 +4,6 @@ using System.Collections;
 public class EnemyController : GameController {
 
     public Enemy enemy;
-    
 
 	public override IReceiveAction actionReceiver {
 		get {
@@ -27,7 +26,7 @@ public class EnemyController : GameController {
 		enemy.actionPoints = new CharacterAttribute(seedValue: 3);
 		enemy.detectRange = new CharacterAttribute(seedValue: 10);
 		enemy.hitPoints = new CharacterAttribute(seedValue: 100);
-		enemy.action = new SwordSwipeAction(from: 20, to: 30);
+		enemy.action = new AttackAction(min: 15, max: 40, crit: 10);
 	}
 
     void Register () {

@@ -46,8 +46,12 @@ public class ActionQueueController : GameController {
 	public void CompletedAction () {
 		currentAction.Done();
 		PostActionFinished();
-//		Continue();
-		Invoke("Continue", 1f);
+		Continue();
+//		Invoke("Continue", 1f);
+	}
+
+	void PostActionFinished () {
+		NotificationCenter.PostNotification(this, Notifications.ActionFinished);
 	}
 
 	public void Continue () {
