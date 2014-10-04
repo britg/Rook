@@ -64,7 +64,6 @@ public class TurnController : GameController {
     }
 
 	void OnActionFinished () {
-		Debug.Log ("Action finished");
 		if (playerTurn) {
 			DetermineEndOfPlayerTurn();
 		} else {

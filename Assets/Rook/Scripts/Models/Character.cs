@@ -28,6 +28,12 @@ public abstract class Character : IReceiveAction {
         }
     }
 
+    public virtual float rotation {
+        get {
+            return go.transform.eulerAngles.y;
+        }
+    }
+
     public virtual void ResetActionPoints () {
         actionPoints.SetToMax();
     }

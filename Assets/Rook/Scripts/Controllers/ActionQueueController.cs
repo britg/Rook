@@ -15,13 +15,13 @@ public class ActionQueueController : GameController {
 	}
 
 	public void Add (GameAction action) {
+        Debug.Log("Adding " + action);
 		queue.Enqueue(action);
 		Process();
 	}
 
 	void Process () {
 		if (currentAction != null) {
-			Debug.Log ("Still processing current action " + currentAction);
 			return;
 		}
 
@@ -44,6 +44,7 @@ public class ActionQueueController : GameController {
 	}
 
 	public void CompletedAction () {
+        Debug.Log("Finishing " + currentAction);
 		currentAction.Done();
 		PostActionFinished();
 		Continue();

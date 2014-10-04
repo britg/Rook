@@ -50,7 +50,7 @@ public abstract class GameAction {
 	}
 
 	public override string ToString () {
-		return string.Format ("[GameAction: ActionType={0}, Name={1}]", ActionType, Name);
+		return string.Format ("[GameAction: {0}/{1}]", ActionType, Name);
 	}
 
 }

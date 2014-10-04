@@ -67,7 +67,6 @@ public class AttackProcessor : ActionProcessor {
 		// get distance to move destination
 		float dist = Vector3.Distance(start, point);
 		RaycastHit[] hits = Physics.SphereCastAll(start, sphereRadius, direction, dist);
-		
 		var actionTargets = new List<IReceiveAction>();
 		foreach (RaycastHit hit in hits) {
 			var hitObj = hit.collider.gameObject;

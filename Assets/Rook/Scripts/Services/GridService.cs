@@ -96,9 +96,10 @@ public class GridService {
 	}
 
     public List<Vector3> WorldPointsForAction (GameAction action) {
+        float referenceRotation = action.character.rotation;
         var worldPoints = new List<Vector3>();
 		foreach (FlatHexPoint point in action.gridPoints) {
-			var rotatedPoint = RotatedPoint(point, playerRotation);
+			var rotatedPoint = RotatedPoint(point, referenceRotation);
 			worldPoints.Add(WorldPointFromGridPoint(rotatedPoint));
 		}
         return worldPoints;
@@ -109,18 +110,18 @@ public class GridService {
 			return;
 		}
 		foreach (FlatHexPoint point in action.gridPoints) {
-			HighlightRelativePoint(point);
+			HighlightRelativePoint(point, action.character.rotation);
 		}
 	}
 
-	public void HighlightRelativePoint (FlatHexPoint point) {
-		FlatHexPoint gridPoint = RotatedPoint(point, playerRotation);
+	public void HighlightRelativePoint (FlatHexPoint point, float referenceRotation = 0f) {
+		FlatHexPoint gridPoint = RotatedPoint(point, referenceRotation);
 		TileCell cell = GridCellFromGridPoint(gridPoint);
 		SetCellColor(cell, GameColors.warriorCellColor);
 	}
 
-	FlatHexPoint RotatedPoint (FlatHexPoint point, float playerRotation) {
-		int rotationSlot = Mathf.RoundToInt(playerRotation / 60f);
+	FlatHexPoint RotatedPoint (FlatHexPoint point, float referenceRotation) {
+		int rotationSlot = Mathf.RoundToInt(referenceRotation / 60f);
         //Debug.Log ("Rotation slot is " + rotationSlot);
         FlatHexPoint rotated = point;
 		switch (rotationSlot) {
