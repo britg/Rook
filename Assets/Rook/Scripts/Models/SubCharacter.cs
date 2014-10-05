@@ -19,4 +19,8 @@ public abstract class SubCharacter : Character {
 		}
 	}
 
+    public new void TakeDamage (int amount) {
+		player.TakeDamage(amount);
+    }
+
 }

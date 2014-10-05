@@ -31,10 +31,8 @@ public class AttackProcessor : ActionProcessor {
 
     void Attack () {
         player.actionPoints.Decrement(attackAction.actionPointCost);
-        foreach (IReceiveAction receiver in targets) {
-            receiver.ReceiveAction(attackAction);
-        }
-        
+		var attackService = new AttackService(attackAction, targets);
+		attackService.PerformAttack();
         // proxy for animations and stuff
         Invoke("DoneProcessing", 0.5f);
     }

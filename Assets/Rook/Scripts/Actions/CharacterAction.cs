@@ -98,9 +98,7 @@ public class CharacterAction : GameAction  {
 	public void Perform () {
 		character.EnterMode(controlMode);
 		character.actionPoints.Decrement(actionPointCost);
-		foreach (IReceiveAction target in targets) {
-			target.ReceiveAction(this);
-		}
+		// Not implemented
 	}
 
 }

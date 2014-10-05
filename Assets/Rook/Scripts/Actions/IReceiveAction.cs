@@ -3,6 +3,6 @@ using System.Collections;
 
 public interface IReceiveAction {
 
-	void ReceiveAction (GameAction action);
+	void TakeDamage (int amount);
 
 }
