@@ -7,7 +7,7 @@ public class PlayerController : GameController {
 
 	public int seedHitPoints;
 	public int seedActionPoints;
-    public Player player;
+	public override Player player { get; set; }
 
 	public override IReceiveAction actionReceiver {
 		get {
@@ -57,7 +57,7 @@ public class PlayerController : GameController {
 	}
 
 	void InitializePlayer () {
-        player.go = gameObject;
+		player = new Player(gameObject);
 		player.hitPoints = new CharacterAttribute(seedValue: seedHitPoints);
 		player.actionPoints = new CharacterAttribute(seedValue: seedActionPoints);
         player.warrior.go = warriorObj;

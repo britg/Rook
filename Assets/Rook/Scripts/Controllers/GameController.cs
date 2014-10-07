@@ -71,6 +71,9 @@ public abstract class GameController : MonoBehaviour {
             }
             return _player;
         }
+		set {
+			_player = value;
+		}
     }
 
     GridController _gridController;

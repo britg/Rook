@@ -50,6 +50,10 @@ public class Player : Character {
 		}
 	}
 
+	public Player (GameObject _go) : base(_go) {
+
+	}
+
 
 	public void Init () {
 		warrior.player = this;

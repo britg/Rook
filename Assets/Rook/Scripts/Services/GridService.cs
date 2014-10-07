@@ -15,7 +15,6 @@ public class GridService {
 	List<TileCell> coloredCells = new List<TileCell>();
 
 	Transform playerTransform;
-	Transform actionProxyTransform;
 
 	float playerRotation {
 		get {
@@ -28,7 +27,6 @@ public class GridService {
 		grid = builder.Grid;
 		map = builder.Map;
 		playerTransform = _playerTransform;
-		actionProxyTransform = playerTransform.FindChild("AimProxy").transform;
 	}
 
 	public FlatHexPoint GridPointFromWorldPoint (Vector3 worldPoint) {

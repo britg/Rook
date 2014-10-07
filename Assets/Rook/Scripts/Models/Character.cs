@@ -34,6 +34,14 @@ public abstract class Character : IReceiveAction {
         }
     }
 
+	public Character () {
+
+	}
+
+	public Character (GameObject _go) {
+		go = _go;
+	}
+
     public virtual void ResetActionPoints () {
         actionPoints.SetToMax();
     }
