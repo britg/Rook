@@ -108,14 +108,14 @@ public class GridService {
 			return;
 		}
 		foreach (FlatHexPoint point in action.gridPoints) {
-			HighlightRelativePoint(point, action.character.rotation);
+			HighlightRelativePoint(point, action.color, action.character.rotation);
 		}
 	}
 
-	public void HighlightRelativePoint (FlatHexPoint point, float referenceRotation = 0f) {
+	public void HighlightRelativePoint (FlatHexPoint point, Color color, float referenceRotation = 0f) {
 		FlatHexPoint gridPoint = RotatedPoint(point, referenceRotation);
 		TileCell cell = GridCellFromGridPoint(gridPoint);
-		SetCellColor(cell, GameColors.warriorCellColor);
+		SetCellColor(cell, color);
 	}
 
 	FlatHexPoint RotatedPoint (FlatHexPoint point, float referenceRotation) {

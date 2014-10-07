@@ -4,7 +4,15 @@ using System.Collections;
 public class PlayerRotationController : GameController {
 
 	PlayerRotationAction rotationAction;
-    //PlayerRotationView rotationView;
+	PlayerRotationView _rotationView;
+    PlayerRotationView rotationView {
+		get {
+			if (_rotationView == null) {
+				_rotationView = GetComponent<PlayerRotationView>();
+			}
+			return _rotationView;
+		}
+	}
 
     public bool isRotating {
         get {
@@ -30,14 +38,17 @@ public class PlayerRotationController : GameController {
 
 	void StartRotate () {
 		rotationAction = new PlayerRotationAction(player);
+		rotationView.Init (rotationAction, gridService);
 	}
 
 	public void UpdateRotateInput (Vector3 _aimPoint) {
 		rotationAction.UpdateAimPoint(_aimPoint);
+		rotationView.Display();
 	}
 
 	public void CommitRotateInput () {
 		Debug.Log ("Commit called");
+		rotationView.Clear();
 		if (isRotating) {
 			actionQueueController.Add(rotationAction);
 		}

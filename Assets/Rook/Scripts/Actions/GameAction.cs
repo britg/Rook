@@ -18,6 +18,11 @@ public abstract class GameAction {
 	}
 
 	public virtual Character character { get; set; }
+	public virtual Color color {
+		get {
+			return character.color;
+		}
+	}
 
 	public virtual int actionPointCost {
 		get {

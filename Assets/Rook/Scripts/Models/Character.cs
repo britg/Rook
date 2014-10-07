@@ -9,11 +9,12 @@ public abstract class Character : IReceiveAction {
     public abstract CharacterAlignment alignment { get; }
 	public PlayerControlMode controlMode;
 
-	public CharacterAttribute hitPoints { get; set; }
+	public virtual CharacterAttribute hitPoints { get; set; }
 	public virtual CharacterAttribute actionPoints { get; set; }
-	public CharacterAttribute armorRating { get; set; }
-	public CharacterAttribute attackRating { get; set; }
-	public CharacterAttribute detectRange { get; set; }
+	public virtual CharacterAttribute armorRating { get; set; }
+	public virtual CharacterAttribute attackRating { get; set; }
+	public virtual CharacterAttribute detectRange { get; set; }
+	public virtual Color color { get; set; }
 
 	public bool dead;
 
