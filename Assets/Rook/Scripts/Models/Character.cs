@@ -56,7 +56,7 @@ public abstract class Character : IReceiveAction {
 		return InDetectionRange(otherDistance);
 	}
 
-	public void TakeDamage (int amount) {
+	public virtual void TakeDamage (int amount) {
 		hitPoints.Decrement(amount);
 
 		Debug.Log ("Took damage " + amount);
