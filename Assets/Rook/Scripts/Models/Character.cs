@@ -52,6 +52,8 @@ public abstract class Character : IReceiveAction {
 	}
 
 	public bool Detect (GameObject other) {
+		// Needs to be refactored to use
+		// raycasting against walls/etc. in the way
         float otherDistance = Vector3.Distance(other.transform.position, go.transform.position);
 		return InDetectionRange(otherDistance);
 	}
@@ -80,5 +82,5 @@ public abstract class Character : IReceiveAction {
     public virtual void SnapToGrid (GridService gridService) {
         go.transform.position = gridService.NearestCellCenter(go.transform.position);
     }
-	
+
 }

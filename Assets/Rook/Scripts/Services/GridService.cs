@@ -142,4 +142,8 @@ public class GridService {
 		return rotated;
 	}
 
+	public bool Adjacent (Vector3 a, Vector3 b) {
+		return Vector3.Distance(a, b) < GridService.gridUnit;
+	}
+
 }

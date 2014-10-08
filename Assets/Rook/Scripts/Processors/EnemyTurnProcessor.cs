@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class EnemyTurnProcessor : ActionProcessor {
 
@@ -68,16 +69,18 @@ public class EnemyTurnProcessor : ActionProcessor {
 			return;
 		}
 		
-		Vector3 oneHexTowardsPlayer = enemyPos + playerDir * GridService.gridUnit;
-		Vector3 nearestHex = gridService.NearestCellCenter(oneHexTowardsPlayer);
-		
-		if (nearestHex.Equals(playerPos)) {
+		if (gridService.Adjacent(enemyPos, playerPos)) {
+			RotateToTarget(playerPos);
 			Attack();
 		} else {
-			PathfindToTarget();
+			PathfindToTarget(playerPos);
 		}
 	}
-	
+
+	void RotateToTarget (Vector3 target) {
+
+	}
+
 	void Attack () {
 		Debug.Log("Attacking player!");
 		enemy.actionPoints.Decrement();
@@ -85,12 +88,18 @@ public class EnemyTurnProcessor : ActionProcessor {
 		Invoke ("EnemyActionDone", 0.5f);
 	}
 
-	void PathfindToTarget () {
+	void PathfindToTarget (Vector3 target) {
+		var pathfindingService = new PathfindingService((Character)enemy, target, gridService);
+		var waypoints = pathfindingService.GetPath();
 
-		// Do pathfinding
-		// Temp
-		TurnFinished();
+		var moveAction = new MoveAction((Character)enemy);
+		foreach (Vector3 waypoint in waypoints) {
+			moveAction.AddWaypoint(waypoint);
+		}
 
+		actionQueueController.Add (moveAction);
+		QueueContinue();
+		DoneProcessing();
 	}
 	
 	void MoveToPosition (Vector3 pos) {
