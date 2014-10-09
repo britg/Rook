@@ -30,7 +30,7 @@ public class AttackProcessor : ActionProcessor {
     }
 
     void Attack () {
-        player.actionPoints.Decrement(attackAction.actionPointCost);
+		attackAction.SpendActionPoints();
 		var attackService = new AttackService(attackAction, targets);
 		attackService.PerformAttack();
         // proxy for animations and stuff
@@ -84,6 +84,7 @@ public class AttackProcessor : ActionProcessor {
 		var validTargets = new List<IReceiveAction>();
 		foreach (IReceiveAction target in _targets) {
 			if (ValidTarget(target)) {
+				Debug.Log ("Valid target is " + target);
 				validTargets.Add(target);
 			}
 		}

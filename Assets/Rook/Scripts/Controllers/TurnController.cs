@@ -16,8 +16,7 @@ public class TurnController : GameController {
 	public new CombatService combatService = new CombatService();
 
     void Start () {
-		Invoke("StartTurn", 1f);
-		NotificationCenter.AddObserver(this, Notifications.ActionFinished);
+		QueueStartPlayerTurn();
     }
 
     public void RegisterEnemy (Enemy enemy) {
@@ -29,17 +28,18 @@ public class TurnController : GameController {
 	}
 
 	public void EndTurnButtonPressed () {
-		QueueEndTurn();
+		QueueEndPlayerTurn();
 	}
 
-	void QueueEndTurn () {
+	void QueueEndPlayerTurn () {
 		var endTurnAction = new EndTurnAction();
 		actionQueueController.Add(endTurnAction);
 	}
 
     public void EndTurn () {
         playerTurn = false;
-        StartEnemyTurn();
+		Invoke ("StartEnemyTurn", 1f);
+//        StartEnemyTurn();
     }
 
     void StartEnemyTurn () {
@@ -48,14 +48,17 @@ public class TurnController : GameController {
             enemiesTakingTurn.Add(enemy);
 			var startEnemyTurnAction = new StartEnemyTurnAction(enemy);
 			actionQueueController.Add (startEnemyTurnAction);
-//            enemy.SendMessage("TakeTurn", SendMessageOptions.DontRequireReceiver);
         }
     }
 
     public void EnemyTurnFinished (Enemy enemy) {
         enemiesTakingTurn.Remove(enemy);
-
     }
+
+	void QueueStartPlayerTurn () {
+		var startTurnAction = new StartTurnAction();
+		actionQueueController.Add(startTurnAction);
+	}
 
     public void StartTurn () {
         currentTurn++;
@@ -81,7 +84,7 @@ public class TurnController : GameController {
 		Debug.Log ("Enemies taking turn: " + enemiesTakingTurn.Count);
 		if (enemiesTakingTurn.Count < 1) {
 			Debug.Log ("End of enemies turn");
-			StartTurn();
+			QueueStartPlayerTurn();
 		}
 	}
 

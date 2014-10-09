@@ -46,12 +46,16 @@ public class EnemyTurnProcessor : ActionProcessor {
 	void StartTurn (StartEnemyTurnAction startAction) {
 		enemy = startAction.enemy;
 		enemy.ResetActionPoints();
-		QueueContinue();
-		DoneProcessing();
+		ContinueTurn();
 	}
 
 	public void ContinueTurn (ContinueEnemyTurnAction continueAction) {
 		enemy = continueAction.enemy;
+		ContinueTurn();
+	}
+
+	void ContinueTurn () {
+		Debug.Log ("Current action points available " + enemy.actionPoints.currentValue);
 		if (enemy.actionPoints.currentValue > 0) {
 			TakeAction();
 		} else {
@@ -83,14 +87,20 @@ public class EnemyTurnProcessor : ActionProcessor {
 
 	void Attack () {
 		Debug.Log("Attacking player!");
-		enemy.actionPoints.Decrement();
 		actionQueueController.Add (enemy.action);
-		Invoke ("EnemyActionDone", 0.5f);
+		QueueContinue();
+		DoneProcessing();
 	}
 
 	void PathfindToTarget (Vector3 target) {
 		var pathfindingService = new PathfindingService((Character)enemy, target, gridService);
 		var waypoints = pathfindingService.GetPath();
+
+		if (waypoints.Count < 1) {
+			Debug.Log ("No valid path to player!!! ending turn");
+			TurnFinished();
+			DoneProcessing();
+		}
 
 		var moveAction = new MoveAction((Character)enemy);
 		foreach (Vector3 waypoint in waypoints) {
@@ -102,26 +112,6 @@ public class EnemyTurnProcessor : ActionProcessor {
 		DoneProcessing();
 	}
 	
-	void MoveToPosition (Vector3 pos) {
-		var moveAction = new MoveAction((Character)enemy);
-		moveAction.AddWaypoint(pos);
-
-		if (moveAction.waypoints.Count < 1) {
-			Debug.Log ("No valid moves for enemy");
-			DoneProcessing();
-			return;
-		}
-
-		actionQueueController.Add (moveAction);
-		QueueContinue();
-		DoneProcessing();
-//		enemy.actionPoints.Decrement();
-//		iTween.MoveTo(enemy.go, iTween.Hash("position", pos,
-//		                                      "time", 0.2f,
-//		                                      "oncomplete", "EnemyActionDone",
-//		                                      "oncompletetarget", gameObject));
-	}
-
 	void QueueContinue () {
 		var continueAction = new ContinueEnemyTurnAction(enemy);
 		actionQueueController.Add(continueAction);

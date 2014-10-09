@@ -50,6 +50,10 @@ public abstract class GameAction {
         }
     }
 
+	public virtual void SpendActionPoints () {
+		character.actionPoints.Decrement(actionPointCost);
+	}
+
 	public virtual void Done () {
 
 	}

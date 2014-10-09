@@ -63,7 +63,7 @@ public class MoveAction : GameAction {
 		moveDestination.y = characterPosition.y;
 		
 		if (!DestinationValid(moveDestination)) {
-			Debug.Log ("Destination is not valid");
+			Debug.Log ("Destination is not valid -- need to do some real pathfinding here.");
 			return;
 		}
 		

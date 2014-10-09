@@ -26,10 +26,13 @@ public class MoveProcessor : ActionProcessor {
 		moveAction = (MoveAction)action;
 		NextMove();
 	}
+
+	void UseActionPoint () {
+		moveAction.character.actionPoints.Decrement(moveAction.actionPointCost);
+	}
 	
 	void NextMove () {
 		if (currentMoveIndex >= waypoints.Count) {
-			Debug.Log("Done with move at index " + currentMoveIndex);
 			DoneProcessing();
 			return;
 		}
@@ -39,7 +42,7 @@ public class MoveProcessor : ActionProcessor {
 		                                         "oncomplete", "NextMove",
 		                                         "oncompletetarget", gameObject));
 		currentMoveIndex++;
-		moveAction.character.actionPoints.Decrement(moveAction.actionPointCost);
+		UseActionPoint();
 	}
 
 	public override void DoneProcessing () {
