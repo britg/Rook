@@ -94,18 +94,12 @@ public class EnemyTurnProcessor : ActionProcessor {
 
 	void PathfindToTarget (Vector3 target) {
 		var pathfindingService = new PathfindingService((Character)enemy, target, gridService);
-		var waypoints = pathfindingService.GetPath();
-
-		if (waypoints.Count < 1) {
+		var moveAction = pathfindingService.GetMoveAction();
+		if (!moveAction.valid) {
 			Debug.Log ("No valid path to player!!! ending turn");
 			TurnFinished();
 			DoneProcessing();
 			return;
-		}
-
-		var moveAction = new MoveAction((Character)enemy);
-		foreach (Vector3 waypoint in waypoints) {
-			moveAction.AddWaypoint(waypoint);
 		}
 
 		actionQueueController.Add (moveAction);

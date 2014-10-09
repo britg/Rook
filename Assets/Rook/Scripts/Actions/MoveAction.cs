@@ -10,8 +10,6 @@ public class MoveAction : GameAction {
 		}
 	}
 
-	static List<string> nonBlockingTags = new List<string>{ "Player", "Grid", "Floor" };
-
 	public override Character character { get; set; }
     public List<Vector3> waypoints;
     public Vector3 lastWaypoint {
@@ -23,6 +21,12 @@ public class MoveAction : GameAction {
             }
         }
     }
+	public bool valid {
+		get {
+			return waypoints.Count > 0;
+		}
+	}
+
 
 	MoveView moveView;
 
@@ -62,7 +66,7 @@ public class MoveAction : GameAction {
 		Vector3 moveDestination = point;
 		moveDestination.y = characterPosition.y;
 		
-		if (!DestinationValid(moveDestination)) {
+		if (!PathfindingService.DestinationValid(character.go, waypoints, moveDestination)) {
 			Debug.Log ("Destination is not valid -- need to do some real pathfinding here.");
 			return;
 		}
@@ -121,33 +125,33 @@ public class MoveAction : GameAction {
 		}
 	}
 
-	bool DestinationValid (Vector3 moveDestination) {
-		return !DestinationOccupied(moveDestination);
-	}
-	
-	bool DestinationOccupied (Vector3 moveDestination) {
-		float sphereRadius = GridService.gridUnit/2f;
-		
-		// get direction to move destination
-		Vector3 start = lastWaypoint; 
-		start.y = sphereRadius;
-		Vector3 direction = moveDestination - start;
-		
-		// get distance to move destination
-		float dist = Vector3.Distance(start, moveDestination);
-		RaycastHit[] hits = Physics.SphereCastAll(start, sphereRadius, direction, dist);
-		return BlockedBy(hits);
-	}
-
-	public bool BlockedBy (RaycastHit[] hits) {
-		foreach (RaycastHit hit in hits) {
-			if (hit.collider.gameObject != go && !nonBlockingTags.Contains(hit.collider.gameObject.tag)) {
-				Debug.Log ("Blocked by " + hit.collider.gameObject.tag + " " + hit.collider.gameObject);
-				return true;
-			}
-		}
-		
-		return false;
-	}
+//	bool DestinationValid (Vector3 moveDestination) {
+//		return !DestinationOccupied(moveDestination);
+//	}
+//	
+//	bool DestinationOccupied (Vector3 moveDestination) {
+//		float sphereRadius = GridService.gridUnit/2f;
+//		
+//		// get direction to move destination
+//		Vector3 start = lastWaypoint; 
+//		start.y = sphereRadius;
+//		Vector3 direction = moveDestination - start;
+//		
+//		// get distance to move destination
+//		float dist = Vector3.Distance(start, moveDestination);
+//		RaycastHit[] hits = Physics.SphereCastAll(start, sphereRadius, direction, dist);
+//		return BlockedBy(hits);
+//	}
+//
+//	public bool BlockedBy (RaycastHit[] hits) {
+//		foreach (RaycastHit hit in hits) {
+//			if (hit.collider.gameObject != go && !nonBlockingTags.Contains(hit.collider.gameObject.tag)) {
+//				Debug.Log ("Blocked by " + hit.collider.gameObject.tag + " " + hit.collider.gameObject);
+//				return true;
+//			}
+//		}
+//		
+//		return false;
+//	}
 	
 }
