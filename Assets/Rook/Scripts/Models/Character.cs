@@ -47,15 +47,9 @@ public abstract class Character : IReceiveAction {
         actionPoints.SetToMax();
     }
 
-	public bool InDetectionRange (float distance) {
-		return distance <= (float)detectRange.maxValue;
-	}
-
-	public bool Detect (GameObject other) {
-		// Needs to be refactored to use
-		// raycasting against walls/etc. in the way
-        float otherDistance = Vector3.Distance(other.transform.position, go.transform.position);
-		return InDetectionRange(otherDistance);
+	public bool Detect (Character other) {
+		var service = new DetectionService(this, other);
+		return service.Detect();
 	}
 
 	public virtual void TakeDamage (int amount) {

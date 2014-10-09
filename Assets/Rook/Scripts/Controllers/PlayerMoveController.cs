@@ -6,18 +6,12 @@ using Vectrosity;
 public class PlayerMoveController : GameController {
 
 	MoveAction currentMoveAction;
-	MoveView moveView;
 
 	void Awake () {
-		RequireMoveView();
-	}
-
-	void RequireMoveView () {
-		moveView = gameObject.AddComponent<MoveView>();
 	}
 
 	void MoveInputStart () {
-		currentMoveAction = new MoveAction(player, moveView);
+		currentMoveAction = new MoveAction(player, moveView, combatService.InCombat);
 	}
 
 	void MoveInputUpdate (Vector3 pos) {
@@ -26,7 +20,11 @@ public class PlayerMoveController : GameController {
 	}
 
 	void MoveInputFinished () {
-		actionQueueController.Add(currentMoveAction);
+		if (currentMoveAction.valid) {
+//			moveView.DisplayConfirmation();
+			actionQueueController.Add(currentMoveAction);
+
+		}
 	}
 
 }

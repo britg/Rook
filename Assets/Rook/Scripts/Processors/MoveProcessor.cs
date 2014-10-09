@@ -42,7 +42,9 @@ public class MoveProcessor : ActionProcessor {
 		                                         "oncomplete", "NextMove",
 		                                         "oncompletetarget", gameObject));
 		currentMoveIndex++;
-		UseActionPoint();
+		if (moveAction.usesActionPoints) {
+			UseActionPoint();
+		}
 	}
 
 	public override void DoneProcessing () {

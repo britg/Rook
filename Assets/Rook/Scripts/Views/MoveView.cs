@@ -52,4 +52,8 @@ public class MoveView : View {
 	public void Reset () {
 		VectorLine.Destroy(ref line);
 	}
+
+	public void DisplayConfirmation () {
+
+	}
 }

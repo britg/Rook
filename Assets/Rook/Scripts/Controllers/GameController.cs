@@ -96,6 +96,26 @@ public abstract class GameController : MonoBehaviour {
 		}
 	}
 
+	GameObject _uiObj;
+	public virtual GameObject uiObj {
+		get {
+			if (_uiObj == null) {
+				_uiObj = GameObject.Find ("Canvas");
+			}
+			return _uiObj;
+		}
+	}
+
+	MoveView _moveView; 
+	public virtual MoveView moveView {
+		get {
+			if (_moveView == null) {
+				_moveView = uiObj.GetComponent<MoveView>();
+			}
+			return _moveView;
+		}
+	}
+
     public bool PlayerTurn {
         get {
             return turnController.PlayerTurn;

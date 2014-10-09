@@ -65,7 +65,7 @@ public class EnemyTurnProcessor : ActionProcessor {
 	
 	void TakeAction () {
 		
-		if (enemy.Detect(playerObj)) {
+		if (enemy.Detect(player)) {
 			EnterCombat();
 			RotateToTarget(playerPos);
 		} else {
