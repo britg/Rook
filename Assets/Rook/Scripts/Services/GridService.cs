@@ -143,7 +143,9 @@ public class GridService {
 	}
 
 	public bool Adjacent (Vector3 a, Vector3 b) {
-		return Vector3.Distance(a, b) < GridService.gridUnit;
+		float dist = Vector3.Distance(a, b);
+//		Debug.Log ("Distance between objects is " + dist + " grid unit is " + GridService.gridUnit);
+		return  dist <= (GridService.gridUnit+0.1f);
 	}
 
 }

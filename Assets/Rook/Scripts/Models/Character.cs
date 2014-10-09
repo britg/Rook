@@ -83,4 +83,20 @@ public abstract class Character : IReceiveAction {
         go.transform.position = gridService.NearestCellCenter(go.transform.position);
     }
 
+	public virtual void RotateToTarget (Vector3 target) {
+		go.transform.LookAt (target);
+		Vector3 angles = go.transform.eulerAngles;
+		float angle = angles.y;
+		float remain = angle % GridService.rotationAngle;
+		float nearest = 0f;
+		if (remain > GridService.rotationAngle / 2f) {
+			nearest = Mathf.Ceil(angle / GridService.rotationAngle) * GridService.rotationAngle;
+		} else {
+			nearest = Mathf.Floor(angle / GridService.rotationAngle) * GridService.rotationAngle;
+		}
+		
+		angles.y = nearest;
+		go.transform.eulerAngles = angles;
+	}
+
 }

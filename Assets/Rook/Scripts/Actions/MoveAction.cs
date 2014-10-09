@@ -142,7 +142,7 @@ public class MoveAction : GameAction {
 	public bool BlockedBy (RaycastHit[] hits) {
 		foreach (RaycastHit hit in hits) {
 			if (hit.collider.gameObject != go && !nonBlockingTags.Contains(hit.collider.gameObject.tag)) {
-				Debug.Log ("Blocked by " + hit.collider.gameObject.tag);
+				Debug.Log ("Blocked by " + hit.collider.gameObject.tag + " " + hit.collider.gameObject);
 				return true;
 			}
 		}

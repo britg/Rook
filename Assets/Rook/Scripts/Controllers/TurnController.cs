@@ -17,6 +17,7 @@ public class TurnController : GameController {
 
     void Start () {
 		QueueStartPlayerTurn();
+		NotificationCenter.AddObserver(this, Notifications.ActionFinished);
     }
 
     public void RegisterEnemy (Enemy enemy) {
@@ -38,8 +39,7 @@ public class TurnController : GameController {
 
     public void EndTurn () {
         playerTurn = false;
-		Invoke ("StartEnemyTurn", 1f);
-//        StartEnemyTurn();
+        StartEnemyTurn();
     }
 
     void StartEnemyTurn () {

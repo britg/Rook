@@ -67,6 +67,7 @@ public class EnemyTurnProcessor : ActionProcessor {
 		
 		if (enemy.Detect(playerObj)) {
 			EnterCombat();
+			RotateToTarget(playerPos);
 		} else {
 			ExitCombat();
 			TurnFinished();
@@ -74,7 +75,6 @@ public class EnemyTurnProcessor : ActionProcessor {
 		}
 		
 		if (gridService.Adjacent(enemyPos, playerPos)) {
-			RotateToTarget(playerPos);
 			Attack();
 		} else {
 			PathfindToTarget(playerPos);
@@ -82,7 +82,7 @@ public class EnemyTurnProcessor : ActionProcessor {
 	}
 
 	void RotateToTarget (Vector3 target) {
-
+		enemy.RotateToTarget(target);
 	}
 
 	void Attack () {
@@ -100,6 +100,7 @@ public class EnemyTurnProcessor : ActionProcessor {
 			Debug.Log ("No valid path to player!!! ending turn");
 			TurnFinished();
 			DoneProcessing();
+			return;
 		}
 
 		var moveAction = new MoveAction((Character)enemy);
