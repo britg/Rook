@@ -9,6 +9,8 @@ public abstract class Character : IReceiveAction {
     public abstract CharacterAlignment alignment { get; }
 	public PlayerControlMode controlMode;
 
+	public virtual bool isPlayer { get; set; }
+	public virtual bool inCombat { get; set; }
 	public virtual CharacterAttribute hitPoints { get; set; }
 	public virtual CharacterAttribute actionPoints { get; set; }
 	public virtual CharacterAttribute armorRating { get; set; }
@@ -41,6 +43,7 @@ public abstract class Character : IReceiveAction {
 
 	public Character (GameObject _go) {
 		go = _go;
+		isPlayer = false;
 	}
 
     public virtual void ResetActionPoints () {

@@ -12,10 +12,10 @@ public class TurnController : GameController {
     public new bool PlayerTurn {
         get { return playerTurn; }
     }
-
-	public new CombatService combatService = new CombatService();
-
+	public new CombatService combatService;
+	
     void Start () {
+		combatService = new CombatService(player);
 		QueueStartPlayerTurn();
 		NotificationCenter.AddObserver(this, Notifications.ActionFinished);
     }

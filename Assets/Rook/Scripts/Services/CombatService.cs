@@ -4,37 +4,45 @@ using System.Collections.Generic;
 
 public class CombatService {
 
-	bool inCombat = false;
+	Player player;
+
 	public bool InCombat {
 		get {
-			return inCombat;
+			return player.inCombat;
 		}
 	}
 	List<GameObject> enemiesInCombat = new List<GameObject>();
 
-    public void EnterCombat (GameObject enemyObj) {
+	public CombatService (Player _player) {
+		player = _player;
+	}
 
+    public void EnterCombat (Character enemy) {
+		GameObject enemyObj = enemy.go;
 		if (!enemiesInCombat.Contains(enemyObj)) {
+			enemy.inCombat = true;
 			enemiesInCombat.Add(enemyObj);
 		}
 
-        if (inCombat) {
+        if (InCombat) {
             return;
         }
 
         Debug.Log("Entering combat!");
-        inCombat = true;
+		player.inCombat = true;
     }
 
-	public void ExitCombat (GameObject enemyObj) {
-		if (!inCombat) {
+	public void ExitCombat (Character enemy) {
+		GameObject enemyObj = enemy.go;
+		if (!InCombat) {
 			return;
 		}
 
+		enemy.inCombat = false;
 		enemiesInCombat.Remove(enemyObj);
 		if (enemiesInCombat.Count <= 0) {
 			Debug.Log ("Exiting combat!");
-			inCombat = false;
+			player.inCombat = false;
 		}
 	}
 }

@@ -11,7 +11,7 @@ public class PlayerMoveController : GameController {
 	}
 
 	void MoveInputStart () {
-		currentMoveAction = new MoveAction(player, moveView, combatService.InCombat);
+		currentMoveAction = new MoveAction(player, moveView);
 	}
 
 	void MoveInputUpdate (Vector3 pos) {
@@ -25,6 +25,13 @@ public class PlayerMoveController : GameController {
 			actionQueueController.Add(currentMoveAction);
 
 		}
+	}
+
+	void MoveInputAuto (Vector3 destination) {
+		Debug.Log ("Move auto to " + destination);
+		var pathfinder = new PathfindingService(player, destination, gridService);
+		var moveAction = pathfinder.GetMoveAction();
+		actionQueueController.Add (moveAction);
 	}
 
 }

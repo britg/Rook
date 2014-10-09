@@ -51,11 +51,11 @@ public class Player : Character {
 	}
 
 	public Player (GameObject _go) : base(_go) {
-
 	}
 
 
 	public void Init () {
+		isPlayer = true;
 		warrior.player = this;
 		thief.player = this;
 		mage.player = this;

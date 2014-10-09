@@ -42,18 +42,18 @@ public class MoveAction : GameAction {
 		}
 	}
 
-	bool isPlayer { get; set; }
-
-	public bool inCombat { get; set; }
-	public bool usesActionPoints {
+	public override bool requiresActionPoints {
 		get {
-			return !isPlayer || inCombat;
+			return !character.isPlayer || character.inCombat;
+		} 
+		set {
+
 		}
 	}
 
 	public int maxMoves {
 		get {
-			if (usesActionPoints) {
+			if (requiresActionPoints) {
 				return character.actionPoints.currentValue;
 			} else {
 				return 1000;
@@ -67,9 +67,7 @@ public class MoveAction : GameAction {
 		waypoints = new List<Vector3>();
 	}
 
-	public MoveAction (Player player, MoveView view, bool _inCombat) : this(player, view) {
-		isPlayer = true;
-		inCombat = _inCombat;
+	public MoveAction (Player player, MoveView view) : this((Character)player, view) {
 	}
 
 	public MoveAction (Character _c, MoveView view) {

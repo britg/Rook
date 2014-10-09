@@ -48,7 +48,7 @@ public class PlayerRotationProcessor : ActionProcessor {
 
 	public override void DoneProcessing () {
 		playerController.EnterMode(PlayerControlMode.Move);
-		player.actionPoints.Decrement(rotationAction.actionPointCost);
+		rotationAction.SpendActionPoints();
 		base.DoneProcessing();
 	}
 

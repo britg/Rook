@@ -44,6 +44,16 @@ public abstract class GameAction {
         }
     }
 
+	bool _requiresActionPoints = true;
+	public virtual bool requiresActionPoints { 
+		get {
+			return _requiresActionPoints;
+		} 
+		set {
+			_requiresActionPoints = value;
+		}
+	}
+
     public virtual bool exclusive {
         get {
             return false;
@@ -51,7 +61,9 @@ public abstract class GameAction {
     }
 
 	public virtual void SpendActionPoints () {
-		character.actionPoints.Decrement(actionPointCost);
+		if (requiresActionPoints) {
+			character.actionPoints.Decrement(actionPointCost);
+		}
 	}
 
 	public virtual void Done () {

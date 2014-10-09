@@ -15,6 +15,12 @@ public class PlayerRotationAction : GameAction {
 		}
 	}
 
+	public override bool requiresActionPoints {
+		get {
+			return character.inCombat;
+		}
+	}
+
 	GameObject playerObj {
         get {
             return character.go;

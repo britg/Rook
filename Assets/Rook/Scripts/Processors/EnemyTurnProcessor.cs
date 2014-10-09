@@ -125,11 +125,11 @@ public class EnemyTurnProcessor : ActionProcessor {
 	}
 	
 	void EnterCombat () {
-		combatService.EnterCombat(enemy.go);
+		combatService.EnterCombat(enemy);
 	}
 	
 	void ExitCombat () {
-		combatService.ExitCombat(enemy.go);
+		combatService.ExitCombat(enemy);
 	}
 	
 }
