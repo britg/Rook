@@ -28,6 +28,10 @@ public class PlayerMoveController : GameController {
 	}
 
 	void MoveInputAuto (Vector3 destination) {
+		if (GUIInteraction()) {
+			Debug.Log ("GUI Interaction");
+			return;
+		}
 		Debug.Log ("Move auto to " + destination);
 		var pathfinder = new PathfindingService(player, destination, gridService);
 		var moveAction = pathfinder.GetMoveAction();

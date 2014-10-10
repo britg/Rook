@@ -9,6 +9,7 @@ public class PathfindingService {
 
 	Character mover;
 	Vector3 target;
+	bool shouldIncludeTarget = true;
 	GridService gridService;
 	List<Vector3> waypoints;
 	Vector3 lastWaypoint {
@@ -18,6 +19,11 @@ public class PathfindingService {
 			}
 			return waypoints[waypoints.Count-1];
 		}
+	}
+
+	public PathfindingService (Character _mover, Character _target, GridService _gridService)
+							 	: this(_mover, _target.go.transform.position, _gridService) {
+		shouldIncludeTarget = false;
 	}
 
 	public PathfindingService (Character _mover, Vector3 _target, GridService _gridService) {
@@ -37,24 +43,47 @@ public class PathfindingService {
 
 	public List<Vector3> GetPath () {
 		waypoints = new List<Vector3>();
-		int max = mover.actionPoints.currentValue;
+		int max;
+		if (mover.inCombat) {
+			max = mover.actionPoints.currentValue;
+		} else {
+			max = 100;
+		}
 
+		bool shouldContinue = true;
 		for (int i = 0; i < max; i++) {
-			NextWaypoint();
+			shouldContinue = NextWaypoint();
+			if (!shouldContinue) {
+				break;
+			}
 		}
 		return waypoints;
 	}
 
-	void NextWaypoint () {
+	bool NextWaypoint () {
 		Vector3 towardsTarget = lastWaypoint + (target - lastWaypoint).normalized * GridService.gridUnit;
 		Vector3 nearestCell = gridService.NearestCellCenter(towardsTarget);
 		Vector3 targetCell = gridService.NearestCellCenter(target);
 
-		if (nearestCell.Equals(targetCell)) {
-			return;
+		if (!PathfindingService.DestinationValid(mover.go, waypoints, nearestCell)) {
+			return false;
+		}
+
+		if (nearestCell.Equals(lastWaypoint)) {
+			return false;
 		}
 
 		waypoints.Add (nearestCell);
+
+		if (nearestCell.Equals(targetCell)) {
+			if (!shouldIncludeTarget) {
+				waypoints.Remove(nearestCell);
+			}
+			return false;
+		}
+
+		return true;
+
 	}
 
 	public static bool DestinationValid (GameObject go, List<Vector3> waypoints, Vector3 moveDestination) {

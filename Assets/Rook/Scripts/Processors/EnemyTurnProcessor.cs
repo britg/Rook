@@ -77,7 +77,7 @@ public class EnemyTurnProcessor : ActionProcessor {
 		if (gridService.Adjacent(enemyPos, playerPos)) {
 			Attack();
 		} else {
-			PathfindToTarget(playerPos);
+			PathfindToTarget(player);
 		}
 	}
 
@@ -92,7 +92,7 @@ public class EnemyTurnProcessor : ActionProcessor {
 		DoneProcessing();
 	}
 
-	void PathfindToTarget (Vector3 target) {
+	void PathfindToTarget (Character target) {
 		var pathfindingService = new PathfindingService((Character)enemy, target, gridService);
 		var moveAction = pathfindingService.GetMoveAction();
 		if (!moveAction.valid) {

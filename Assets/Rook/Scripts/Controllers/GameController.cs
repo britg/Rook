@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 using System.Collections;
 
 public abstract class GameController : MonoBehaviour {
@@ -138,5 +139,9 @@ public abstract class GameController : MonoBehaviour {
         //Vector3 nearestGridPos = grid.NearestFaceW(transform.position);
         transform.position = gridService.NearestCellCenter(transform.position);
     }
+
+	protected virtual bool GUIInteraction () {
+		return EventSystem.current.IsPointerOverGameObject();
+	}
 
 }

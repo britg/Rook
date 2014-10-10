@@ -67,9 +67,6 @@ public class MoveAction : GameAction {
 		waypoints = new List<Vector3>();
 	}
 
-	public MoveAction (Player player, MoveView view) : this((Character)player, view) {
-	}
-
 	public MoveAction (Character _c, MoveView view) {
 		character = _c;
 		moveView = view;
