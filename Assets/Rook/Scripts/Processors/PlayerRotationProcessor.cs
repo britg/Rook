@@ -40,16 +40,20 @@ public class PlayerRotationProcessor : ActionProcessor {
 		} else {
 			nearest = Mathf.Floor(angle / GridService.rotationAngle) * GridService.rotationAngle;
 		}
-		
+
+		angles.x = 0f;
+		angles.z = 0f;
 		angles.y = nearest;
-		playerObj.transform.eulerAngles = angles;
-		DoneProcessing();
+		iTween.RotateTo(playerObj, iTween.Hash("rotation", angles, 
+		                                       "time", rotateTime,
+		                                       "oncompletetarget", gameObject,
+		                                       "oncomplete", "RotationDoneProcessing"));
 	}
 
-	public override void DoneProcessing () {
+	public void RotationDoneProcessing () {
 		playerController.EnterMode(PlayerControlMode.Move);
 		rotationAction.SpendActionPoints();
-		base.DoneProcessing();
+		DoneProcessing();
 	}
 
 
