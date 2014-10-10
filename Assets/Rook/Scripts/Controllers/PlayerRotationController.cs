@@ -38,7 +38,7 @@ public class PlayerRotationController : GameController {
 
 	void StartRotate () {
 		rotationAction = new PlayerRotationAction(player);
-		rotationView.Init (rotationAction, gridService);
+		rotationView.Init(rotationAction);
 	}
 
 	public void UpdateRotateInput (Vector3 _aimPoint) {

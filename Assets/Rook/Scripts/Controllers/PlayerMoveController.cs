@@ -34,9 +34,9 @@ public class PlayerMoveController : GameController {
 		}
 		Debug.Log ("Move auto to " + destination);
 		var pathfinder = new PathfindingService(player, destination, gridService);
-		var moveAction = pathfinder.GetMoveAction(moveView);
+		var moveAction = pathfinder.GetMoveAction();
+		moveAction.ConnectMoveView(moveView);
 		moveView.DisplayConfirmation();
-//		actionQueueController.Add (moveAction);
 	}
 
 }

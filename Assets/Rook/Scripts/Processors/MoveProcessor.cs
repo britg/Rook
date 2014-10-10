@@ -32,13 +32,18 @@ public class MoveProcessor : ActionProcessor {
 			DoneProcessing();
 			return;
 		}
+
 		Vector3 waypoint = waypoints[currentMoveIndex];
 		iTween.MoveTo(moveAction.go, iTween.Hash("position", waypoint,
 		                                         "time", moveTime,
-		                                         "oncomplete", "NextMove",
+		                                         "oncomplete", "ContinueMove",
 		                                         "oncompletetarget", gameObject));
 		currentMoveIndex++;
 		moveAction.SpendActionPoints();
+	}
+
+	void ContinueMove () {
+		NextMove();
 	}
 
 	public override void DoneProcessing () {

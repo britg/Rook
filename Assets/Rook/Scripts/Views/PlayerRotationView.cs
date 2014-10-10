@@ -5,7 +5,6 @@ using Gamelogic.Grids;
 public class PlayerRotationView : View {
 
 	PlayerRotationAction action;
-	GridService gridService;
 
 	Transform aimProxy {
 		get {
@@ -19,9 +18,8 @@ public class PlayerRotationView : View {
 		}
 	}
 
-	public void Init (PlayerRotationAction _action, GridService _gridService) {
+	public void Init (PlayerRotationAction _action) {
 		action = _action;
-		gridService = _gridService;
 	}
 
 	public void Display () {
