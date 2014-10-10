@@ -21,8 +21,8 @@ public class PlayerMoveController : GameController {
 
 	void MoveInputFinished () {
 		if (currentMoveAction.valid) {
-//			moveView.DisplayConfirmation();
-			actionQueueController.Add(currentMoveAction);
+			moveView.DisplayConfirmation();
+//			actionQueueController.Add(currentMoveAction);
 
 		}
 	}
@@ -35,7 +35,8 @@ public class PlayerMoveController : GameController {
 		Debug.Log ("Move auto to " + destination);
 		var pathfinder = new PathfindingService(player, destination, gridService);
 		var moveAction = pathfinder.GetMoveAction(moveView);
-		actionQueueController.Add (moveAction);
+		moveView.DisplayConfirmation();
+//		actionQueueController.Add (moveAction);
 	}
 
 }

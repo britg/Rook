@@ -132,7 +132,7 @@ public class MoveAction : GameAction {
 		}
 	}
 
-	void Reset () {
+	public void Reset () {
 		waypoints = new List<Vector3>();
 		if (moveView != null) {
 			moveView.Reset();

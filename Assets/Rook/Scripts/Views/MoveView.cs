@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using Vectrosity;
 
@@ -11,10 +12,11 @@ public class MoveView : View {
 
 	public MoveAction moveAction;
 
+	public Image confirmationPanel;
+
 	// Use this for initialization
 	void Start () {
-		lineWidth = 10f;
-		lineColor = Color.red;
+		HideConfirmation();
 	}
 	
 	// Update is called once per frame
@@ -54,6 +56,21 @@ public class MoveView : View {
 	}
 
 	public void DisplayConfirmation () {
+		confirmationPanel.gameObject.SetActive(true);
+		confirmationPanel.gameObject.transform.position = Camera.main.WorldToScreenPoint(moveAction.lastWaypoint);
+	}
 
+	void HideConfirmation () {
+		confirmationPanel.gameObject.SetActive(false);
+	}
+
+	public void ConfirmMove () {
+		HideConfirmation();
+		actionQueueController.Add (moveAction);
+	}
+
+	public void CancelMove () {
+		HideConfirmation();
+		moveAction.Reset();
 	}
 }
