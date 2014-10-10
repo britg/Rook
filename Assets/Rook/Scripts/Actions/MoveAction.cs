@@ -69,9 +69,16 @@ public class MoveAction : GameAction {
 
 	public MoveAction (Character _c, MoveView view) {
 		character = _c;
+		ConnectMoveView(view);
+		waypoints = new List<Vector3>();
+	}
+
+	public void ConnectMoveView (MoveView view) {
+		if (view == null) {
+			return;
+		}
 		moveView = view;
 		moveView.moveAction = this;
-		waypoints = new List<Vector3>();
 	}
 
 	public void AddWaypoint (Vector3 point) {

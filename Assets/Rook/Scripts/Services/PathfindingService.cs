@@ -32,9 +32,9 @@ public class PathfindingService {
 		gridService = _gridService;
 	}
 
-	public MoveAction GetMoveAction () {
+	public MoveAction GetMoveAction (MoveView moveView = null) {
 		GetPath();
-		var moveAction = new MoveAction(mover);
+		var moveAction = new MoveAction(mover, moveView);
 		foreach (Vector3 waypoint in waypoints) {
 			moveAction.AddWaypoint(waypoint);
 		}
