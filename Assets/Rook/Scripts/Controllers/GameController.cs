@@ -117,6 +117,29 @@ public abstract class GameController : MonoBehaviour {
 		}
 	}
 
+	EnemyRegistryController _enemyRegistryController;
+	public virtual EnemyRegistryController enemyRegistryController {
+		get {
+			if (_enemyRegistryController == null) {
+				_enemyRegistryController = GameObject.Find ("EnemyRegistry").GetComponent<EnemyRegistryController>();
+			}
+			return _enemyRegistryController;
+		}
+	}
+
+	EnemyRegistry _enemyRegistry;
+	public virtual EnemyRegistry enemyRegistry {
+		get {
+			if (_enemyRegistry == null) {
+				_enemyRegistry = enemyRegistryController.enemyRegistry;
+			}
+			return _enemyRegistry;
+		}
+		set {
+			_enemyRegistry = value;
+		}
+	}
+
     public bool PlayerTurn {
         get {
             return turnController.PlayerTurn;

@@ -5,8 +5,6 @@ using System.Collections.Generic;
 public class TurnController : GameController {
 
 	public int currentTurn = 1;
-    List<Enemy> enemies = new List<Enemy>();
-	List<Enemy> enemiesTakingTurn = new List<Enemy>();
 
     bool playerTurn = false;
     public new bool PlayerTurn {
@@ -17,16 +15,7 @@ public class TurnController : GameController {
     void Start () {
 		combatService = new CombatService(player);
 		QueueStartPlayerTurn();
-		NotificationCenter.AddObserver(this, Notifications.ActionFinished);
     }
-
-    public void RegisterEnemy (Enemy enemy) {
-        enemies.Add(enemy);
-    }
-
-	public void UnregisterEnemy (Enemy enemy) {
-		enemies.Remove(enemy);
-	}
 
 	public void EndTurnButtonPressed () {
 		QueueEndPlayerTurn();
@@ -39,20 +28,31 @@ public class TurnController : GameController {
 
     public void EndTurn () {
         playerTurn = false;
-        StartEnemyTurn();
+        StartEnemiesTurn();
     }
 
-    void StartEnemyTurn () {
-        enemiesTakingTurn = new List<Enemy>();
-        foreach (Enemy enemy in enemies) {
-            enemiesTakingTurn.Add(enemy);
-			var startEnemyTurnAction = new StartEnemyTurnAction(enemy);
-			actionQueueController.Add (startEnemyTurnAction);
-        }
+    void StartEnemiesTurn () {
+		enemyRegistry.SeedTurn();
+		ContinueEnemiesTurn();
     }
+
+	void ContinueEnemiesTurn () {
+		var enemy = enemyRegistry.NextEnemyTakingTurn();
+		if (enemy != null) {
+			QueueStartEnemyTurn(enemy);
+		} else {
+			QueueStartPlayerTurn();
+		}
+	}
+
+	void QueueStartEnemyTurn (Enemy enemy) {
+		var startEnemyTurnAction = new StartEnemyTurnAction(enemy);
+		actionQueueController.Add(startEnemyTurnAction);
+	}
 
     public void EnemyTurnFinished (Enemy enemy) {
-        enemiesTakingTurn.Remove(enemy);
+		enemyRegistry.EnemyDoneWithTurn(enemy);
+		ContinueEnemiesTurn();
     }
 
 	void QueueStartPlayerTurn () {
@@ -65,27 +65,5 @@ public class TurnController : GameController {
         playerTurn = true;
         NotificationCenter.PostNotification(this, Notifications.PlayerTurn);
     }
-
-	void OnActionFinished () {
-		if (playerTurn) {
-			DetermineEndOfPlayerTurn();
-		} else {
-			DetermineStartOfPlayerTurn();
-		}
-	}
-
-	void DetermineEndOfPlayerTurn () {
-		if (player.actionPoints.currentValue < 1) {
-			Debug.Log ("No more action points left!");
-		}
-	}
-
-	void DetermineStartOfPlayerTurn() {
-		Debug.Log ("Enemies taking turn: " + enemiesTakingTurn.Count);
-		if (enemiesTakingTurn.Count < 1) {
-			Debug.Log ("End of enemies turn");
-			QueueStartPlayerTurn();
-		}
-	}
 
 }

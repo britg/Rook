@@ -30,12 +30,12 @@ public class EnemyController : GameController {
 	}
 
     void Register () {
-        turnController.RegisterEnemy(enemy);
+		enemyRegistry.Register(enemy);
 		NotificationCenter.AddObserver(this, Notifications.ActionFinished);
     }
 
 	void Unregister () {
-		turnController.UnregisterEnemy(enemy);
+		enemyRegistry.Unregister(enemy);
 	}
 
 	void OnActionFinished () {
