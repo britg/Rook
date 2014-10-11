@@ -5,23 +5,38 @@ using System.Collections.Generic;
 public class CombatService {
 
 	Player player;
+    EnemyRegistry enemyRegistry;
 
 	public bool InCombat {
 		get {
 			return player.inCombat;
 		}
 	}
-	List<GameObject> enemiesInCombat = new List<GameObject>();
+	List<Character> charactersInCombat = new List<Character>();
 
-	public CombatService (Player _player) {
+	public CombatService (Player _player, EnemyRegistry _enemyRegistry) {
 		player = _player;
+        enemyRegistry = _enemyRegistry;
 	}
 
-    public void EnterCombat (Character enemy) {
-		GameObject enemyObj = enemy.go;
-		if (!enemiesInCombat.Contains(enemyObj)) {
-			enemy.inCombat = true;
-			enemiesInCombat.Add(enemyObj);
+    public void DetectCombat () {
+        foreach (Enemy e in enemyRegistry.enemies) {
+            bool detectsPlayer = e.Detect(player);
+
+            if (!e.inCombat && detectsPlayer) {
+                EnterCombat((Character)e);
+            }
+
+            if (e.inCombat && !detectsPlayer) {
+                ExitCombat((Character)e);
+            }
+        }
+    }
+
+    public void EnterCombat (Character character) {
+		if (!charactersInCombat.Contains(character)) {
+			character.inCombat = true;
+			charactersInCombat.Add(character);
 		}
 
         if (InCombat) {
@@ -32,15 +47,10 @@ public class CombatService {
 		player.inCombat = true;
     }
 
-	public void ExitCombat (Character enemy) {
-		GameObject enemyObj = enemy.go;
-		if (!InCombat) {
-			return;
-		}
-
-		enemy.inCombat = false;
-		enemiesInCombat.Remove(enemyObj);
-		if (enemiesInCombat.Count <= 0) {
+	public void ExitCombat (Character character) {
+		character.inCombat = false;
+		charactersInCombat.Remove(character);
+		if (charactersInCombat.Count <= 0) {
 			Debug.Log ("Exiting combat!");
 			player.inCombat = false;
 		}

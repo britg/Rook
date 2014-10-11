@@ -10,10 +10,8 @@ public class TurnController : GameController {
     public new bool PlayerTurn {
         get { return playerTurn; }
     }
-	public new CombatService combatService;
 	
     void Start () {
-		combatService = new CombatService(player);
 		QueueStartPlayerTurn();
     }
 

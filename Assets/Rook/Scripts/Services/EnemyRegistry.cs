@@ -5,8 +5,9 @@ using System.Linq;
 
 public class EnemyRegistry {
 
-    List<Enemy> enemies = new List<Enemy>();
+    public List<Enemy> enemies = new List<Enemy>();
 	List<Enemy> enemiesTakingTurn = new List<Enemy>();
+    List<Enemy> enemiesInCombat = new List<Enemy>();
 
     public void Register (Enemy enemy) {
         enemies.Add(enemy);
@@ -21,7 +22,7 @@ public class EnemyRegistry {
 	}
 
 	public Enemy NextEnemyTakingTurn () {
-		return enemiesTakingTurn.LastOrDefault();
+		return enemiesTakingTurn.FirstOrDefault();;
 	}
 
 	public void EnemyDoneWithTurn (Enemy enemy) {

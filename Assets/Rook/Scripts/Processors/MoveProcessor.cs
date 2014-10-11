@@ -43,6 +43,17 @@ public class MoveProcessor : ActionProcessor {
 	}
 
 	void ContinueMove () {
+        bool currentlyInCombat = moveAction.character.inCombat;
+        bool nowInCombat;
+        combatService.DetectCombat();
+        if (!currentlyInCombat) {
+            nowInCombat = moveAction.character.inCombat;
+            if (nowInCombat) {
+                Debug.Log("Enetered combat! Cancelling moves");
+                DoneProcessing();
+                return;
+            }
+        }
 		NextMove();
 	}
 

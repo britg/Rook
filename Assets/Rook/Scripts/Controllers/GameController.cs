@@ -38,7 +38,7 @@ public abstract class GameController : MonoBehaviour {
 	public virtual CombatService combatService {
 		get {
 			if (_combatService == null) {
-				_combatService = turnController.combatService;
+				_combatService = GameObject.Find("CombatManager").GetComponent<CombatController>().combatService;
 			}
 			return _combatService;
 		}
