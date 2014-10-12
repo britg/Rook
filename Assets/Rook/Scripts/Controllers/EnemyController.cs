@@ -1,7 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EnemyController : GameController {
+public class EnemyController : NPCController {
+
+    public override Character character {
+        get {
+            return (Character)enemy;
+        }
+        set {
+
+        }
+    }
 
     public Enemy enemy;
 
@@ -20,7 +29,7 @@ public class EnemyController : GameController {
         SnapToGrid();
 	}
 
-	void InitializeEnemy () {
+	protected virtual void InitializeEnemy () {
 		enemy = new Enemy();
 		enemy.go = gameObject;
 		enemy.actionPoints = new CharacterAttribute(seedValue: 3);
@@ -48,5 +57,6 @@ public class EnemyController : GameController {
 			Unregister();
 			Destroy (gameObject);
 		}
-	} 
+	}
+
 }

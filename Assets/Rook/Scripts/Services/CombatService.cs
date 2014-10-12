@@ -60,8 +60,8 @@ public class CombatService {
 	}
 
     void CheckAnyCombat () {
-		if (charactersInCombat.Count <= 0) {
-			Debug.Log ("Exiting combat!");
+		if (player.inCombat && charactersInCombat.Count <= 0) {
+            Debug.Log("Exiting combat");
 			player.inCombat = false;
             player.ResetActionPoints();
 		}
