@@ -44,6 +44,7 @@ public class EnemyController : GameController {
 	
 	void DieIfDead () {
 		if (enemy.dead) {
+            combatService.ExitCombat((Character)enemy);
 			Unregister();
 			Destroy (gameObject);
 		}

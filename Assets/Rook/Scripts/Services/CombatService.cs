@@ -30,7 +30,13 @@ public class CombatService {
             if (e.inCombat && !detectsPlayer) {
                 ExitCombat((Character)e);
             }
+
+            if (e.inCombat && e.dead) {
+                ExitCombat((Character)e);
+            }
         }
+
+        CheckAnyCombat();
     }
 
     public void EnterCombat (Character character) {
@@ -50,9 +56,14 @@ public class CombatService {
 	public void ExitCombat (Character character) {
 		character.inCombat = false;
 		charactersInCombat.Remove(character);
+        CheckAnyCombat();
+	}
+
+    void CheckAnyCombat () {
 		if (charactersInCombat.Count <= 0) {
 			Debug.Log ("Exiting combat!");
 			player.inCombat = false;
+            player.ResetActionPoints();
 		}
-	}
+    }
 }
