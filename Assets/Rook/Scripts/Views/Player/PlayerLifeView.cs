@@ -2,7 +2,7 @@
 using System.Collections;
 using Vectrosity;
 
-public class LifeView : View {
+public class PlayerLifeView : View {
 
     public Color lifeColor;
     public float lifeBarThickness;

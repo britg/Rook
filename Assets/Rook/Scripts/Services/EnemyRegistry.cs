@@ -18,7 +18,7 @@ public class EnemyRegistry {
 	}
 
 	public void SeedTurn () {
-		enemiesTakingTurn = enemies;
+		enemiesTakingTurn.AddRange(enemies);
 	}
 
 	public Enemy NextEnemyTakingTurn () {

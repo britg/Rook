@@ -1,23 +1,16 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
 
-public class ActionPointsView : View {
+public class ActionPointsView : CharacterTextView {
 
-    Text text;
-
-	int currentActionPoints {
+	CharacterAttribute actionPoints {
 		get {
-			return player.actionPoints.currentValue;
+			return character.actionPoints;
 		}
 	}
 
-    void Start () {
-        text = GetComponent<Text>();
-    }
+	protected override void Display () {
+		textDisplay.text = string.Format("AP: {0}", actionPoints.currentValue);
+	}
 
-    void Update () {
-        text.text = "Action Points: " + currentActionPoints;
-    }
-  
 }

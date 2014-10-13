@@ -2,17 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class HitpointsView : View {
-
-    Character _character;
-    public Character character {
-        get {
-            if (_character == null) {
-                _character = GetComponent<NPCController>().character;
-            }
-            return _character;
-        }
-    }
+public class HitpointsView : CharacterTextView {
 
     CharacterAttribute hitpoints {
         get {
@@ -20,28 +10,9 @@ public class HitpointsView : View {
         }
     }
 
-    public GameObject textDisplayPrefab;
-    Text textDisplay;
 
-    void Start () {
-        CreateDisplay();
-    }
-
-    void Update () {
-        if (textDisplay != null && character != null) {
-            if (character.dead) {
-                Destroy(textDisplay.gameObject);
-                return;
-            }
-            textDisplay.text = string.Format("HP: {0}", hitpoints.currentValue);
-            textDisplay.transform.position = Camera.main.WorldToScreenPoint(character.go.transform.position);
-        }
-    }
-
-    void CreateDisplay () {
-        var newObj = (GameObject)Instantiate(textDisplayPrefab);
-        newObj.transform.SetParent(canvasObj.transform);
-        textDisplay = newObj.GetComponent<Text>();
-    }
+	protected override void Display () {
+		textDisplay.text = string.Format("HP: {0}", hitpoints.currentValue);
+	}
 
 }
