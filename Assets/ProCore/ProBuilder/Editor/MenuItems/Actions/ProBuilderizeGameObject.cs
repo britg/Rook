@@ -46,8 +46,10 @@ public class ProBuilderizeMesh : Editor
 	{
 		Mesh m = t.GetComponent<MeshFilter>().sharedMesh;
 		Vector3[] m_vertices = m.vertices;
+		Vector2[] m_uvs = m.uv;
 
 		List<Vector3> verts = preserveFaces ? new List<Vector3>(m.vertices) : new List<Vector3>();
+		List<Vector2> uvs = preserveFaces ? new List<Vector2>(m.uv) : new List<Vector2>();
 		List<pb_Face> faces = new List<pb_Face>();
 
 		for(int n = 0; n < m.subMeshCount; n++)
@@ -99,6 +101,10 @@ public class ProBuilderizeMesh : Editor
 						verts.Add(m_vertices[tris[i+0]]);
 						verts.Add(m_vertices[tris[i+1]]);
 						verts.Add(m_vertices[tris[i+2]]);
+
+						uvs.Add(m_uvs[tris[i+0]]);
+						uvs.Add(m_uvs[tris[i+1]]);
+						uvs.Add(m_uvs[tris[i+2]]);
 						faceTris = new int[3] { i+0, i+1, i+2 };
 					}
 
@@ -110,7 +116,7 @@ public class ProBuilderizeMesh : Editor
 							0,		// smoothing group
 							-1,		// texture group
 							-1,		// element group
-							false, 	// manualUV 
+							true, 	// manualUV 
 							Color.white
 						));					
 				}
@@ -122,6 +128,8 @@ public class ProBuilderizeMesh : Editor
 
 		pb_Object pb = go.AddComponent<pb_Object>();
 		pb.GeometryWithVerticesFaces(verts.ToArray(), faces.ToArray());
+
+		pb.SetUV(uvs.ToArray());
 
 		pb.SetName(t.name);
 		
