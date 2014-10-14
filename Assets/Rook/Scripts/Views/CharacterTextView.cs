@@ -51,7 +51,9 @@ public class CharacterTextView : View {
 	}
 
 	void OnDestroy () {
-		Destroy (textDisplay.gameObject);
+        if (textDisplay != null) {
+		    Destroy (textDisplay.gameObject);
+        }
 	}
 
 }
