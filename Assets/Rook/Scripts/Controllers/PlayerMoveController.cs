@@ -36,7 +36,12 @@ public class PlayerMoveController : GameController {
 		var pathfinder = new PathfindingService(player, destination, gridService);
 		var moveAction = pathfinder.GetMoveAction();
 		moveAction.ConnectMoveView(moveView);
-		moveView.DisplayConfirmation();
+
+		if (player.inCombat) {
+			moveView.DisplayConfirmation();
+		} else {
+			actionQueueController.Add (moveAction);
+		}
 	}
 
 }
