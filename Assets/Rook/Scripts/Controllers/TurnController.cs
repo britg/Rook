@@ -19,6 +19,10 @@ public class TurnController : GameController {
 		QueueEndPlayerTurn();
 	}
 
+	public void ResetButtonPressed () {
+		Application.LoadLevel(Application.loadedLevel);
+	}
+
 	void QueueEndPlayerTurn () {
 		var endTurnAction = new EndTurnAction();
 		actionQueueController.Add(endTurnAction);

@@ -1150,6 +1150,7 @@ MonoBehaviour:
   - {x: 0, y: .866025448}
   - {x: 1, y: .866025448}
   _sharedIndicesUV: []
+  _submeshTriangleCount: 6c000000
   angleError: 8
   areaError: 15
   hardAngle: 88

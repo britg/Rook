@@ -4,7 +4,8 @@ using MapService;
 
 public class LevelGeneratorController : GameController {
 
-	public GameObject wallTile;
+	public GameObject wallTilePrefab;
+	public GameObject enemyPrefab;
 	Map map;
 
 	// Use this for initialization
@@ -20,6 +21,7 @@ public class LevelGeneratorController : GameController {
 	void GenerateLevel () {
 		map = new Map();
 		map.Generate();
-		map.Instantiate(wallTile);
+		map.Instantiate(wallTilePrefab);
+		map.PlaceEnemies(enemyPrefab);
 	}
 }

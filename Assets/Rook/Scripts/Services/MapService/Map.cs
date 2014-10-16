@@ -13,13 +13,17 @@ namespace MapService {
 
 		GameObject wallTilePrefab;
 		GameObject environment;
+		GameObject mobs;
 
 		Hashtable tiles;
+
+		Vector3 offset;
 
 		public Map () {
 //			tiles = new MapTile[(int)size.x + (int)Room.roomSizeMax.x, (int)size.z + (int)Room.roomSizeMax.z];
 			tiles = new Hashtable();
 			environment = GameObject.Find ("Environment");
+			mobs = GameObject.Find ("Mobs");
 		}
 
 		public void Generate () {
@@ -75,8 +79,8 @@ namespace MapService {
 		}
 
 		void PlacePlayer () {
-			var playerStart = ChooseRandomPlayerStart();
-			environment.transform.position = -playerStart;
+			offset = ChooseRandomPlayerStart();
+			environment.transform.position = -offset;
 		}
 
 		public Vector3 RandomPoint () {
@@ -89,6 +93,21 @@ namespace MapService {
 			int x = Random.Range (0, (int)size.x);
 			int z = Random.Range (0, (int)size.z);
 			return new Vector3(x, 0f, z);
+		}
+
+		public void PlaceEnemies (GameObject enemyPrefab) {
+			foreach (DictionaryEntry entry in tiles) {
+				Vector3 pos = (Vector3)entry.Key - offset ;
+				MapTile tile = (MapTile)entry.Value;
+
+				if (tile == MapTile.Floor) {
+					bool shouldPlace = Random.Range(0, 200) <= 1;
+					if (shouldPlace) {
+						var enemy = (GameObject)GameObject.Instantiate(enemyPrefab, pos, Quaternion.identity);
+						enemy.transform.SetParent(mobs.transform);
+					}
+				}
+			}
 		}
 	}
 }

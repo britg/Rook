@@ -46,7 +46,11 @@ public class EnemyTurnProcessor : ActionProcessor {
     void StartTurn (StartEnemyTurnAction startAction) {
         enemy = startAction.enemy;
         enemy.ResetActionPoints();
-        ContinueTurn();
+		if (enemy.inCombat) {
+        	ContinueTurn();
+		} else {
+			EndTurn();
+		}
     }
 
     public void ContinueTurn (ContinueEnemyTurnAction continueAction) {
@@ -59,7 +63,7 @@ public class EnemyTurnProcessor : ActionProcessor {
         if (enemy.actionPoints.currentValue > 0) {
             TakeAction();
         } else {
-            TurnFinished();
+            EndTurn();
         }
     }
 
@@ -82,7 +86,7 @@ public class EnemyTurnProcessor : ActionProcessor {
     }
 
     void Idle () {
-        TurnFinished();
+        EndTurn();
     }
 
     void RotateToTarget (Vector3 target) {
@@ -101,7 +105,7 @@ public class EnemyTurnProcessor : ActionProcessor {
         var moveAction = pathfindingService.GetMoveAction();
         if (!moveAction.valid) {
             Debug.Log("No valid path to player!!! ending turn");
-            TurnFinished();
+            EndTurn();
             DoneProcessing();
             return;
         }
@@ -122,7 +126,7 @@ public class EnemyTurnProcessor : ActionProcessor {
         DoneProcessing();
     }
 
-    void TurnFinished () {
+    void EndTurn () {
         enemy.SnapToGrid(gridService);
         turnController.EnemyTurnFinished(enemy);
         DoneProcessing();
