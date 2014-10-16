@@ -1,18 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-namespace MapGenerator {
+namespace MapService {
 	public class Map {
+
+		public static int NumRooms = 20;
+		public static int RoomAttempts = 20;
+		public static Vector3 size = new Vector3(100f, 0f, 100f);
+
+		public List<Room> rooms;
 
 		GameObject wallTilePrefab;
 		GameObject environment;
-		Vector2 size;
 
-		MapTile[,] tiles;
+		Hashtable tiles;
 
 		public Map () {
-			size = new Vector2(100f, 100f);
-			tiles = new MapTile[(int)size.x, (int)size.y];
+//			tiles = new MapTile[(int)size.x + (int)Room.roomSizeMax.x, (int)size.z + (int)Room.roomSizeMax.z];
+			tiles = new Hashtable();
 			environment = GameObject.Find ("Environment");
 		}
 
@@ -27,28 +33,38 @@ namespace MapGenerator {
 			PlacePlayer();
 		}
 
+		public void SetTile (Vector3 pos, MapTile tileType) {
+			tiles[pos] = tileType;
+		}
+
 		void CreateBounds () {
 			for (int x = 0; x <size.x; x++) {
-				for (int z = 0; z < size.y; z++) {
-					if (x == 0 || x == (int)size.x-1 || z == 0 || z == (int)size.y-1) {
-						tiles[x,z] = MapTile.Wall;
+				for (int z = 0; z < size.z; z++) {
+					if (x == 0 || x == (int)size.x-1 || z == 0 || z == (int)size.z-1) {
+						tiles[new Vector3(x, 0f, z)] = MapTile.Wall;
 					} else {
-						tiles[x,z] = MapTile.Floor;
+						tiles[new Vector3(x, 0f, z)] = MapTile.Floor;
 					}
 				}
 			}
 		}
 
 		void CreateRooms () {
-			Room.Create(ref tiles);
+			rooms = new List<Room>();
+
+			for (int i = 0; i < Map.RoomAttempts; i++) {
+				var room = Room.Create(this);
+				if (room != null) {
+					rooms.Add(room);
+					room.SetTiles();
+				}
+			}
 		}
 
 		void PlaceTiles () {
-			for (int x = 0; x < tiles.GetLength(0); x++) {
-				for (int z = 0; z < tiles.GetLength(1); z++) {
-					if (tiles[x, z] == MapTile.Wall) {
-						PlaceWall(new Vector3((float)x, 0f, (float)z));
-					}
+			foreach (DictionaryEntry entry in tiles) {
+				if ((MapTile)entry.Value == MapTile.Wall) {
+					PlaceWall ((Vector3)entry.Key);
 				}
 			}
 		}
@@ -63,9 +79,15 @@ namespace MapGenerator {
 			environment.transform.position = -playerStart;
 		}
 
+		public Vector3 RandomPoint () {
+			int x = (int)Random.Range (0, size.x);
+			int z = (int)Random.Range (0, size.z);
+			return new Vector3(x, 0f, z);
+		}
+
 		Vector3 ChooseRandomPlayerStart () {
 			int x = Random.Range (0, (int)size.x);
-			int z = Random.Range (0, (int)size.y);
+			int z = Random.Range (0, (int)size.z);
 			return new Vector3(x, 0f, z);
 		}
 	}

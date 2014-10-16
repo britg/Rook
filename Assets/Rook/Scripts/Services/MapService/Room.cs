@@ -1,68 +1,145 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace MapGenerator {
+namespace MapService {
 
 	public class Room {
 
-		static Vector2 roomSizeMin = new Vector2(8f, 8f);
-		static Vector2 roomSizeMax = new Vector2(20f, 20f);
+		public static Vector3 roomSizeMin = new Vector3(8f, 0f, 8f);
+		public static Vector3 roomSizeMax = new Vector3(30f, 0f, 30f);
 
-		MapTile[,] tiles;
-		Vector2 center;
-		Vector2 size;
+		Map map;
+		Bounds bounds;
 
-		public static Room Create (ref MapTile[,] tiles) {
+		Vector3 center {
+			get {
+				return bounds.center;
+			}
+		}
 
-			var roomSize = RandomSize();
-			var center = new Vector2(tiles.GetLength(0)/2,  tiles.GetLength(1)/2);
+		Vector3 extents {
+			get {
+				return bounds.extents;
+			}
+		}
 
-			var room = new Room(center, roomSize, ref tiles);
-			room.Place();
+		List<Wall> walls;
+		List<Door> doors;
+		Vector3 topLeft;
+		Vector3 topRight;
+		Vector3 botLeft;
+		Vector3 botRight;
+
+		public static Room Create (Map map) {
+
+			Bounds bounds = RandomBounds(map);
+			bool validBounds = false;
+			for (int i = 0; i < Map.RoomAttempts; i++) {
+				bounds = RandomBounds(map);
+				validBounds = ValidBounds(map, bounds);
+
+				if (validBounds) {
+					break;
+				}
+			}
+
+			// Failed to find a valid bounds
+			if (!validBounds) {
+				return null;
+			}
+
+			var room = new Room(bounds, map);
+			room.Generate();
 			return room;
 		}
 
-		static Vector2 RandomSize () {
+		static bool ValidBounds (Map map, Bounds bounds) {
+			foreach (Room room in map.rooms) {
+				if (room.bounds.Intersects(bounds)) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		static Bounds RandomBounds (Map map) {
+			var size = RandomSize();
+			var center = map.RandomPoint();
+
+			Bounds bounds = new Bounds(center, size);
+			return bounds;
+		}
+
+		static Vector3 RandomSize () {
 			int x = (int)Random.Range (roomSizeMin.x, roomSizeMax.x);
-			int y = (int)Random.Range (roomSizeMin.y, roomSizeMax.y);
-			return new Vector2(x, y);
+			int z = (int)Random.Range (roomSizeMin.z, roomSizeMax.z);
+			return new Vector3(x, 0f, z);
 		}
 
-		public Room (Vector2 _center, Vector2 _size, ref MapTile[,] _tiles) {
-			center = _center;
-			size = _size;
-			tiles = _tiles;
+		public Room (Bounds _bounds, Map _map) {
+			bounds = _bounds;
+			map = _map;
 		}
 
-		public void Place () {
-			var topLeft = new Vector2(center.x - size.x/2, center.y + size.y/2);
-			var botLeft = new Vector2(center.x - size.x/2, center.y - size.y/2);
-			var topRight = new Vector2(center.x + size.x/2, center.y + size.y/2);
-			var botRight = new Vector2(center.x + size.x/2, center.y - size.y/2);
+		public void Generate () {
+			SetCorners();
+			CreateWalls();
+			CreateDoors();
+		}
 
-			// Bottom Wall
-			for (int x = (int)botLeft.x; x <= (int)botRight.x; x++) {
-				tiles[(int)x, (int)botLeft.y] = MapTile.Wall;
+		void SetCorners () {
+			topLeft = new Vector3(center.x - extents.x, 0f, center.z + extents.z);
+			botLeft = new Vector3(center.x - extents.x, 0f, center.z - extents.z);
+			topRight = new Vector3(center.x + extents.x, 0f, center.z + extents.z);
+			botRight = new Vector3(center.x + extents.x, 0f, center.z - extents.z);
+		}
+
+		void CreateWalls () {
+
+			// Walls
+			walls = new List<Wall>();
+			walls.Add(new Wall(botLeft, botRight, WallSide.Bottom));
+			walls.Add(new Wall(topLeft, topRight, WallSide.Top));
+			walls.Add(new Wall(botLeft, topLeft, WallSide.Left));
+			walls.Add(new Wall(botRight, topRight, WallSide.Right));
+
+		}
+
+		void CreateDoors () {
+			doors = new List<Door>();
+			bool hasDoor;
+			foreach (Wall wall in walls) {
+				hasDoor = Random.Range(0, 100) < 25; // 50% chance
+				if (hasDoor) {
+					var door = new Door(wall);
+					doors.Add(door);
+				}
 			}
 
-			// Top Wall
-			for (int x = (int)topLeft.x; x <= (int)topRight.x; x++) {
-				tiles[(int)x, (int)topLeft.y] = MapTile.Wall;
+			if (doors.Count < 1) {
+				Wall wall = walls.Last();
+				var door = new Door(wall);
+				doors.Add(door);
+			}
+		}
+
+		public void SetTiles () {
+			List<Vector3> tileList;
+			foreach (Wall wall in walls) {
+				tileList = wall.Tiles();
+				foreach (Vector3 tile in tileList) {
+					map.SetTile(tile, MapTile.Wall);
+				}
 			}
 
-			// Left wall
-			for (int y = (int)botLeft.y+1; y < (int)topLeft.y; y++) {
-				tiles[(int)botLeft.x, y] = MapTile.Wall;
+			foreach (Door door in doors) {
+				tileList = door.Tiles();
+				foreach (Vector3 tile in tileList) {
+					map.SetTile(tile, MapTile.Door);
+				}
 			}
-
-			// Right wall
-			for (int y = (int)botRight.y+1; y < (int)topRight.y; y++) {
-				tiles[(int)botRight.x, y] = MapTile.Wall;
-			}
-	//		tiles[(int)topLeft.x, (int)topLeft.y] = LevelTile.Wall;
-	//		tiles[(int)botLeft.x, (int)botLeft.y] = LevelTile.Wall;
-	//		tiles[(int)topRight.x, (int)topRight.y] = LevelTile.Wall;
-	//		tiles[(int)botRight.x, (int)botRight.y] = LevelTile.Wall;
 		}
 
 	}

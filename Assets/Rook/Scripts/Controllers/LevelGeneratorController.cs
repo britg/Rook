@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using MapGenerator;
+using MapService;
 
 public class LevelGeneratorController : GameController {
 
