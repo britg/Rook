@@ -182,7 +182,6 @@ public class RuntimeEdit : MonoBehaviour
 		{
 			pb_Object hitpb = hit.transform.gameObject.GetComponent<pb_Object>();
 
-
 			if(hitpb == null)
 				return false;
 

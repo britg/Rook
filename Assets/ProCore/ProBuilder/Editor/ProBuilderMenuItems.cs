@@ -3,6 +3,7 @@ using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
 using ProBuilder2.Common;
+using ProBuilder2.EditorCommon;
 
 public class ProBuilderMenuItems : EditorWindow
 {
@@ -35,6 +36,9 @@ public class ProBuilderMenuItems : EditorWindow
 		EditorWindow.GetWindow<pb_VertexColorInterface>(openInDockableWindow, "Vertex Colors", true);
 	}
 
+	/**
+	 * Finds a pb_Editor window (or makes one), then closes it.
+	 */
 	public static void ForceCloseEditor()
 	{
 		EditorWindow.GetWindow<pb_Editor>().Close();

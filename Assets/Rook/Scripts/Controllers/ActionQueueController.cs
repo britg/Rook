@@ -47,8 +47,7 @@ public class ActionQueueController : GameController {
         Debug.Log("Finishing " + currentAction);
 		currentAction.Done();
 		PostActionFinished();
-//		Continue();
-		Invoke("Continue", 1f);
+		Continue();
 	}
 
 	void PostActionFinished () {

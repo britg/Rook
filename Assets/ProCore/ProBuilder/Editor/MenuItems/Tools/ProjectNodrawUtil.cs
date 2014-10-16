@@ -1,3 +1,7 @@
+#if UNITY_5_0_0
+#define UNITY_5
+#endif
+
 using UnityEngine;
 using UnityEditor;
 using System.Collections;
@@ -46,7 +50,12 @@ namespace ProBuilder2.Actions
 				foreach(pb_Object pb in pbs)
 					pb.ShowNodraw();
 
+				#if UNITY_5
+				EditorUtility.UnloadUnusedAssetsImmediate();
+				#else
 				EditorUtility.UnloadUnusedAssets();
+				#endif
+
 				EditorApplication.SaveScene(cheese);
 			}
 
@@ -67,7 +76,12 @@ namespace ProBuilder2.Actions
 				{
 					pb.HideNodraw();
 				}
+
+				#if UNITY_5
+				EditorUtility.UnloadUnusedAssetsImmediate();
+				#else
 				EditorUtility.UnloadUnusedAssets();
+				#endif
 				EditorApplication.SaveScene(cheese);
 			}
 

@@ -91,7 +91,7 @@ public class PathfindingService {
 	}
 	
 	public static bool DestinationOccupied (GameObject go, List<Vector3> waypoints,  Vector3 moveDestination) {
-		float sphereRadius = GridService.gridUnit/2f;
+		float sphereRadius = GridService.gridUnit/10f;
 		
 		// get direction to move destination
 		Vector3 start;

@@ -5,10 +5,11 @@ using System.Collections;
 using System.Collections.Generic;
 using ProBuilder2.MeshOperations;
 using ProBuilder2.Common;
+using ProBuilder2.EditorCommon;
 using System.Linq;
 
-#if BUGGER
-using Parabox.Bugger;
+#if PB_DEBUG
+using Parabox.Debug;
 #endif
 
 namespace ProBuilder2.Actions

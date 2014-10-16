@@ -7,7 +7,6 @@ public class EnemyRegistry {
 
     public List<Enemy> enemies = new List<Enemy>();
 	List<Enemy> enemiesTakingTurn = new List<Enemy>();
-    List<Enemy> enemiesInCombat = new List<Enemy>();
 
     public void Register (Enemy enemy) {
         enemies.Add(enemy);
@@ -18,7 +17,11 @@ public class EnemyRegistry {
 	}
 
 	public void SeedTurn () {
-		enemiesTakingTurn.AddRange(enemies);
+		foreach (Enemy enemy in enemies) {
+			if (enemy.inCombat) {
+				enemiesTakingTurn.Add(enemy);
+			}
+		}
 	}
 
 	public Enemy NextEnemyTakingTurn () {

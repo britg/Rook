@@ -1,3 +1,36 @@
+-- ProBuilder 2.3.1f1 (r2900) -
+
+# Features
+	- New Vertex Painter tool.
+	- New 'Triangulate ProBuilder Object' action for facetized poly-world look.
+	- Significantly improve UV editor performance when drawing many elements.
+	- ProBuilderize action now preserves UVs.
+
+# Bug Fixes
+	- Fix error when opening Material Editor after assigning a Substance Material.
+	- Fix bug that caused pb_Editor to freeze when editing prefabs made from ProBuilder objects.
+	- Remove prefab dependency on ProBuilder.Instantiate or RebuildMeshOnWake.
+	- Fix mesh leak in Shape Tool.
+	- Enable Alt+NumKey material shortcut when in Object level.
+	- When shift-extruding faces in Edge mode, default to face extrusion over edge.
+	- Fix leaking mesh and material in Face editing mode.
+	- Fix install script bug that would incorrectly delete non-ProBuilder files.
+
+# Changes
+	- Handle position is now calculated as the center of selection bounding box.
+
+# API
+	- New 'HueCube.cs' API example script demonstrates changing single vertex colors.
+	- New 'pb_SerializableObject' class provides serializable storage for ProBuilder objects.  Add 'pb_Object::InitWithSerializableObject' constructor.  
+
+# Beta Notes f1
+	- Fix install script bug that would incorrectly delete non-ProBuilder files.
+
+# Beta Notes f0
+	- New Vertex Painter tool.
+	- Fix error when opening Material Editor after assigning a Substance Material.
+	- Handle position is now calculated as the center of selection bounding box.
+
 -- ProBuilder 2.3.0f14 (r2861) -
 
 # Features

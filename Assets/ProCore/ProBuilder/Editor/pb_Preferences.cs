@@ -1,9 +1,10 @@
 using UnityEngine;
 using UnityEditor;
 using ProBuilder2.Common;
+using ProBuilder2.EditorCommon;
 
-#if BUGGER
-using Parabox.Bugger;
+#if PB_DEBUG
+using Parabox.Debug;
 #endif
 
 public class pb_Preferences

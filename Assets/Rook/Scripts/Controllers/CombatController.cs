@@ -8,10 +8,14 @@ public class CombatController : GameController {
     void Start () {
         combatService = new CombatService(player, enemyRegistry);
         NotificationCenter.AddObserver(this, Notifications.ChangeMade);
+        NotificationCenter.AddObserver(this, Notifications.PlayerTurn);
     }
 
     void OnChangeMade () {
-        Debug.Log("Combat controller: Change made");
         combatService.DetectCombat();
     }
+
+	void OnPlayerTurn () {
+        combatService.DetectCombat();
+	}
 }
