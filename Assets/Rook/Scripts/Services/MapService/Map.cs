@@ -12,6 +12,7 @@ namespace MapService {
 		public List<Room> rooms;
 
 		GameObject wallTilePrefab;
+		Player player;
 		GameObject environment;
 		GameObject mobs;
 
@@ -19,10 +20,11 @@ namespace MapService {
 
 		Vector3 offset;
 
-		public Map () {
+		public Map (Player _player) {
 //			tiles = new MapTile[(int)size.x + (int)Room.roomSizeMax.x, (int)size.z + (int)Room.roomSizeMax.z];
 			tiles = new Hashtable();
 			environment = GameObject.Find ("Environment");
+			player = _player;
 			mobs = GameObject.Find ("Mobs");
 		}
 
@@ -80,7 +82,7 @@ namespace MapService {
 
 		void PlacePlayer () {
 			offset = ChooseRandomPlayerStart();
-			environment.transform.position = -offset;
+			player.go.transform.position = offset;
 		}
 
 		public Vector3 RandomPoint () {
@@ -97,7 +99,7 @@ namespace MapService {
 
 		public void PlaceEnemies (GameObject enemyPrefab) {
 			foreach (DictionaryEntry entry in tiles) {
-				Vector3 pos = (Vector3)entry.Key - offset ;
+				Vector3 pos = (Vector3)entry.Key;
 				MapTile tile = (MapTile)entry.Value;
 
 				if (tile == MapTile.Floor) {

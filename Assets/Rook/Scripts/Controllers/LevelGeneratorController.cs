@@ -19,7 +19,7 @@ public class LevelGeneratorController : GameController {
 	}
 
 	void GenerateLevel () {
-		map = new Map();
+		map = new Map(player);
 		map.Generate();
 		map.Instantiate(wallTilePrefab);
 		map.PlaceEnemies(enemyPrefab);

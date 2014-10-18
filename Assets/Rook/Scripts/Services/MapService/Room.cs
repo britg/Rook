@@ -31,6 +31,7 @@ namespace MapService {
 		Vector3 topRight;
 		Vector3 botLeft;
 		Vector3 botRight;
+		List<Vector3> interiorTiles;
 
 		public static Room Create (Map map) {
 
@@ -86,6 +87,7 @@ namespace MapService {
 		public void Generate () {
 			SetCorners();
 			CreateWalls();
+			MarkInteriorTiles();
 			CreateDoors();
 		}
 
@@ -104,6 +106,22 @@ namespace MapService {
 			walls.Add(new Wall(topLeft, topRight, WallSide.Top));
 			walls.Add(new Wall(botLeft, topLeft, WallSide.Left));
 			walls.Add(new Wall(botRight, topRight, WallSide.Right));
+
+		}
+
+		void MarkInteriorTiles () {
+			var intTopLeft = topLeft + new Vector3(2f, 0f, -2f);
+			var intBotLeft = botLeft + new Vector3(2f, 0f, 2f);
+			var intTopRight = topRight + new Vector3(-2f, 0f, -2f);
+			var intBotRight = botRight + new Vector3(-2f, 0f, 2f);
+
+			interiorTiles = new List<Vector3>();
+
+			for (var x = intBotLeft.x; x <= intBotRight.x; x++) {
+				for (var z = intBotLeft.z; z <= intTopLeft.z; z++) {
+					interiorTiles.Add (new Vector3(x, 0f, z));
+				}
+			}
 
 		}
 

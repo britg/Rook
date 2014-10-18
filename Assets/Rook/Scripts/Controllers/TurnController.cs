@@ -12,7 +12,9 @@ public class TurnController : GameController {
     }
 	
     void Start () {
-		QueueStartPlayerTurn();
+		// Race condition - enemies aren't registered when we start our turn
+		Invoke("QueueStartPlayerTurn", 1f);
+//		QueueStartPlayerTurn();
     }
 
 	public void EndTurnButtonPressed () {
