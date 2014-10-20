@@ -119,7 +119,8 @@ namespace MapService {
 
 			for (var x = intBotLeft.x; x <= intBotRight.x; x++) {
 				for (var z = intBotLeft.z; z <= intTopLeft.z; z++) {
-					interiorTiles.Add (new Vector3(x, 0f, z));
+                    var pos = new Vector3(x, 0f, z);
+					interiorTiles.Add(pos);
 				}
 			}
 
@@ -158,6 +159,10 @@ namespace MapService {
 					map.SetTile(tile, MapTile.Door);
 				}
 			}
+
+            foreach (Vector3 pos in interiorTiles) {
+                map.SetTile(pos, MapTile.Interior);
+            }
 		}
 
 	}

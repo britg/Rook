@@ -40,6 +40,15 @@ public abstract class Character : IReceiveAction {
         }
     }
 
+    public virtual Vector3 position {
+        get {
+            return go.transform.position;
+        }
+        set {
+            go.transform.position = value;
+        }
+    }
+
 	public Character () {
 
 	}

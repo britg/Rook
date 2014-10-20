@@ -22,6 +22,7 @@ public class LevelGeneratorController : GameController {
 		map = new Map(player);
 		map.Generate();
 		map.Instantiate(wallTilePrefab);
+        map.PlacePlayer();
 		map.PlaceEnemies(enemyPrefab);
 	}
 }

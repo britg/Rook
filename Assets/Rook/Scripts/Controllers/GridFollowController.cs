@@ -3,6 +3,8 @@ using System.Collections;
 
 public class GridFollowController : GameController {
 
+    public float lift = 0.1f;
+
 	// Use this for initialization
 	void Start () {
         NotificationCenter.AddObserver(this, Notifications.PlayerTurn);
@@ -23,7 +25,9 @@ public class GridFollowController : GameController {
 	}
 
     void AlignToPlayer () {
-        transform.position = playerObj.transform.position;
+        var pos = playerObj.transform.position;
+        pos.y = lift;
+        transform.position = pos;
 		gridService.ResetMap(transform.position);
     }
 }

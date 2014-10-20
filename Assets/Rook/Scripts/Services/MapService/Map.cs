@@ -19,6 +19,8 @@ namespace MapService {
 		Hashtable tiles;
 
 		Vector3 offset;
+        int maxIterationCount = 100;
+        int currentIterationCount = 0;
 
 		public Map (Player _player) {
 //			tiles = new MapTile[(int)size.x + (int)Room.roomSizeMax.x, (int)size.z + (int)Room.roomSizeMax.z];
@@ -36,20 +38,25 @@ namespace MapService {
 		public void Instantiate (GameObject _wallTile) {
 			wallTilePrefab = _wallTile;
 			PlaceTiles();
-			PlacePlayer();
 		}
 
 		public void SetTile (Vector3 pos, MapTile tileType) {
-			tiles[pos] = tileType;
+            if (tiles.ContainsKey(pos)) {
+                tiles[pos] = tileType;
+            } else {
+                tiles.Add(pos, tileType);
+            }
+            //tiles[pos] = tileType;
 		}
 
 		void CreateBounds () {
 			for (int x = 0; x <size.x; x++) {
 				for (int z = 0; z < size.z; z++) {
+                    var pos = new Vector3(x, 0f, z);
 					if (x == 0 || x == (int)size.x-1 || z == 0 || z == (int)size.z-1) {
-						tiles[new Vector3(x, 0f, z)] = MapTile.Wall;
+                        SetTile(pos, MapTile.Wall);
 					} else {
-						tiles[new Vector3(x, 0f, z)] = MapTile.Floor;
+                        SetTile(pos, MapTile.Floor);
 					}
 				}
 			}
@@ -67,23 +74,6 @@ namespace MapService {
 			}
 		}
 
-		void PlaceTiles () {
-			foreach (DictionaryEntry entry in tiles) {
-				if ((MapTile)entry.Value == MapTile.Wall) {
-					PlaceWall ((Vector3)entry.Key);
-				}
-			}
-		}
-
-		void PlaceWall (Vector3 pos) {
-			var wt = (GameObject)GameObject.Instantiate(wallTilePrefab, pos, Quaternion.identity);
-			wt.transform.SetParent(environment.transform);
-		}
-
-		void PlacePlayer () {
-			offset = ChooseRandomPlayerStart();
-			player.go.transform.position = offset;
-		}
 
 		public Vector3 RandomPoint () {
 			int x = (int)Random.Range (0, size.x);
@@ -91,18 +81,44 @@ namespace MapService {
 			return new Vector3(x, 0f, z);
 		}
 
-		Vector3 ChooseRandomPlayerStart () {
-			int x = Random.Range (0, (int)size.x);
-			int z = Random.Range (0, (int)size.z);
-			return new Vector3(x, 0f, z);
+		Vector3 RandomInteriorTilePosition () {
+            if (currentIterationCount > maxIterationCount) {
+                return RandomPoint();
+            }
+            var pos = RandomPoint();
+            var tile = (MapTile)tiles[pos];
+            if (tile != MapTile.Interior) {
+                currentIterationCount++;
+                return RandomInteriorTilePosition();
+            }
+            return pos;
 		}
+
+        void PlaceTiles () {
+            foreach (DictionaryEntry entry in tiles) {
+                if ((MapTile)entry.Value == MapTile.Wall) {
+                    PlaceWall((Vector3)entry.Key);
+                }
+            }
+        }
+
+        void PlaceWall (Vector3 pos) {
+            var wt = (GameObject)GameObject.Instantiate(wallTilePrefab, pos, Quaternion.identity);
+            wt.transform.SetParent(environment.transform);
+        }
+
+        public void PlacePlayer () {
+            currentIterationCount = 0;
+            offset = RandomInteriorTilePosition();
+            player.position = offset;
+        }
 
 		public void PlaceEnemies (GameObject enemyPrefab) {
 			foreach (DictionaryEntry entry in tiles) {
 				Vector3 pos = (Vector3)entry.Key;
 				MapTile tile = (MapTile)entry.Value;
 
-				if (tile == MapTile.Floor) {
+				if (tile == MapTile.Interior) {
 					bool shouldPlace = Random.Range(0, 200) <= 1;
 					if (shouldPlace) {
 						var enemy = (GameObject)GameObject.Instantiate(enemyPrefab, pos, Quaternion.identity);
