@@ -112,7 +112,7 @@ namespace MapService {
 		void MarkInteriorTiles () {
 			var intTopLeft = topLeft + new Vector3(2f, 0f, -2f);
 			var intBotLeft = botLeft + new Vector3(2f, 0f, 2f);
-			var intTopRight = topRight + new Vector3(-2f, 0f, -2f);
+//			var intTopRight = topRight + new Vector3(-2f, 0f, -2f);
 			var intBotRight = botRight + new Vector3(-2f, 0f, 2f);
 
 			interiorTiles = new List<Vector3>();

@@ -10,7 +10,10 @@ public class LevelGeneratorController : GameController {
 
 	// Use this for initialization
 	void Start () {
-		GenerateLevel();
+//		GenerateLevel();
+		Invoke ("GenerateLevel", 1f);
+		Invoke ("InstantiateMap", 2f);
+		Invoke ("PlaceAgents", 3f);
 	}
 	
 	// Update is called once per frame
@@ -21,7 +24,13 @@ public class LevelGeneratorController : GameController {
 	void GenerateLevel () {
 		map = new Map(player);
 		map.Generate();
+	}
+
+	void InstantiateMap () {
 		map.Instantiate(wallTilePrefab);
+	}
+
+	void PlaceAgents () {
         map.PlacePlayer();
 		map.PlaceEnemies(enemyPrefab);
 	}

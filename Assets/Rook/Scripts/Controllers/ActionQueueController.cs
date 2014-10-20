@@ -10,7 +10,7 @@ public class ActionQueueController : GameController {
 	Dictionary<string, ActionProcessor> registry = new Dictionary<string, ActionProcessor>();
 
 	public void Register (string actionType, ActionProcessor processor) {
-		Debug.Log("Adding " + actionType + " with processor " + processor);
+		//Debug.Log("Adding " + actionType + " with processor " + processor);
 		registry[actionType] = processor;
 	}
 
