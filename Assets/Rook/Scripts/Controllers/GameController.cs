@@ -18,11 +18,34 @@ public abstract class GameController : MonoBehaviour {
     public virtual TurnController turnController {
         get {
             if (_turnController == null) {
-                _turnController = gameObj.GetComponent<TurnController>();
+                _turnController = GameObject.Find("TurnManager").GetComponent<TurnController>();
             }
             return _turnController;
         }
     }
+
+    MapController _mapController;
+    public virtual MapController mapController {
+        get {
+            if (_mapController == null) {
+                _mapController = GameObject.Find("MapGenerator").GetComponent<MapController>();
+            }
+            return _mapController;
+        }
+    }
+
+	MapService.Map _map;
+	public virtual MapService.Map map {
+		get {
+			if (_map == null) {
+				_map = mapController.map;
+			}
+			return _map;
+		}
+		set {
+			_map = value;
+		}
+	}
 
 	GameObject _actionQueueObj;
 	public virtual GameObject actionQueueObj {

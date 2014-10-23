@@ -2,18 +2,14 @@
 using System.Collections;
 using MapService;
 
-public class LevelGeneratorController : GameController {
+public class MapController : GameController {
 
 	public GameObject wallTilePrefab;
 	public GameObject enemyPrefab;
-	Map map;
+	public override Map map { get; set; }
 
 	// Use this for initialization
 	void Start () {
-//		GenerateLevel();
-		Invoke ("GenerateLevel", 1f);
-		Invoke ("InstantiateMap", 2f);
-		Invoke ("PlaceAgents", 3f);
 	}
 	
 	// Update is called once per frame
@@ -21,7 +17,12 @@ public class LevelGeneratorController : GameController {
 	
 	}
 
-	void GenerateLevel () {
+	public void Bootstrap () {
+		GenerateMap();
+		InstantiateMap();
+	}
+
+	public void GenerateMap () {
 		map = new Map(player);
 		map.Generate();
 	}
@@ -30,8 +31,11 @@ public class LevelGeneratorController : GameController {
 		map.Instantiate(wallTilePrefab);
 	}
 
-	void PlaceAgents () {
-        map.PlacePlayer();
+	public void PlaceEnemies () {
 		map.PlaceEnemies(enemyPrefab);
+	}
+
+	public void PlacePlayer () {
+        map.PlacePlayer();
 	}
 }

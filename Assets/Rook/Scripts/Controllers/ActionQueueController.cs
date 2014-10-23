@@ -4,8 +4,26 @@ using System.Collections.Generic;
 
 public class ActionQueueController : GameController {
 
+	enum State {
+		Idle,
+		Processing
+	}
+
 	Queue queue = new Queue();
 	GameAction currentAction;
+	State state = State.Idle;
+
+	bool isIdle {
+		get {
+			return state == State.Idle;
+		}
+	}
+
+	bool isProcessing {
+		get {
+			return state == State.Processing;
+		}
+	}
 
 	Dictionary<string, ActionProcessor> registry = new Dictionary<string, ActionProcessor>();
 
@@ -17,6 +35,24 @@ public class ActionQueueController : GameController {
 	public void Add (GameAction action) {
         Debug.Log("Adding " + action);
 		queue.Enqueue(action);
+
+		if (isIdle) {
+			state = State.Processing;
+			StartCoroutine(Next());
+		}
+	}
+
+	public void Continue () {
+		currentAction = null;
+		if (queue.Count < 1) {
+			Idle();
+			return;
+		}
+		StartCoroutine(Next());
+	}
+
+	IEnumerator Next () {
+		yield return 0;
 		Process();
 	}
 
@@ -26,10 +62,11 @@ public class ActionQueueController : GameController {
 		}
 
 		if (queue.Count < 1) {
-			Debug.Log ("Action queue empty");
+			Idle();
 			return;
 		}
 
+		state = State.Processing;
 		currentAction = (GameAction)queue.Dequeue();
 		string actionType = currentAction.ActionType;
 
@@ -54,9 +91,9 @@ public class ActionQueueController : GameController {
 		NotificationCenter.PostNotification(this, Notifications.ActionFinished);
 	}
 
-	public void Continue () {
-		currentAction = null;
-		Process();
+	void Idle () {
+		Debug.Log ("Going idle...");
+		state = State.Idle;
 	}
-	
+
 }

@@ -10,17 +10,6 @@ public class TurnController : GameController {
     public new bool PlayerTurn {
         get { return playerTurn; }
     }
-	
-    void Start () {
-		// Startup flow
-		// 1. Generate Map
-		// 2. Instantiate Map Elements (walls)
-		// 3. Place Enemies
-		// 4. Place Player
-		// 5. Start Player turn
-		Invoke("QueueStartPlayerTurn", 1f);
-//		QueueStartPlayerTurn();
-    }
 
 	public void EndTurnButtonPressed () {
 		QueueEndPlayerTurn();
