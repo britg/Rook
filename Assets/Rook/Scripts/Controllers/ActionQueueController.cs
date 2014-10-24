@@ -83,12 +83,8 @@ public class ActionQueueController : GameController {
 	public void CompletedAction () {
         Debug.Log("Finishing " + currentAction);
 		currentAction.Done();
-		PostActionFinished();
+		Post(Notifications.ActionFinished);
 		Continue();
-	}
-
-	void PostActionFinished () {
-		NotificationCenter.PostNotification(this, Notifications.ActionFinished);
 	}
 
 	void Idle () {

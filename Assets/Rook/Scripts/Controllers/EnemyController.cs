@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EnemyController : NPCController {
+public class EnemyController : AgentController {
 
     public override Character character {
         get {
@@ -40,7 +40,7 @@ public class EnemyController : NPCController {
 
     void Register () {
 		enemyRegistry.Register(enemy);
-		NotificationCenter.AddObserver(this, Notifications.ActionFinished);
+		Observe(Notifications.ActionFinished);
     }
 
 	void Unregister () {

@@ -17,11 +17,8 @@ public class EnemyRegistry {
 	}
 
 	public void SeedTurn () {
-		foreach (Enemy enemy in enemies) {
-			if (enemy.inCombat) {
-				enemiesTakingTurn.Add(enemy);
-			}
-		}
+		enemiesTakingTurn = new List<Enemy>();
+		enemiesTakingTurn.AddRange(enemies);
 	}
 
 	public Enemy NextEnemyTakingTurn () {

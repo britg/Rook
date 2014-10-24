@@ -200,4 +200,12 @@ public abstract class GameController : MonoBehaviour {
 		return EventSystem.current.IsPointerOverGameObject();
 	}
 
+	protected virtual void Post (string notificationName) {
+		NotificationCenter.PostNotification(this, notificationName);
+	}
+
+	protected virtual void Observe (string notificationName) {
+		NotificationCenter.AddObserver(this, notificationName);
+	}
+
 }

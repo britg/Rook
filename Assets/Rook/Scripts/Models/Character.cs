@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public abstract class Character : IReceiveAction {
+public abstract class Character : Agent {
 
     public GameObject go { get; set; }
 
@@ -11,7 +11,6 @@ public abstract class Character : IReceiveAction {
 
 	public virtual bool isPlayer { get; set; }
 
-	public virtual CharacterAttribute hitPoints { get; set; }
 	public virtual CharacterAttribute actionPoints { get; set; }
 	public virtual CharacterAttribute armorRating { get; set; }
 	public virtual CharacterAttribute attackRating { get; set; }
@@ -21,7 +20,6 @@ public abstract class Character : IReceiveAction {
 	public virtual bool inCombat { get; set; }
     public virtual Character combatTarget { get; set; }
 
-	public bool dead;
 
     GameAction _action;
 	public virtual GameAction action {
@@ -65,22 +63,6 @@ public abstract class Character : IReceiveAction {
 	public bool Detect (Character other) {
 		var service = new DetectionService(this, other);
 		return service.Detect();
-	}
-
-	public virtual void TakeDamage (int amount) {
-		hitPoints.Decrement(amount);
-
-		Debug.Log ("Took damage " + amount);
-		Debug.Log ("Current hp: " + hitPoints.currentValue);
-
-		if (hitPoints.currentValue <= 0) {
-			Die();
-		}
-	}
-
-	void Die () {
-		Debug.Log("I'm dead");
-		dead = true;
 	}
 
 	public void EnterMode (PlayerControlMode mode) {

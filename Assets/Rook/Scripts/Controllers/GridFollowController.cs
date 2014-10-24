@@ -7,8 +7,8 @@ public class GridFollowController : GameController {
 
 	// Use this for initialization
 	void Start () {
-        NotificationCenter.AddObserver(this, Notifications.PlayerTurn);
-        NotificationCenter.AddObserver(this, Notifications.ActionFinished);
+		Observe(Notifications.PlayerTurn);
+		Observe(Notifications.ActionFinished);
 	}
 	
 	// Update is called once per frame

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
@@ -8,7 +8,7 @@ public class CharacterTextView : View {
     public Character character {
         get {
             if (_character == null) {
-                _character = GetComponent<NPCController>().character;
+                _character = GetComponent<AgentController>().character;
             }
             return _character;
         }
