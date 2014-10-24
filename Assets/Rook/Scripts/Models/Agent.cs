@@ -5,8 +5,8 @@ public abstract class Agent :  IReceiveAction {
 
 	public bool dead;
 	public GameObject go { get; set; }
-	public virtual CharacterAttribute hitPoints { get; set; }
-	public virtual CharacterAttribute actionPoints { get; set; }
+	public virtual AgentAttribute hitPoints { get; set; }
+	public virtual AgentAttribute actionPoints { get; set; }
 
 	public virtual Vector3 position {
         get {

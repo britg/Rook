@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class EnemyController : AgentController {
@@ -40,9 +40,9 @@ public class EnemyController : AgentController {
 
 	protected virtual void InitializeEnemy () {
 		enemy = new Enemy(gameObject);
-		enemy.actionPoints = new CharacterAttribute(seedValue: 3);
-		enemy.detectRange = new CharacterAttribute(seedValue: 10);
-		enemy.hitPoints = new CharacterAttribute(seedValue: 100);
+		enemy.actionPoints = new AgentAttribute(seedValue: 3);
+		enemy.detectRange = new AgentAttribute(seedValue: 10);
+		enemy.hitPoints = new AgentAttribute(seedValue: 100);
 		enemy.action = new AttackAction(min: 15, max: 40, crit: 10);
 	}
 

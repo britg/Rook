@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public abstract class SubCharacter : Character {
@@ -11,7 +11,7 @@ public abstract class SubCharacter : Character {
         }
     }
 
-	public override CharacterAttribute actionPoints {
+	public override AgentAttribute actionPoints {
 		get {
 			return player.actionPoints;
 		}

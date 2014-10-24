@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using Gamelogic.Grids;
@@ -58,8 +58,8 @@ public class PlayerController : GameController {
 
 	void InitializePlayer () {
 		player = new Player(gameObject);
-		player.hitPoints = new CharacterAttribute(seedValue: seedHitPoints);
-		player.actionPoints = new CharacterAttribute(seedValue: seedActionPoints);
+		player.hitPoints = new AgentAttribute(seedValue: seedHitPoints);
+		player.actionPoints = new AgentAttribute(seedValue: seedActionPoints);
         player.warrior.go = warriorObj;
 		player.AssignWarriorAction(new AttackAction(min: 30, max: 50, crit: 10));
 		player.Init();
