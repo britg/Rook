@@ -3,5 +3,10 @@ using System.Collections;
 
 public abstract class AgentController : GameController {
 
-    public virtual Character character { get; set; }
+	public virtual Agent agent { get; set; }
+
+	protected virtual void Register () {
+		agentRegistry.Register(agent);
+	}
+
 }

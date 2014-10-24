@@ -4,14 +4,11 @@ using System.Collections.Generic;
 
 public abstract class Character : Agent {
 
-    public GameObject go { get; set; }
-
     public abstract CharacterAlignment alignment { get; }
 	public PlayerControlMode controlMode;
 
 	public virtual bool isPlayer { get; set; }
 
-	public virtual CharacterAttribute actionPoints { get; set; }
 	public virtual CharacterAttribute armorRating { get; set; }
 	public virtual CharacterAttribute attackRating { get; set; }
 	public virtual CharacterAttribute detectRange { get; set; }
@@ -38,27 +35,9 @@ public abstract class Character : Agent {
         }
     }
 
-    public virtual Vector3 position {
-        get {
-            return go.transform.position;
-        }
-        set {
-            go.transform.position = value;
-        }
-    }
-
-	public Character () {
-
-	}
-
-	public Character (GameObject _go) {
-		go = _go;
+	public Character (GameObject _go) : base(_go) {
 		isPlayer = false;
 	}
-
-    public virtual void ResetActionPoints () {
-        actionPoints.SetToMax();
-    }
 
 	public bool Detect (Character other) {
 		var service = new DetectionService(this, other);

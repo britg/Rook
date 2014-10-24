@@ -8,7 +8,7 @@ public class CharacterTextView : View {
     public Character character {
         get {
             if (_character == null) {
-                _character = GetComponent<AgentController>().character;
+                _character = GetComponent<EnemyController>().character;
             }
             return _character;
         }

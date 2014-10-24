@@ -10,9 +10,35 @@ public class Player : Character {
         }
     }
 
-	public Warrior warrior = new Warrior();
-	public Thief thief = new Thief();
-	public Mage mage = new Mage();
+	Warrior _warrior;
+	public Warrior warrior {
+		get {
+			if (_warrior == null) {
+				_warrior = new Warrior(GameObject.Find ("Warrior"));
+			}
+			return _warrior;
+		}
+	}
+
+	Thief _thief;
+	public Thief thief {
+		get {
+			if (_thief == null) {
+				_thief = new Thief(GameObject.Find ("Thief"));
+			}
+			return _thief;
+		}
+	}
+
+	Mage _mage;
+	public Mage mage {
+		get {
+			if (_mage == null) {
+				_mage = new Mage(GameObject.Find ("Mage"));
+			}
+			return _mage;
+		}
+	}
 
     public GameAction warriorAction {
         get {

@@ -150,6 +150,19 @@ public abstract class GameController : MonoBehaviour {
 		}
 	}
 
+	AgentRegistry _agentRegistry;
+	public virtual AgentRegistry agentRegistry {
+		get {
+			if (_agentRegistry == null) {
+				_agentRegistry = GameObject.Find ("AgentRegistry").GetComponent<AgentRegistryProcessor>().agentRegistry;
+			}
+			return _agentRegistry;
+		}
+		set {
+			_agentRegistry = value;
+		}
+	}
+
 	EnemyRegistryController _enemyRegistryController;
 	public virtual EnemyRegistryController enemyRegistryController {
 		get {

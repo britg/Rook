@@ -3,7 +3,7 @@ using System.Collections;
 
 public class EnemyController : AgentController {
 
-    public override Character character {
+    public Character character {
         get {
             return (Character)enemy;
         }
@@ -12,13 +12,22 @@ public class EnemyController : AgentController {
         }
     }
 
-    public Enemy enemy;
+    public override Agent agent {
+        get {
+            return (Agent)enemy;
+        }
+        set {
+
+        }
+    }
 
 	public override IReceiveAction actionReceiver {
 		get {
 			return enemy;
 		}
 	}
+
+    public Enemy enemy;
 
 	void Awake () {
 		InitializeEnemy();
@@ -30,18 +39,17 @@ public class EnemyController : AgentController {
 	}
 
 	protected virtual void InitializeEnemy () {
-		enemy = new Enemy();
-		enemy.go = gameObject;
+		enemy = new Enemy(gameObject);
 		enemy.actionPoints = new CharacterAttribute(seedValue: 3);
 		enemy.detectRange = new CharacterAttribute(seedValue: 10);
 		enemy.hitPoints = new CharacterAttribute(seedValue: 100);
 		enemy.action = new AttackAction(min: 15, max: 40, crit: 10);
 	}
 
-    void Register () {
-		enemyRegistry.Register(enemy);
-		Observe(Notifications.ActionFinished);
-    }
+//    void Register () {
+//		enemyRegistry.Register(enemy);
+//		Observe(Notifications.ActionFinished);
+//    }
 
 	void Unregister () {
 		enemyRegistry.Unregister(enemy);

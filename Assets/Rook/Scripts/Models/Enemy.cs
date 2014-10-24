@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[System.Serializable]
 public class Enemy : Character {
+
+	public Enemy (GameObject _go) : base(_go) {
+
+	}
 
 	public override CharacterAlignment alignment {
 		get {
