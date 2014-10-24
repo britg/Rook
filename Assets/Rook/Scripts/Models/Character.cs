@@ -12,7 +12,6 @@ public abstract class Character : Agent {
 	public virtual AgentAttribute armorRating { get; set; }
 	public virtual AgentAttribute attackRating { get; set; }
 	public virtual AgentAttribute detectRange { get; set; }
-	public virtual Color color { get; set; }
 
 	public virtual bool inCombat { get; set; }
     public virtual Character combatTarget { get; set; }
@@ -25,13 +24,7 @@ public abstract class Character : Agent {
         }
         set {
             _action = value;
-            _action.character = this;
-        }
-    }
-
-    public virtual float rotation {
-        get {
-            return go.transform.eulerAngles.y;
+            _action.agent = (Agent)this;
         }
     }
 

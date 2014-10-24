@@ -42,7 +42,7 @@ public class MoveView : View {
 		}
 		
 		line.Resize(moveAction.waypoints.Count + 1);
-		line.points3[0] = moveAction.characterPosition;
+		line.points3[0] = moveAction.agentPosition;
 		
 		for (int i = 0; i < moveAction.waypoints.Count; i++) {
 			Vector3 p = moveAction.waypoints[i];

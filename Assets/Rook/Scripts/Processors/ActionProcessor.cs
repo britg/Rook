@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public abstract class ActionProcessor : GameController {
+public abstract class ActionProcessor : GameBehaviour {
 
 	public virtual string ActionType {
 		get {

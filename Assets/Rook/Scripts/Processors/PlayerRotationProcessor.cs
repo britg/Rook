@@ -52,7 +52,9 @@ public class PlayerRotationProcessor : ActionProcessor {
 
 	public void RotationDoneProcessing () {
 		playerController.EnterMode(PlayerControlMode.Move);
-		rotationAction.SpendActionPoints();
+		if (combatService.InCombat) {
+			rotationAction.SpendActionPoints();
+		}
 		DoneProcessing();
 	}
 

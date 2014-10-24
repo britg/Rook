@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using Vectrosity;
 
-public class CameraController : GameController  {
+public class CameraController : GameBehaviour  {
 
 	// Use this for initialization
 	void Start () {

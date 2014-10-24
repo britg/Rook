@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class PlayerRotationController : GameController {
+public class PlayerRotationController : GameBehaviour {
 
 	PlayerRotationAction rotationAction;
 	PlayerRotationView _rotationView;

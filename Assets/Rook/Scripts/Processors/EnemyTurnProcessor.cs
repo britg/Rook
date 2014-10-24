@@ -102,7 +102,7 @@ public class EnemyTurnProcessor : ActionProcessor {
 
     void PathfindToTarget (Character target) {
         var pathfindingService = new PathfindingService((Character)enemy, target, gridService);
-        var moveAction = pathfindingService.GetMoveAction();
+        var moveAction = pathfindingService.GetMoveAction(combatService.InCombat);
         if (!moveAction.valid) {
             Debug.Log("No valid path to player!!! ending turn");
             EndTurn();

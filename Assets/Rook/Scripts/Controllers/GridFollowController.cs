@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class GridFollowController : GameController {
+public class GridFollowController : GameBehaviour {
 
     public float lift = 0.1f;
 

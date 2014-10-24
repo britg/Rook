@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using Gamelogic.Grids;
 
-public class GridHighlightController : GameController {
+public class GridHighlightController : GameBehaviour {
 
 	TileCell currentCell;
 	

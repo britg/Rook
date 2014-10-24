@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class PlayerActionController : GameController {
+public class PlayerActionController : GameBehaviour {
 
 	// Use this for initialization
 	void Start () {

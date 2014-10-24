@@ -10,14 +10,13 @@ public class MoveAction : GameAction {
 		}
 	}
 
-	public override Character character { get; set; }
     public List<Vector3> waypoints;
     public Vector3 lastWaypoint {
         get {
             if (waypoints.Count > 0) {
                 return waypoints[waypoints.Count - 1];
             } else {
-				return characterPosition;
+				return agentPosition;
             }
         }
     }
@@ -32,43 +31,24 @@ public class MoveAction : GameAction {
 
 	public GameObject go {
 		get {
-			return character.go;
+			return agent.go;
 		}
 	}
 
-	public Vector3 characterPosition {
+	public Vector3 agentPosition {
 		get {
-			return character.go.transform.position;
-		}
-	}
-
-	public override bool requiresActionPoints {
-		get {
-			return !character.isPlayer || character.inCombat;
-		} 
-		set {
-
-		}
-	}
-
-	public int maxMoves {
-		get {
-			if (requiresActionPoints) {
-				return character.actionPoints.currentValue;
-			} else {
-				return 1000;
-			}
+			return agent.position;
 		}
 	}
 
 	public MoveAction (Character _c) {
-		character = _c;
+		agent = (Agent)_c;
 		moveView = null;
 		waypoints = new List<Vector3>();
 	}
 
 	public MoveAction (Character _c, MoveView view) {
-		character = _c;
+		agent = (Agent)_c;
 		waypoints = new List<Vector3>();
 		ConnectMoveView(view);
 	}
@@ -82,23 +62,23 @@ public class MoveAction : GameAction {
 		Redraw();
 	}
 
-	public void AddWaypoint (Vector3 point) {
+	public void AddWaypoint (Vector3 point, bool inCombat) {
 
 		Vector3 moveDestination = point;
-		moveDestination.y = characterPosition.y;
+		moveDestination.y = agentPosition.y;
 		
-		if (!PathfindingService.DestinationValid(character.go, waypoints, moveDestination)) {
+		if (!PathfindingService.DestinationValid(agent.go, waypoints, moveDestination)) {
 			Debug.Log ("Destination is not valid -- need to do some real pathfinding here.");
 			return;
 		}
 		
-		if (moveDestination.Equals(characterPosition)) {
+		if (moveDestination.Equals(agentPosition)) {
 			Reset();
 			return;
 		}
 		
 		// First waypoint
-		if (waypoints.Count == 0 && maxMoves > 0) {
+		if (waypoints.Count == 0 && agent.actionPoints.currentValue > 0) {
 			waypoints.Add(moveDestination);
 			Redraw();
 			return;
@@ -119,7 +99,7 @@ public class MoveAction : GameAction {
 			}
 		}
 
-		if (waypoints.Count >= maxMoves) {
+		if (inCombat && waypoints.Count >= agent.actionPoints.currentValue) {
 			return;
 		}
 
@@ -146,33 +126,4 @@ public class MoveAction : GameAction {
 		}
 	}
 
-//	bool DestinationValid (Vector3 moveDestination) {
-//		return !DestinationOccupied(moveDestination);
-//	}
-//	
-//	bool DestinationOccupied (Vector3 moveDestination) {
-//		float sphereRadius = GridService.gridUnit/2f;
-//		
-//		// get direction to move destination
-//		Vector3 start = lastWaypoint; 
-//		start.y = sphereRadius;
-//		Vector3 direction = moveDestination - start;
-//		
-//		// get distance to move destination
-//		float dist = Vector3.Distance(start, moveDestination);
-//		RaycastHit[] hits = Physics.SphereCastAll(start, sphereRadius, direction, dist);
-//		return BlockedBy(hits);
-//	}
-//
-//	public bool BlockedBy (RaycastHit[] hits) {
-//		foreach (RaycastHit hit in hits) {
-//			if (hit.collider.gameObject != go && !nonBlockingTags.Contains(hit.collider.gameObject.tag)) {
-//				Debug.Log ("Blocked by " + hit.collider.gameObject.tag + " " + hit.collider.gameObject);
-//				return true;
-//			}
-//		}
-//		
-//		return false;
-//	}
-	
 }

@@ -17,10 +17,17 @@ public abstract class GameAction {
 		}
 	}
 
-	public virtual Character character { get; set; }
+	public virtual Agent agent { get; set; }
+
 	public virtual Color color {
 		get {
-			return character.color;
+			return agent.color;
+		}
+	}
+
+	public virtual float referenceRotation {
+		get {
+			return agent.rotation;
 		}
 	}
 
@@ -40,19 +47,9 @@ public abstract class GameAction {
 
     public virtual bool hasEnoughActionPoints {
         get {
-            return character.actionPoints.currentValue >= actionPointCost;
+            return agent.actionPoints.currentValue >= actionPointCost;
         }
     }
-
-	bool _requiresActionPoints = true;
-	public virtual bool requiresActionPoints { 
-		get {
-			return _requiresActionPoints;
-		} 
-		set {
-			_requiresActionPoints = value;
-		}
-	}
 
     public virtual bool exclusive {
         get {
@@ -61,9 +58,7 @@ public abstract class GameAction {
     }
 
 	public virtual void SpendActionPoints () {
-		if (requiresActionPoints) {
-			character.actionPoints.Decrement(actionPointCost);
-		}
+		agent.actionPoints.Decrement(actionPointCost);
 	}
 
 	public virtual void Done () {

@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class WarriorController : GameController {
+public class WarriorController : GameBehaviour {
 
     public override IReceiveAction actionReceiver {
         get {

@@ -5,13 +5,13 @@ public class StartTurnAction : GameAction {
 	
 	public override string ActionType {
 		get {
-			return "StartTurnAction";
+			return "TurnAction";
 		}
 	}
 	
 	public override string Name {
 		get {
-			return "Start Turn";
+			return "Start";
 		}
 	}
 	

@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class CombatController : GameController {
+public class CombatController : GameBehaviour {
 
 	public new CombatService combatService;
 

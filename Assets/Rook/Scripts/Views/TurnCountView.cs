@@ -13,15 +13,15 @@ public class TurnCountView : View {
 	
 	// Update is called once per frame
 	void Update () {
-        if (turnController != null) {
+        if (turnService != null) {
             string turnLabel = "";
-            if (turnController.PlayerTurn) {
+            if (turnService.isPlayerTurn) {
                 turnLabel += "Your Turn (" + player.controlMode + ")";
             } else {
                 turnLabel += "Enemy Turn ";
             }
             
-            text.text = turnLabel + turnController.currentTurn;
+            text.text = turnLabel + turnService.currentTurn;
         }
 	}
 }

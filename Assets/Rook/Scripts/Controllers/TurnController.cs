@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class TurnController : GameController {
+public class TurnController : GameBehaviour {
 
 	public int currentTurn = 1;
 
@@ -39,7 +39,6 @@ public class TurnController : GameController {
 		if (enemy != null) {
 			QueueStartEnemyTurn(enemy);
 		} else {
-			QueueStartPlayerTurn();
 		}
 	}
 
@@ -51,17 +50,6 @@ public class TurnController : GameController {
     public void EnemyTurnFinished (Enemy enemy) {
 		enemyRegistry.EnemyDoneWithTurn(enemy);
 		ContinueEnemiesTurn();
-    }
-
-	void QueueStartPlayerTurn () {
-		var startTurnAction = new StartTurnAction();
-		actionQueueController.Add(startTurnAction);
-	}
-
-    public void StartTurn () {
-        currentTurn++;
-        playerTurn = true;
-        NotificationCenter.PostNotification(this, Notifications.PlayerTurn);
     }
 
 }

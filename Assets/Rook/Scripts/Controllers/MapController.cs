@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using MapService;
 
-public class MapController : GameController {
+public class MapController : GameBehaviour {
 
 	public GameObject wallTilePrefab;
 	public GameObject enemyPrefab;

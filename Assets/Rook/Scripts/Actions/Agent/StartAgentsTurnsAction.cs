@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AgentRegistryAction : GameAction {
+public class StartAgentsTurnsAction : GameAction {
 
 	public override string ActionType {
 		get {
@@ -11,7 +11,7 @@ public class AgentRegistryAction : GameAction {
 
 	public override string Name {
 		get {
-			return "Start Turn";
+			return "StartTurns";
 		}
 	}
 }

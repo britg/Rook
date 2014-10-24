@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -58,7 +58,7 @@ public class AttackProcessor : ActionProcessor {
 		float sphereRadius = GridService.gridUnit/2f;
 		
 		// get direction to move destination
-		Vector3 start = attackAction.character.go.transform.position; 
+		Vector3 start = attackAction.agent.go.transform.position; 
 		start.y = sphereRadius;
 		Vector3 direction = point - start;
 		
@@ -68,10 +68,10 @@ public class AttackProcessor : ActionProcessor {
 		var actionTargets = new List<IReceiveAction>();
 		foreach (RaycastHit hit in hits) {
 			var hitObj = hit.collider.gameObject;
-			var gcs = hitObj.GetComponents<GameController>();
+			var gcs = hitObj.GetComponents<GameBehaviour>();
 			
-			foreach (GameController gc in gcs) {
-				if (gc != null && gc.actionReceiver != null && gc.gameObject != attackAction.character.go) {
+			foreach (GameBehaviour gc in gcs) {
+				if (gc != null && gc.actionReceiver != null && gc.gameObject != attackAction.agent.go) {
 					Debug.Log ("Action receiver is " + gc.actionReceiver);
 					actionTargets.Add(gc.actionReceiver);
 				}

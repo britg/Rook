@@ -2,7 +2,7 @@
 using UnityEngine.EventSystems;
 using System.Collections;
 
-public abstract class GameController : MonoBehaviour {
+public abstract class GameBehaviour : MonoBehaviour {
 
     GameObject _gameObj;
     public virtual GameObject gameObj {
@@ -13,6 +13,19 @@ public abstract class GameController : MonoBehaviour {
             return _gameObj;
         }
     }
+
+	TurnService _turnService;
+	public virtual TurnService turnService {
+		get {
+			if (_turnService == null) {
+				_turnService = GameObject.Find ("TurnManager").GetComponent<TurnProcessor>().turnService;
+			}
+			return _turnService;
+		}
+		set {
+			_turnService = value;
+		}
+	}
 
     TurnController _turnController;
     public virtual TurnController turnController {

@@ -1,9 +1,9 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using Vectrosity;
 
-public class PlayerMoveController : GameController {
+public class PlayerMoveController : GameBehaviour {
 
 	MoveAction currentMoveAction;
 
@@ -16,7 +16,7 @@ public class PlayerMoveController : GameController {
 
 	void MoveInputUpdate (Vector3 pos) {
         Vector3 waypoint = gridService.NearestCellCenter(pos);
-		currentMoveAction.AddWaypoint(waypoint);
+		currentMoveAction.AddWaypoint(waypoint, combatService.InCombat);
 	}
 
 	void MoveInputFinished () {
@@ -34,7 +34,7 @@ public class PlayerMoveController : GameController {
 		}
 		Debug.Log ("Move auto to " + destination);
 		var pathfinder = new PathfindingService(player, destination, gridService);
-		var moveAction = pathfinder.GetMoveAction();
+		var moveAction = pathfinder.GetMoveAction(combatService.InCombat);
 		moveAction.ConnectMoveView(moveView);
 
 		if (player.inCombat) {

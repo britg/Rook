@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class EnemyRegistryController : GameController {
+public class EnemyRegistryController : GameBehaviour {
 
 	public override EnemyRegistry enemyRegistry { get; set; }
 

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class StartupController : GameController {
+public class StartupController : GameBehaviour {
 
 	void Start () {
 		// Startup flow

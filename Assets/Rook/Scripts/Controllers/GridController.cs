@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using Gamelogic.Grids;
 
-public class GridController : GameController { 
+public class GridController : GameBehaviour { 
 
 	public new GridService gridService;
 

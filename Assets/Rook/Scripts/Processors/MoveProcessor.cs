@@ -39,15 +39,17 @@ public class MoveProcessor : ActionProcessor {
 		                                         "oncomplete", "ContinueMove",
 		                                         "oncompletetarget", gameObject));
 		currentMoveIndex++;
-		moveAction.SpendActionPoints();
+		if (combatService.InCombat) {
+			moveAction.SpendActionPoints();
+		}
 	}
 
 	void ContinueMove () {
-        bool currentlyInCombat = moveAction.character.inCombat;
+        bool currentlyInCombat = combatService.InCombat;
         bool nowInCombat;
         combatService.DetectCombat();
         if (!currentlyInCombat) {
-            nowInCombat = moveAction.character.inCombat;
+            nowInCombat = combatService.InCombat;
             if (nowInCombat) {
                 Debug.Log("Enetered combat! Cancelling moves");
                 DoneProcessing();

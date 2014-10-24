@@ -25613,7 +25613,6 @@ GameObject:
   - 114: {fileID: 1002123868}
   - 114: {fileID: 1002123869}
   - 114: {fileID: 1002123870}
-  - 114: {fileID: 1002123871}
   - 114: {fileID: 1002123873}
   m_Layer: 0
   m_Name: ActionQueue
@@ -25689,17 +25688,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a780bbd89d56e417890bfeedd8449fd4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1002123871
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1002123864}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a66838bca09044a98ac258519c6ba192, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1002123872
@@ -27385,6 +27373,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1073199957}
   - 114: {fileID: 1073199958}
+  - 114: {fileID: 1073199959}
   m_Layer: 0
   m_Name: TurnManager
   m_TagString: Untagged
@@ -27416,6 +27405,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentTurn: 0
+--- !u!114 &1073199959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1073199956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a457a286bceb74704840deced610d0ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1073222134
 GameObject:
   m_ObjectHideFlags: 0

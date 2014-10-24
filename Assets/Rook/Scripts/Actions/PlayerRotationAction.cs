@@ -15,15 +15,9 @@ public class PlayerRotationAction : GameAction {
 		}
 	}
 
-	public override bool requiresActionPoints {
-		get {
-			return character.inCombat;
-		}
-	}
-
 	GameObject playerObj {
         get {
-            return character.go;
+            return agent.go;
         }
     }
 
@@ -35,7 +29,7 @@ public class PlayerRotationAction : GameAction {
 	}
 
 	public PlayerRotationAction (Character c) {
-        character = c;
+        agent = (Agent)c;
 	}
 
 	public void UpdateAimPoint (Vector3 _aimPoint) {

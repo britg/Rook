@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class View : GameController {
+public class View : GameBehaviour {
 
     GameObject _canvasObj;
     protected virtual GameObject canvasObj {

@@ -94,10 +94,9 @@ public class GridService {
 	}
 
     public List<Vector3> WorldPointsForAction (GameAction action) {
-        float referenceRotation = action.character.rotation;
         var worldPoints = new List<Vector3>();
 		foreach (FlatHexPoint point in action.gridPoints) {
-			var rotatedPoint = RotatedPoint(point, referenceRotation);
+			var rotatedPoint = RotatedPoint(point, action.referenceRotation);
 			worldPoints.Add(WorldPointFromGridPoint(rotatedPoint));
 		}
         return worldPoints;
@@ -108,7 +107,7 @@ public class GridService {
 			return;
 		}
 		foreach (FlatHexPoint point in action.gridPoints) {
-			HighlightRelativePoint(point, action.color, action.character.rotation);
+			HighlightRelativePoint(point, action.color, action.referenceRotation);
 		}
 	}
 

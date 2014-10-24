@@ -7,6 +7,10 @@ public abstract class Agent :  IReceiveAction {
 	public GameObject go { get; set; }
 	public virtual AgentAttribute hitPoints { get; set; }
 	public virtual AgentAttribute actionPoints { get; set; }
+	public virtual Color color { get; set; }
+
+	// Actions
+	public virtual GameAction turnAction { get; set; }
 
 	public virtual Vector3 position {
         get {
@@ -16,6 +20,12 @@ public abstract class Agent :  IReceiveAction {
             go.transform.position = value;
         }
     }
+
+	public virtual float rotation {
+		get {
+			return go.transform.eulerAngles.y;
+		}
+	}
 
 	public Agent (GameObject _go) {
 		go = _go;

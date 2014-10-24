@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Gamelogic.Grids;
 
-public class PlayerController : GameController {
+public class PlayerController : GameBehaviour {
 
 	public int seedHitPoints;
 	public int seedActionPoints;

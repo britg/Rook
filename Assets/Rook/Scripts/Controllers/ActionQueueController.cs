@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class ActionQueueController : GameController {
+public class ActionQueueController : GameBehaviour {
 
 	enum State {
 		Idle,

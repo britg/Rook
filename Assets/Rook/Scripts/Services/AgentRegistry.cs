@@ -16,7 +16,7 @@ public class AgentRegistry {
 		agents.Remove(agent);
 	}
 
-	public void SeedTurn () {
+	public void SeedTurns () {
 		agentsTakingTurn = new List<Agent>();
 		agentsTakingTurn.AddRange(agents);
 	}
