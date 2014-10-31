@@ -128,7 +128,6 @@ public class EnemyTurnProcessor : ActionProcessor {
 
     void EndTurn () {
         enemy.SnapToGrid(gridService);
-        turnController.EnemyTurnFinished(enemy);
         DoneProcessing();
     }
 

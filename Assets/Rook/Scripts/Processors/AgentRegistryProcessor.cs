@@ -20,7 +20,14 @@ public class AgentRegistryProcessor : ActionProcessor {
 		case "StartTurns":
 			StartTurns();
 			break;
+		case "Refresh":
+			Refresh();
+			break;
 		}
+	}
+
+	void Refresh () {
+		DoneProcessing();
 	}
 
 	void StartTurns () {
@@ -32,7 +39,9 @@ public class AgentRegistryProcessor : ActionProcessor {
 		Agent nextAgent = agentRegistry.NextAgentTakingTurn();
 		Debug.Log ("Next agent taking turn is " + nextAgent);
 		GameAction action = nextAgent.turnAction;
-		actionQueueController.Add(action);
+		if (action != null) {
+			actionQueueController.Add(action);
+		}
 		DoneProcessing();
 	}
 

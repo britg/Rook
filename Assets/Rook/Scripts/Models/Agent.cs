@@ -3,11 +3,25 @@ using System.Collections;
 
 public abstract class Agent :  IReceiveAction {
 
-	public bool dead;
 	public GameObject go { get; set; }
 	public virtual AgentAttribute hitPoints { get; set; }
 	public virtual AgentAttribute actionPoints { get; set; }
 	public virtual Color color { get; set; }
+
+
+	enum State {
+		Idle,
+		Active,
+		InCombat,
+		Dead
+	}
+
+	State state = State.Idle;
+	public bool dead {
+		get {
+			return state == State.Dead;
+		}
+	}
 
 	// Actions
 	public virtual GameAction turnAction { get; set; }
@@ -49,7 +63,7 @@ public abstract class Agent :  IReceiveAction {
 	
 	protected virtual void Die () {
 		Debug.Log("I'm dead");
-		dead = true;
+		state = State.Dead;
 	}
 
 }

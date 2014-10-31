@@ -4,52 +4,23 @@ using System.Collections.Generic;
 
 public class TurnController : GameBehaviour {
 
-	public int currentTurn = 1;
-
-    bool playerTurn = false;
-    public new bool PlayerTurn {
-        get { return playerTurn; }
-    }
+	TurnProcessor _turnProcessor;
+	TurnProcessor turnProcessor {
+		get {
+			if (_turnProcessor == null) {
+				_turnProcessor = GetComponent<TurnProcessor>();
+			}
+			return _turnProcessor;
+		}
+	}
 
 	public void EndTurnButtonPressed () {
-		QueueEndPlayerTurn();
+		actionQueueController.Add(new EndTurnAction());
 	}
 
 	public void ResetButtonPressed () {
 		Application.LoadLevel(Application.loadedLevel);
 	}
 
-	void QueueEndPlayerTurn () {
-		var endTurnAction = new EndTurnAction();
-		actionQueueController.Add(endTurnAction);
-	}
-
-    public void EndTurn () {
-        playerTurn = false;
-        StartEnemiesTurn();
-    }
-
-    void StartEnemiesTurn () {
-		enemyRegistry.SeedTurn();
-		ContinueEnemiesTurn();
-    }
-
-	void ContinueEnemiesTurn () {
-		var enemy = enemyRegistry.NextEnemyTakingTurn();
-		if (enemy != null) {
-			QueueStartEnemyTurn(enemy);
-		} else {
-		}
-	}
-
-	void QueueStartEnemyTurn (Enemy enemy) {
-		var startEnemyTurnAction = new StartEnemyTurnAction(enemy);
-		actionQueueController.Add(startEnemyTurnAction);
-	}
-
-    public void EnemyTurnFinished (Enemy enemy) {
-		enemyRegistry.EnemyDoneWithTurn(enemy);
-		ContinueEnemiesTurn();
-    }
 
 }

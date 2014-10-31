@@ -46,13 +46,12 @@ public class EnemyController : AgentController {
 		enemy.action = new AttackAction(min: 15, max: 40, crit: 10);
 	}
 
-//    void Register () {
-//		enemyRegistry.Register(enemy);
-//		Observe(Notifications.ActionFinished);
-//    }
+    void Register () {
+		agentRegistry.Register(enemy as Agent);
+    }
 
 	void Unregister () {
-		enemyRegistry.Unregister(enemy);
+		agentRegistry.Unregister(enemy as Agent);
 	}
 
 	void OnActionFinished () {

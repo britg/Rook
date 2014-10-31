@@ -13,4 +13,13 @@ public class Enemy : Character {
 		}
 	}
 
+	public override GameAction turnAction {
+		get {
+			return new StartEnemyTurnAction(this);
+		}
+		set {
+			base.turnAction = value;
+		}
+	}
+
 }

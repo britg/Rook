@@ -19,6 +19,8 @@ public class StartupController : GameBehaviour {
 		actionQueueController.Add(new GenerateMapAction());
 		actionQueueController.Add(new PlacePlayerAction());
 		actionQueueController.Add(new PlaceEnemiesAction());
+		actionQueueController.Add(new GameAction("AgentRegistry", "Refresh"));
+		actionQueueController.Add(new GameAction("CombatService", "Refresh"));
 		actionQueueController.Add(new StartTurnAction());
 	}
 }

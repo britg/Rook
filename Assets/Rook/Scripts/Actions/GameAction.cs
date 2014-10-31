@@ -3,17 +3,28 @@ using System.Collections;
 using System.Collections.Generic;
 using Gamelogic.Grids;
 
-public abstract class GameAction {
+public class GameAction {
 
+	public GameAction () {
+
+	}
+
+	public GameAction (string actionType, string name) {
+		_actionType = actionType;
+		_name = name;
+	}
+
+	string _actionType = "GameAction";
 	public virtual string ActionType {
 		get {
-			return "GameAction";
+			return _actionType;
 		}
 	}
 
+	string _name = "ActionName";
 	public virtual string Name {
 		get {
-			return "Game Action";
+			return _name;
 		}
 	}
 
