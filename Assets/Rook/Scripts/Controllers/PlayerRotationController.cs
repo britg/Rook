@@ -50,7 +50,7 @@ public class PlayerRotationController : GameBehaviour {
 		Debug.Log ("Commit called");
 		rotationView.Clear();
 		if (isRotating) {
-			actionQueueController.Add(rotationAction);
+			actionQueue.Add(rotationAction);
 		}
 	}
 

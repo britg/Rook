@@ -16,11 +16,11 @@ public class StartupController : GameBehaviour {
 
 	IEnumerator StartUp () {
 		yield return 0;
-		actionQueueController.Add(new GenerateMapAction());
-		actionQueueController.Add(new PlacePlayerAction());
-		actionQueueController.Add(new PlaceEnemiesAction());
-		actionQueueController.Add(new GameAction("AgentRegistry", "Refresh"));
-		actionQueueController.Add(new GameAction("CombatService", "Refresh"));
-		actionQueueController.Add(new StartTurnAction());
+		actionQueue.Add(new GenerateMapAction());
+		actionQueue.Add(new PlacePlayerAction());
+		actionQueue.Add(new PlaceEnemiesAction());
+		actionQueue.Add(new GameAction("AgentRegistry", "Refresh"));
+		actionQueue.Add(new GameAction("CombatService", "Refresh"));
+		actionQueue.Add(new StartTurnAction());
 	}
 }

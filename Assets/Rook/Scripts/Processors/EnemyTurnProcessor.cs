@@ -95,7 +95,7 @@ public class EnemyTurnProcessor : ActionProcessor {
 
     void Attack () {
         Debug.Log("Attacking player!");
-        actionQueueController.Add(enemy.action);
+        actionQueue.Add(enemy.action);
         QueueContinue();
         DoneProcessing();
     }
@@ -110,14 +110,14 @@ public class EnemyTurnProcessor : ActionProcessor {
             return;
         }
 
-        actionQueueController.Add(moveAction);
+        actionQueue.Add(moveAction);
         QueueContinue();
         DoneProcessing();
     }
 
     void QueueContinue () {
         var continueAction = new ContinueEnemyTurnAction(enemy);
-        actionQueueController.Add(continueAction);
+        actionQueue.Add(continueAction);
     }
 
     void EnemyActionDone () {

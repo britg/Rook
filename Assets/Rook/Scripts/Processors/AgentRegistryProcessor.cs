@@ -41,7 +41,7 @@ public class AgentRegistryProcessor : ActionProcessor {
 		Debug.Log ("Next agent taking turn is " + nextAgent);
 		GameAction action = nextAgent.turnAction;
 		if (action != null) {
-			actionQueueController.Add(action);
+			actionQueue.Add(action);
 		}
 		DoneProcessing();
 	}

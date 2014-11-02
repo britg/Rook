@@ -40,7 +40,7 @@ public class PlayerMoveController : GameBehaviour {
 		if (player.inCombat) {
 			moveView.DisplayConfirmation();
 		} else {
-			actionQueueController.Add (moveAction);
+			actionQueue.Add (moveAction);
 		}
 	}
 

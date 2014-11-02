@@ -37,7 +37,7 @@ public class TurnProcessor : ActionProcessor {
 
 	void EndTurn () {
 		turnService.EndPlayerTurn();
-		actionQueueController.Add(new StartAgentsTurnsAction());
+		actionQueue.Add(new StartAgentsTurnsAction());
 		DoneProcessing();
 	}
 

@@ -14,13 +14,13 @@ public abstract class ActionProcessor : GameBehaviour {
 	}
 
 	protected virtual void Register () {
-		actionQueueController.Register(ActionType, this);
+		actionQueue.Register(ActionType, this);
 	}
 
 	public abstract void Process (GameAction action);
 
 	public virtual void DoneProcessing () {
-		actionQueueController.CompletedAction();
+		actionQueue.CompletedAction();
 	}
 
 }

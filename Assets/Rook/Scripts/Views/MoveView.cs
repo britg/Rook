@@ -66,7 +66,7 @@ public class MoveView : View {
 
 	public void ConfirmMove () {
 		HideConfirmation();
-		actionQueueController.Add (moveAction);
+		actionQueue.Add (moveAction);
 	}
 
 	public void CancelMove () {

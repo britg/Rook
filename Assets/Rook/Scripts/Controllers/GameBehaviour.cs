@@ -80,6 +80,19 @@ public abstract class GameBehaviour : MonoBehaviour {
 		}
 	}
 
+	ActionQueue _actionQueue;
+	public virtual ActionQueue actionQueue {
+		get {
+			if (_actionQueue == null) {
+				_actionQueue = actionQueueController.actionQueue;
+			}
+			return _actionQueue;
+		}
+		set {
+			_actionQueue = value;
+		}
+	}
+
 	CombatService _combatService;
 	public virtual CombatService combatService {
 		get {

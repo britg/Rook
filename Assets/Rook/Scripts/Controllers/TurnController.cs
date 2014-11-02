@@ -15,7 +15,7 @@ public class TurnController : GameBehaviour {
 	}
 
 	public void EndTurnButtonPressed () {
-		actionQueueController.Add(new EndTurnAction());
+		actionQueue.Add(new EndTurnAction());
 	}
 
 	public void ResetButtonPressed () {

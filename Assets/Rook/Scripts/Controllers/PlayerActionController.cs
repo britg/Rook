@@ -18,7 +18,7 @@ public class PlayerActionController : GameBehaviour {
     }
 
 	void QueueWarriorAction () {
-		actionQueueController.Add(player.warriorAction);
+		actionQueue.Add(player.warriorAction);
 	}
 
 	public void WarriorActionButtonPointerEnter () {
