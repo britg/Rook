@@ -21,10 +21,12 @@ public class PlayerMoveController : GameBehaviour {
 
 	void MoveInputFinished () {
 		if (currentMoveAction.valid) {
-			moveView.DisplayConfirmation();
-//			actionQueueController.Add(currentMoveAction);
-
+			moveView.DisplayConfirmation(ConfirmMoveInput);
 		}
+	}
+
+	void ConfirmMoveInput () {
+		actionQueue.Add (currentMoveAction);
 	}
 
 	void MoveInputAuto (Vector3 destination) {
@@ -38,7 +40,7 @@ public class PlayerMoveController : GameBehaviour {
 		moveAction.ConnectMoveView(moveView);
 
 		if (player.inCombat) {
-			moveView.DisplayConfirmation();
+			moveView.DisplayConfirmation(ConfirmMoveInput);
 		} else {
 			actionQueue.Add (moveAction);
 		}

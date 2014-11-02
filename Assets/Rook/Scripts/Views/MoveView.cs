@@ -11,8 +11,10 @@ public class MoveView : View {
 	public Color lineColor;
 
 	public MoveAction moveAction;
-
 	public Image confirmationPanel;
+
+	public delegate void DisplayConfirmationCallback();
+	DisplayConfirmationCallback displayConfirmationCallback;
 
 	// Use this for initialization
 	void Start () {
@@ -55,7 +57,8 @@ public class MoveView : View {
 		VectorLine.Destroy(ref line);
 	}
 
-	public void DisplayConfirmation () {
+	public void DisplayConfirmation (DisplayConfirmationCallback callback) {
+		displayConfirmationCallback = callback;
 		confirmationPanel.gameObject.SetActive(true);
 		confirmationPanel.gameObject.transform.position = Camera.main.WorldToScreenPoint(moveAction.lastWaypoint);
 	}
@@ -66,7 +69,7 @@ public class MoveView : View {
 
 	public void ConfirmMove () {
 		HideConfirmation();
-		actionQueue.Add (moveAction);
+		displayConfirmationCallback.Invoke();
 	}
 
 	public void CancelMove () {
