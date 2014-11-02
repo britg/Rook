@@ -27,6 +27,7 @@ public class AgentRegistryProcessor : ActionProcessor {
 	}
 
 	void Refresh () {
+		// Any agent on the grid should be awoken.
 		DoneProcessing();
 	}
 
