@@ -3,11 +3,12 @@ using System.Collections;
 
 public abstract class Agent :  IReceiveAction {
 
+	public AgentController controller;
+
 	public GameObject go { get; set; }
 	public virtual AgentAttribute hitPoints { get; set; }
 	public virtual AgentAttribute actionPoints { get; set; }
 	public virtual Color color { get; set; }
-
 
 	enum State {
 		Idle,
@@ -48,6 +49,9 @@ public abstract class Agent :  IReceiveAction {
     public virtual void ResetActionPoints () {
         actionPoints.SetToMax();
     }
+
+	public virtual void TakeTurn () {
+	}
 
 	public virtual void TakeDamage (int amount) {
 		hitPoints.Decrement(amount);

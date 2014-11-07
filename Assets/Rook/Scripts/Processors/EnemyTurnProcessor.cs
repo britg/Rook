@@ -68,8 +68,6 @@ public class EnemyTurnProcessor : ActionProcessor {
     }
 
     void TakeAction () {
-        
-
         if (enemy.inCombat) {
             RotateToTarget(playerPos);
             if (gridService.Adjacent(enemyPos, playerPos)) {

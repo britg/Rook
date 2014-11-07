@@ -44,14 +44,7 @@ public class EnemyController : AgentController {
 		enemy.detectRange = new AgentAttribute(seedValue: 10);
 		enemy.hitPoints = new AgentAttribute(seedValue: 100);
 		enemy.action = new AttackAction(min: 15, max: 40, crit: 10);
-	}
-
-    void Register () {
-		agentRegistry.Register(enemy as Agent);
-    }
-
-	void Unregister () {
-		agentRegistry.Unregister(enemy as Agent);
+		enemy.controller = (AgentController)this;
 	}
 
 	void OnActionFinished () {
