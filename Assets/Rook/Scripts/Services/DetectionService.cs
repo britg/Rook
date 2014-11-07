@@ -6,8 +6,8 @@ public class DetectionService  {
 
 	static List<string> nonBlockingTags = new List<string>{ "Player", "Grid", "Floor" };
 
-	Character detector;
-	Character target;
+	Agent detector;
+	Agent target;
 
 	Vector3 detectorPos {
 		get {
@@ -45,7 +45,7 @@ public class DetectionService  {
 		}
 	}
 
-	public DetectionService (Character _detector, Character _target) {
+	public DetectionService (Agent _detector, Agent _target) {
 		detector = _detector;
 		target = _target;
 	}

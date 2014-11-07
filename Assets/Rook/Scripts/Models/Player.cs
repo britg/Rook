@@ -4,12 +4,6 @@ using System.Collections;
 [System.Serializable]
 public class Player : Character {
 
-    public override CharacterAlignment alignment {
-        get {
-            return CharacterAlignment.Player;
-        }
-    }
-
 	Warrior _warrior;
 	public Warrior warrior {
 		get {

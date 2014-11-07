@@ -5,12 +5,6 @@ public abstract class SubCharacter : Character {
 
 	public Player player;
 
-    public override CharacterAlignment alignment {
-        get {
-            return CharacterAlignment.Player;
-        }
-    }
-
 	public override AgentAttribute actionPoints {
 		get {
 			return player.actionPoints;
