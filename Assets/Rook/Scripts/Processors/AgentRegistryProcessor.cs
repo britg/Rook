@@ -46,6 +46,11 @@ public class AgentRegistryProcessor : ActionProcessor {
 	Agent nextAgent;
 	void ContinueTurns () {
 		nextAgent = agentRegistry.NextAgentTakingTurn();
+		if (nextAgent == null) {
+			actionQueue.Add (new StartTurnAction());
+			DoneProcessing();
+			return;
+		}
 		Debug.Log ("Next agent taking turn is " + nextAgent);
 		nextAgent.TakeTurn();
 		DoneProcessing();
@@ -53,6 +58,7 @@ public class AgentRegistryProcessor : ActionProcessor {
 
 	void AgentTurnFinished () {
 		agentRegistry.AgentDoneWithTurn(nextAgent);
+		ContinueTurns();
 	}
 
 }

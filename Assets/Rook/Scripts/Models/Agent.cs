@@ -65,6 +65,7 @@ public abstract class Agent :  IReceiveAction {
 	}
 
 	public virtual void TakeTurn () {
+		controller.TurnFinished();
 	}
 
 	public virtual void TakeDamage (int amount) {

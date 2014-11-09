@@ -15,7 +15,7 @@ public abstract class AgentController : GameBehaviour {
 	}
 
 	public virtual void TurnFinished () {
-		actionQueue.Add(new GameAction("AgentRegistry", "AgentTurnFinished"));
+		actionQueue.Add(AgentTurnFinishedAction.Instance);
 	}
 
 
