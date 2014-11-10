@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using MapService;
 
 public class MapProcessor : ActionProcessor {
 	
@@ -10,33 +11,52 @@ public class MapProcessor : ActionProcessor {
 	}
 	
 	StartTurnAction action;
+
+	public GameObject wallTilePrefab;
+	public GameObject agentPrefab;
+	public override Map map { get; set; }
 	
 	public override void Process (GameAction action) {
+
+		if (action.Name == "PlaceAgents") {
+			PlaceAgents();
+		}
+
 		switch (action.Name) {
 		case "Generate Map":
-			GenerateMap();
+			Bootstrap();
 			break;
 		case "Place Player":
 			PlacePlayer();
 			break;
-		case "Place Enemies":
-			PlaceEnemies();
-			break;
-
 		}
 		DoneProcessing();
 	}
 
-	void GenerateMap () {
-		mapController.Bootstrap();
+	public void Bootstrap () {
+		GenerateMap();
+		InstantiateMap();
 	}
 
-	void PlacePlayer () {
-		mapController.PlacePlayer();
+	public void GenerateMap () {
+		map = new Map(player);
+		map.Generate();
 	}
 
-	void PlaceEnemies () {
-		mapController.PlaceEnemies();
+	void InstantiateMap () {
+		map.Instantiate(wallTilePrefab);
 	}
-	
+
+	public void PlaceEnemies () {
+//		map.PlaceEnemies(enemyPrefab);
+	}
+
+	public void PlacePlayer () {
+        map.PlacePlayer();
+	}
+
+	void PlaceAgents () {
+
+	}
+
 }

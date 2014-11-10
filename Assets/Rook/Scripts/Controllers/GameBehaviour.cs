@@ -37,21 +37,11 @@ public abstract class GameBehaviour : MonoBehaviour {
         }
     }
 
-    MapController _mapController;
-    public virtual MapController mapController {
-        get {
-            if (_mapController == null) {
-                _mapController = GameObject.Find("MapGenerator").GetComponent<MapController>();
-            }
-            return _mapController;
-        }
-    }
-
 	MapService.Map _map;
 	public virtual MapService.Map map {
 		get {
 			if (_map == null) {
-				_map = mapController.map;
+				_map = GameObject.Find ("MapGenerator").GetComponent<MapProcessor>().map;
 			}
 			return _map;
 		}

@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public abstract class AgentController : GameBehaviour {
+public class AgentController : GameBehaviour {
 
 	public virtual Agent agent { get; set; }
 	public virtual AgentTurnProcessor agentTurnProcessor { get; set; }
