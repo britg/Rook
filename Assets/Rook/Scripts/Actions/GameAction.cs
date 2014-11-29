@@ -5,6 +5,20 @@ using Gamelogic.Grids;
 
 public class GameAction {
 
+	public enum ActionId {
+
+		GenerateMap,
+		PlacePlayer,
+		PlaceAgents,
+
+		AgentRegistryRefresh,
+		CombatServiceRefresh,
+
+		StartPlayerTurn,
+		EndPlayerTurn,
+
+	}
+
 	public GameAction () {
 
 	}
@@ -27,6 +41,8 @@ public class GameAction {
 			return _name;
 		}
 	}
+
+	public virtual ActionId id { get; set; }
 
 	public virtual Agent agent { get; set; }
 

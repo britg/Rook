@@ -15,4 +15,10 @@ public class EndTurnAction : GameAction {
 		}
 	}
 
+	public override ActionId id {
+		get {
+			return ActionId.EndPlayerTurn;
+		}
+	}
+
 }

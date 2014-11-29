@@ -14,5 +14,11 @@ public class StartTurnAction : GameAction {
 			return "Start";
 		}
 	}
+
+	public override ActionId id {
+		get {
+			return GameAction.ActionId.StartPlayerTurn;
+		}
+	}
 	
 }

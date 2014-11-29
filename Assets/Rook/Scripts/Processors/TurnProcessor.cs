@@ -15,19 +15,27 @@ public class TurnProcessor : ActionProcessor {
 		turnService = new TurnService();
 	}
 
+	void Start () {
+		Register (GameAction.ActionId.StartPlayerTurn, StartTurn);
+	}
+
 	public override void Process (GameAction action) {
 
-		switch (action.Name) {
+		switch (action.id) {
 
-		case "Start":
+		case GameAction.ActionId.StartPlayerTurn:
 			StartTurn();
 			break;
 
-		case "End":
+		case GameAction.ActionId.EndPlayerTurn:
 			EndTurn();
 			break;
 
 		}
+	}
+
+	void StartTurn (GameAction action) {
+		StartTurn();
 	}
 
 	void StartTurn () {
@@ -39,6 +47,10 @@ public class TurnProcessor : ActionProcessor {
 		turnService.EndPlayerTurn();
 		actionQueue.Add(new StartAgentsTurnsAction());
 		DoneProcessing();
+	}
+
+	void EndTurn (GameAction action) {
+		EndTurn();
 	}
 
 }

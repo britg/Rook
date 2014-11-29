@@ -14,5 +14,11 @@ public class GenerateMapAction : GameAction {
 			return "Generate Map";
 		}
 	}
+
+	public override ActionId id {
+		get {
+			return GameAction.ActionId.GenerateMap;
+		}
+	}
 	
 }

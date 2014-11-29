@@ -30,6 +30,8 @@ public class ActionQueue {
 	}
 
 	Dictionary<string, ActionProcessor> registry = new Dictionary<string, ActionProcessor>();
+	Dictionary<GameAction.ActionId, ActionProcessor.ActionIdHandler> handlers =
+		new Dictionary<GameAction.ActionId, ActionProcessor.ActionIdHandler>();
 
 	public ActionQueue (Callback _callback) {
 		callback = _callback;
@@ -38,6 +40,10 @@ public class ActionQueue {
 	public void Register (string actionType, ActionProcessor processor) {
 		//Debug.Log("Adding " + actionType + " with processor " + processor);
 		registry[actionType] = processor;
+	}
+
+	public void Register (GameAction.ActionId actionId, ActionProcessor.ActionIdHandler handler) {
+		handlers[actionId] = handler;
 	}
 
 	public void Add (GameAction action) {
@@ -72,6 +78,14 @@ public class ActionQueue {
 		state = State.Processing;
 		currentAction = (GameAction)queue.Dequeue();
 		string actionType = currentAction.ActionType;
+
+		if (currentAction.id != null && handlers.ContainsKey(currentAction.id)) {
+			Debug.Log("Using handler! " + currentAction.id);
+			return;
+			var handler = handlers[currentAction.id];
+			handler.Invoke(currentAction);
+			return;
+		}
 
 		if (registry.ContainsKey(actionType)) {
 			Debug.Log ("Processing a new action: " + currentAction);

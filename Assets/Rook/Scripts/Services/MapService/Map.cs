@@ -14,7 +14,7 @@ namespace MapService {
 		GameObject wallTilePrefab;
 		Player player;
 		GameObject environment;
-		GameObject mobs;
+		GameObject agents;
 
 		Hashtable tiles;
 
@@ -27,7 +27,7 @@ namespace MapService {
 			tiles = new Hashtable();
 			environment = GameObject.Find ("Environment");
 			player = _player;
-			mobs = GameObject.Find ("Mobs");
+			agents = GameObject.Find ("Agents");
 		}
 
 		public void Generate () {
@@ -113,7 +113,7 @@ namespace MapService {
             player.position = offset;
         }
 
-		public void PlaceEnemies (GameObject enemyPrefab) {
+		public void PlaceAgents (GameObject agentPrefab) {
 			foreach (DictionaryEntry entry in tiles) {
 				Vector3 pos = (Vector3)entry.Key;
 				MapTile tile = (MapTile)entry.Value;
@@ -121,8 +121,8 @@ namespace MapService {
 				if (tile == MapTile.Interior) {
 					bool shouldPlace = Random.Range(0, 200) <= 1;
 					if (shouldPlace) {
-						var enemy = (GameObject)GameObject.Instantiate(enemyPrefab, pos, Quaternion.identity);
-						enemy.transform.SetParent(mobs.transform);
+						var agent = (GameObject)GameObject.Instantiate(agentPrefab, pos, Quaternion.identity);
+						agent.transform.SetParent(agents.transform);
 					}
 				}
 			}

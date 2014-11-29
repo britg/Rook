@@ -47,16 +47,12 @@ public class MapProcessor : ActionProcessor {
 		map.Instantiate(wallTilePrefab);
 	}
 
-	public void PlaceEnemies () {
-//		map.PlaceEnemies(enemyPrefab);
-	}
-
 	public void PlacePlayer () {
         map.PlacePlayer();
 	}
 
 	void PlaceAgents () {
-
+		map.PlaceAgents(agentPrefab);
 	}
 
 }
